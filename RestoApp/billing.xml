@@ -1,0 +1,5 @@
+<ca.mcgill.ecse223.restoapp.model.Bill id="1">
+  <numberOfPayingCustomers>1</numberOfPayingCustomers>
+  <pricePerCustomer>0</pricePerCustomer>
+  <orders id="2"/>
+</ca.mcgill.ecse223.restoapp.model.Bill>

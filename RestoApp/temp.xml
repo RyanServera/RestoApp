@@ -1,0 +1,22 @@
+<ca.mcgill.ecse223.restoapp.model.RestoAppManager>
+  <tables>
+    <ca.mcgill.ecse223.restoapp.model.Table>
+      <numberOfSeats>0</numberOfSeats>
+      <currentCustomers>0</currentCustomers>
+      <occupiedStatus>false</occupiedStatus>
+      <x>0</x>
+      <y>0</y>
+      <tableNumber>1</tableNumber>
+      <seats>
+        <ca.mcgill.ecse223.restoapp.model.Seat>
+          <occupiedStatus>false</occupiedStatus>
+          <seatNumber>1</seatNumber>
+          <orders/>
+          <table reference="../../.."/>
+        </ca.mcgill.ecse223.restoapp.model.Seat>
+      </seats>
+      <reservations/>
+      <restoAppManager reference="../../.."/>
+    </ca.mcgill.ecse223.restoapp.model.Table>
+  </tables>
+</ca.mcgill.ecse223.restoapp.model.RestoAppManager>

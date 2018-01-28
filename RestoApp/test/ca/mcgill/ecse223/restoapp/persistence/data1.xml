@@ -1,0 +1,15 @@
+<RestoAppManager id="1">
+  <tables id="2">
+    <Table id="3">
+      <numberOfSeats>0</numberOfSeats>
+      <currentCustomers>0</currentCustomers>
+      <occupiedStatus>false</occupiedStatus>
+      <x>0</x>
+      <y>0</y>
+      <tableNumber>7</tableNumber>
+      <seats id="4"/>
+      <reservations id="5"/>
+      <restoAppManager reference="1"/>
+    </Table>
+  </tables>
+</RestoAppManager>
