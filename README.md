@@ -10,7 +10,7 @@ For our team members:
 - When finishing a feature, add the changes to your branch
 - Push the changes to the github repo (not on the master branch)
 - Do a pull request and add Allison or Bill as reviewer
-- We will accept the merge if we think you're code is fine
+- We will accept the merge if we think your code is fine
 
 *If not sure how to do a pull request, follow this link:
 
