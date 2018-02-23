@@ -2,10 +2,12 @@
 /*This code was generated using the UMPLE 1.26.0-b05b57321 modeling language!*/
 
 package ca.mcgill.ecse223.resto.model;
+import java.io.Serializable;
 import java.util.*;
 
+// line 29 "../../../../../RestoAppPersistence.ump"
 // line 25 "../../../../../RestoApp v2.ump"
-public class Table
+public class Table implements Serializable
 {
 
   //------------------------
@@ -656,5 +658,13 @@ public class Table
             "width" + ":" + getWidth()+ "," +
             "length" + ":" + getLength()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "restoApp = "+(getRestoApp()!=null?Integer.toHexString(System.identityHashCode(getRestoApp())):"null");
-  }
+  }  
+  //------------------------
+  // DEVELOPER CODE - PROVIDED AS-IS
+  //------------------------
+  
+  // line 32 ../../../../../RestoAppPersistence.ump
+  private static final long serialVersionUID = -10000001L ;
+
+  
 }

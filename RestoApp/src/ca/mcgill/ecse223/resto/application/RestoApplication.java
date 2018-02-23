@@ -9,16 +9,20 @@ import ca.mcgill.ecse223.resto.persistence.PersistenceObjectStream;
 
 public class RestoApplication {
 	private static RestoApp restoApp;
-	private static String filename = "data.resto";
+	private static String filename = "/Users/Donaflorinda/documents/winter2018/ecse223/group20_folder/RestoAPP/src/data.resto"; 
 	
 	public static void main(String[] args) {
-	
+		/*
+		 * Information: data.resto will contain our restoApp data. It already has the menu provided
+		 * by the prof. 
+		 * IMPORTANT: Change the filename string to your path directory. Mainly change /Users/?/?/?/.../data.resto
+		 */
 		restoApp = null;
-		setFilename("/Users/Donaflorinda/documents/winter2018/ecse223/group20_folder/RestoAPP/src/menu.resto");
 		restoApp = load();
 		for(MenuItem mi : restoApp.getMenu().getMenuItems()) {
 			   System.out.println(mi.getName());
 		}
+		
 		 	
 	}
 	
