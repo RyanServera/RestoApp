@@ -666,5 +666,31 @@ public class Table implements Serializable
   // line 32 ../../../../../RestoAppPersistence.ump
   private static final long serialVersionUID = -10000001L ;
 
+  /**
+	 * Check if tables overlap
+	 * Author: Thomas Labourdette
+	 * @param x: x-coordinate 
+	 * @param y: y-coordinate 
+	 * @param width: the table width 
+	 * @param length: the table length 
+	 */
+  public boolean doesOverlap(int x, int y, int width, int length) 
+  {
+
+	  	int currentX = this.x;
+	  	int currentY = this.x;
+	  	int currentWidth = this.width;
+	  	int currentLength = this.length;
+	  	
+	  	if ( (x > currentX + currentWidth) || (y > currentY + currentLength) || (currentX > x + width) || (currentY > y + length))
+	  	{
+	  		return false;
+	  	}
+	  	else 
+	  	{
+	  		return true;
+	  	}
+	}
+  
   
 }
