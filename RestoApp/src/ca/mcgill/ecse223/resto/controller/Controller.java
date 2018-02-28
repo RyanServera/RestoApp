@@ -39,7 +39,7 @@ public class Controller {
 	 * @throws Exception: 
 	 */
 	
-	public void moveTable(Table table, int x, int y) throws InvalidInputException 
+	public static void moveTable(Table table, int x, int y) throws InvalidInputException 
 	{
 		String error = "";
 		if (table == null) 
