@@ -1,9 +1,12 @@
 package ca.mcgill.ecse223.resto.view;
 
 import java.awt.Color;
+import java.awt.event.*;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
@@ -27,6 +30,7 @@ public class restoAppPage extends JFrame {
 	private JLabel newXCoordinateLabel;
 	private JLabel newYCoordinateLabel;
 	private JButton updateTableLocationButton;
+	
 	
 	// data elements
 	private String error = null;
@@ -53,6 +57,9 @@ public class restoAppPage extends JFrame {
 		newYCoordinateLabel = new JLabel();
 		updateTableLocationButton = new JButton();
 		
+		// Displaying the Menu
+		createMenuBar();
+		
 		// Global Settings and Listeners
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setTitle("RestoApp");
@@ -68,6 +75,23 @@ public class restoAppPage extends JFrame {
 			}
 		});
 		
+	}
+	// create the menu bar
+	private void createMenuBar() {
+		JMenuBar menubar = new JMenuBar();
+		
+		JMenu menu = new JMenu("Menu");
+		
+		menu.setToolTipText("Open the restaurant menu");
+		menu.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e){
+				JFrame RestaurantMenuPage = new RestaurantMenuPage();
+				RestaurantMenuPage.setVisible(true);
+			}
+			
+		});
+		menubar.add(menu);
+		setJMenuBar(menubar);
 	}
 
 	private void refreshData() {
