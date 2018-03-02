@@ -146,8 +146,10 @@ public class RestaurantMenuPage extends JFrame{
 			}
 		});
 		
+
 		JMenuItem cheeseCakeMI = new JMenuItem("Cheesecake");
 		cheeseCakeMI.addActionListener(new ActionListener() {
+
 			public void actionPerformed(ActionEvent e){
 				
 			}
