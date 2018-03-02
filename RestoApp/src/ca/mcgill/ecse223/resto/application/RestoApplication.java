@@ -9,7 +9,7 @@ import ca.mcgill.ecse223.resto.persistence.PersistenceObjectStream;
 
 public class RestoApplication {
 	private static RestoApp restoApp;
-	private static String filename = "/Users/Donaflorinda/documents/winter2018/ecse223/group20_folder/RestoAPP/src/data.resto"; 
+	private static String filename = "./menu.resto"; 
 	
 	public static void main(String[] args) {
 		/*
@@ -17,9 +17,13 @@ public class RestoApplication {
 		 * by the prof. 
 		 * IMPORTANT: Change the filename string to your path directory. Mainly change /Users/?/?/?/.../data.resto
 		 */
-		restoApp = null;
+		/*restoApp = null;
 		restoApp = load();
 		for(MenuItem mi : restoApp.getMenu().getMenuItems()) {
+			   System.out.println(mi.getName());
+		}*/
+		RestoApp menu = load();
+		for(MenuItem mi : menu.getMenu().getMenuItems()) {
 			   System.out.println(mi.getName());
 		}
 		
@@ -42,9 +46,9 @@ public class RestoApplication {
 		PersistenceObjectStream.setFilename(filename);
 		restoApp = (RestoApp) PersistenceObjectStream.deserialize();
 		// model cannot be loaded - create empty restoApp
-		if (restoApp == null) {
+		/*if (restoApp == null) {
 			restoApp = new RestoApp();
-		}
+		}*/
 		
 		return restoApp;
 	}

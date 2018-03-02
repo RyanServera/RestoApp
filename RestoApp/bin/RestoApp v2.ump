@@ -30,6 +30,24 @@ class Table {
    Integer length;
    1 <@>- 1..* Seat seats;
    0..1 -> * Seat currentSeats; // subsets seats
+   
+  public boolean doesOverlap(int x, int y, int width, int length) 
+  {
+
+	  	int currentX = this.x;
+	  	int currentY = this.x;
+	  	int currentWidth = this.width;
+	  	int currentLength = this.length;
+	  	
+	  	if ( (x > currentX + currentWidth) || (y > currentY + currentLength) || (currentX > x + width) || (currentY > y + length))
+	  	{
+	  		return false;
+	  	}
+	  	else 
+	  	{
+	  		return true;
+	  	}
+	}
 }
 
 class Seat {
@@ -68,3 +86,4 @@ class Bill {
    * bills -- 1 Order order; // order.bills.issuedForSeats = order.orderItems.seats
    * bills -- 1..* Seat issuedForSeats; // only from order.orderItems.seats;
 }
+
