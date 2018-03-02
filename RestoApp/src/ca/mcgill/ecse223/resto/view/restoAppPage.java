@@ -12,7 +12,7 @@ import javax.swing.WindowConstants;
 
 import ca.mcgill.ecse223.resto.controller.Controller;
 import ca.mcgill.ecse223.resto.controller.InvalidInputException;
-import ca.mcgill.ecse223.resto.model.Table;
+import ca.mcgill.ecse223.resto.model.*;
 
 public class restoAppPage extends JFrame {
 
@@ -21,7 +21,10 @@ public class restoAppPage extends JFrame {
 	
 	// UI elements
 	private JLabel errorMessage;
-	
+
+	//Main Page Setting
+    private JButton MoveTable;
+    private JButton AddTable;
 	// Change Location of a Table
 	private JTextField selectedTableField;
 	private JTextField newXCoordinateField;
@@ -30,6 +33,18 @@ public class restoAppPage extends JFrame {
 	private JLabel newXCoordinateLabel;
 	private JLabel newYCoordinateLabel;
 	private JButton updateTableLocationButton;
+	//Add a table
+    private JTextField posX;
+    private JTextField posY;
+    private JTextField tableWidth;
+    private JTextField tableLength;
+    private JTextField numSeat;
+    private JLabel PosX;
+    private JLabel PosY;
+    private JLabel TableWidth;
+    private JLabel TableLength;
+    private JLabel NumSeat;
+    private JButton addTable;
 	
 	
 	// data elements
@@ -98,6 +113,10 @@ public class restoAppPage extends JFrame {
 		// TODO Auto-generated method stub
 		
 	}
+	public void addTableButtonActionPerfomred(java.awt.event.ActionEvent evt){
+	    error = null;
+
+    }
 	
 	// Change Location of Table
 	private void updateTableLocationButtonActionPerformed(java.awt.event.ActionEvent evt) {

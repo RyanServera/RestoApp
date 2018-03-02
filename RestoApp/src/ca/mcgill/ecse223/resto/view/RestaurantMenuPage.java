@@ -146,7 +146,7 @@ public class RestaurantMenuPage extends JFrame{
 			}
 		});
 		
-		JMenuItem cheesecakeMI = new JMenuItem("Cheesecake");
+		JMenuItem cheeseCakeMI = new JMenuItem("Cheesecake");
 		cheeseCakeMI.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e){
 				
@@ -234,7 +234,7 @@ public class RestaurantMenuPage extends JFrame{
 		
 		desserts.add(iceCreamMI);
 		desserts.add(cookieCakeMI);
-		desserts.add(cheesecakeMI);
+		desserts.add(cheeseCakeMI);
 		desserts.add(chocStrawberriesMI);
 		
 		drinks.add(sodaMI);

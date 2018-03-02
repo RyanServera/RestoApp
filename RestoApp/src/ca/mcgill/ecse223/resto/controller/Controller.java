@@ -5,6 +5,8 @@ import java.util.List;
 import ca.mcgill.ecse223.resto.application.RestoApplication;
 import ca.mcgill.ecse223.resto.model.RestoApp;
 import ca.mcgill.ecse223.resto.model.Table;
+import ca.mcgill.ecse223.resto.model.*;
+
 
 public class Controller {
 	
@@ -19,8 +21,73 @@ public class Controller {
 	 * Feature 1: Add tables and seats 
 	 * authors: Bill 
 	 */
-	
-	/*
+
+    /**
+     * @author: Bill Zhang
+     * This function adds a table to the system
+     * @param x : x-coordinate of the table
+     * @param y : y-coordinate of the table
+     * @param width: width of the table >0
+     * @param length: length of the table >0
+     * @param tableNum: table number
+     * @throws Exception: when either width or length is negative
+     */
+	public static void addTable(int x, int y, int width, int length, int tableNum) throws Exception{
+	    if(width<=0){
+	        throw new Exception("Width Must Be Positive");
+        }else if(length<=0){
+	        throw new Exception("Length Must Be Positive");
+        }else{
+	        RestoApp rm = RestoApplication.getRestoApp();
+	        Table t = new Table(tableNum, x, y, width, length, rm);
+	        rm.addTable(t);
+	        RestoApplication.save();
+
+        }
+    }
+
+    /**
+     * @author: Bill Zhang
+     * This function adds certain number of seats to a table
+     * @param numSeat: the number of seats added
+     * @param t: the table to be added to
+     * @throws Exception: can not add negative seats
+     */
+    public static void addSeat(int numSeat, Table t) throws Exception{
+	    if(numSeat<=0){
+	        throw new Exception("Number Added Must Be Positive");
+        } else if(t == null){
+	        throw new Exception("Table Required");
+        }else{
+	        for(int i = 0; i<numSeat; i++){
+	            Seat s = new Seat(t);
+	            t.addSeat(s);
+	            RestoApplication.save();
+            }
+        }
+    }
+
+    /**
+     * @author: Bill Zhang
+     * This method get a table based on its table number
+     * @param tableNum: the table number of the table to be returned
+     * @return: the target table
+     */
+   public static Table getTable(int tableNum){
+        RestoApp rm = RestoApplication.load();
+        List<Table> tables = rm.getTables();
+        for(int i = 0; i<tables.size(); i++){
+            if(tables.get(i).getNumber() == tableNum){
+                return tables.get(i);
+            }
+            else{
+                return null;
+            }
+        }
+
+        return null;
+   }
+    /*
 	 * Feature 2: Remove tables
 	 * authors: Jake
 	 */
@@ -35,8 +102,7 @@ public class Controller {
 	 * Author: Thomas Labourdette
 	 * @param x: x-coordinate 
 	 * @param y: y-coordinate 
-	 * @param t: the table to be moved 
-	 * @throws Exception: 
+	 * @throws Exception:
 	 */
 	
 	public static void moveTable(Table table, int x, int y) throws InvalidInputException 
