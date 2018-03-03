@@ -29,7 +29,6 @@ public class restoAppPage extends JFrame {
 	//Main Page Setting
     private JButton MoveTable;
     private JButton AddTable;
-    private JButton RemoveTable;
 	// Change Location of a Table
 	private JTextField selectedTableField;
 	private JTextField newXCoordinateField;
@@ -51,7 +50,7 @@ public class restoAppPage extends JFrame {
     private JLabel NumSeat;
     private JButton addTable;
     //Remove a table
-    private JComboBox<Table> selectedTable;
+    private JComboBox<Table> selectedTableComboBox;
     private JButton removeSelectedTable;
 	
 	
@@ -73,7 +72,6 @@ public class restoAppPage extends JFrame {
 		//Main Page Buttons
 		AddTable = new JButton("Add Table");
 		MoveTable = new JButton("Move Table");
-		RemoveTable = new JButton("Remove Table");
 		
 		// Change Location of Table
 		selectedTableField = new JTextField();
