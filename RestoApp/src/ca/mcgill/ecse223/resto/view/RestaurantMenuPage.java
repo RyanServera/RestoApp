@@ -247,7 +247,7 @@ public class RestaurantMenuPage extends JFrame{
 		drinks.add(mixedDrinkMI);
 		drinks.add(shotMI);
 		
-		
+		setJMenuBar(menubar);
 		
 	}
 }

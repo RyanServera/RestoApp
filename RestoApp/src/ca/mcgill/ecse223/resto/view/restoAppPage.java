@@ -2,11 +2,15 @@ package ca.mcgill.ecse223.resto.view;
 
 import java.awt.Color;
 import java.awt.event.*;
+
+import javax.swing.GroupLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
@@ -25,6 +29,7 @@ public class restoAppPage extends JFrame {
 	//Main Page Setting
     private JButton MoveTable;
     private JButton AddTable;
+    private JButton RemoveTable;
 	// Change Location of a Table
 	private JTextField selectedTableField;
 	private JTextField newXCoordinateField;
@@ -45,6 +50,9 @@ public class restoAppPage extends JFrame {
     private JLabel TableLength;
     private JLabel NumSeat;
     private JButton addTable;
+    //Remove a table
+    private JComboBox<Table> selectedTable;
+    private JButton removeSelectedTable;
 	
 	
 	// data elements
@@ -62,6 +70,10 @@ public class restoAppPage extends JFrame {
 		errorMessage = new JLabel();
 		errorMessage.setForeground(Color.RED);
 		
+		//Main Page Buttons
+		AddTable = new JButton("Add Table");
+		MoveTable = new JButton("Move Table");
+		RemoveTable = new JButton("Remove Table");
 		
 		// Change Location of Table
 		selectedTableField = new JTextField();
@@ -90,6 +102,29 @@ public class restoAppPage extends JFrame {
 			}
 		});
 		
+		JSeparator verticalLine = new JSeparator();
+		
+		GroupLayout layout = new GroupLayout(getContentPane());
+		getContentPane().setLayout(layout);
+		layout.setAutoCreateGaps(true);
+		layout.setAutoCreateContainerGaps(true);
+		layout.setHorizontalGroup(
+				layout.createSequentialGroup()
+				//.addGroup(layout.createParallelGroup())
+				.addGroup(layout.createParallelGroup()
+					.addComponent(MoveTable)
+					.addComponent(AddTable)
+					.addComponent(RemoveTable))
+		);
+		layout.setVerticalGroup(
+				layout.createParallelGroup()
+				//.addGroup(layout.createSequentialGroup())
+				.addGroup(layout.createSequentialGroup()
+					.addComponent(MoveTable)
+					.addComponent(AddTable)
+					.addComponent(RemoveTable))
+		);
+		
 	}
 	// create the menu bar
 	private void createMenuBar() {
@@ -100,8 +135,8 @@ public class restoAppPage extends JFrame {
 		menu.setToolTipText("Open the restaurant menu");
 		menu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e){
-				JFrame RestaurantMenuPage = new RestaurantMenuPage();
-				RestaurantMenuPage.setVisible(true);
+				RestaurantMenuPage menuPage = new RestaurantMenuPage();
+				menuPage.setVisible(true);
 			}
 			
 		});
