@@ -127,6 +127,16 @@ public class Controller {
 		   ra.addOrMoveCurrentTableAt(temp, i);
 	   }*/
    }
+   
+   /**
+    * @author Jacob Hochstrasser
+    * This method lists all of the current tables in the RestoApp.
+    * @return : a list of current tables in the RestoApp
+    */
+   public static List<Table> listAllTables(){
+	   RestoApp ra = RestoApplication.getRestoApp();
+	   return ra.getCurrentTables();
+   }
 	
 	/*
 	 * Feature 3: Update table number and number of seats
@@ -189,4 +199,7 @@ public class Controller {
 	 * Feature 5: Display Menu
 	 * authors: Ryan, Jonathan
 	 */
+	
+	
+	
 }

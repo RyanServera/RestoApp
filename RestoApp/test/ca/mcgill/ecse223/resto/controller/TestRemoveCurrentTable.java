@@ -22,14 +22,7 @@ public class TestRemoveCurrentTable {
 	@Before
 	public void setUp() throws Exception {
 		ra = RestoApplication.getRestoApp();
-		t = new Table (1, 1, 1, 1, 1, ra);
-		ra.addCurrentTable(t);
-	}
-
-	@After
-	public void tearDown() throws Exception {
 		ra.delete();
-		//t.delete();
 	}
 
 	@Test

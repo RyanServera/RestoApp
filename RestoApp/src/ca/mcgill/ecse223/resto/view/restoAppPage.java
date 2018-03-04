@@ -69,10 +69,6 @@ public class restoAppPage extends JFrame {
 		errorMessage = new JLabel();
 		errorMessage.setForeground(Color.RED);
 		
-		//Main Page Buttons
-		AddTable = new JButton("Add Table");
-		MoveTable = new JButton("Move Table");
-		
 		// Change Location of Table
 		selectedTableField = new JTextField();
 		newXCoordinateField = new JTextField();
@@ -99,30 +95,6 @@ public class restoAppPage extends JFrame {
 				updateTableLocationButtonActionPerformed(evt);
 			}
 		});
-		
-		JSeparator verticalLine = new JSeparator();
-		
-		GroupLayout layout = new GroupLayout(getContentPane());
-		getContentPane().setLayout(layout);
-		layout.setAutoCreateGaps(true);
-		layout.setAutoCreateContainerGaps(true);
-		layout.setHorizontalGroup(
-				layout.createSequentialGroup()
-				//.addGroup(layout.createParallelGroup())
-				.addGroup(layout.createParallelGroup()
-					.addComponent(MoveTable)
-					.addComponent(AddTable)
-					.addComponent(RemoveTable))
-		);
-		layout.setVerticalGroup(
-				layout.createParallelGroup()
-				//.addGroup(layout.createSequentialGroup())
-				.addGroup(layout.createSequentialGroup()
-					.addComponent(MoveTable)
-					.addComponent(AddTable)
-					.addComponent(RemoveTable))
-		);
-		
 	}
 	// create the menu bar
 	private void createMenuBar() {

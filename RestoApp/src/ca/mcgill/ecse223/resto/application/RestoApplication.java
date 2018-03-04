@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
+import ca.mcgill.ecse223.resto.view.RemoveTablePage;
 import ca.mcgill.ecse223.resto.view.RestaurantMenuPage;
 import ca.mcgill.ecse223.resto.view.restoAppPage;
 import ca.mcgill.ecse223.resto.model.*;
@@ -24,13 +25,17 @@ public class RestoApplication {
 		for(MenuItem mi : restoApp.getMenu().getMenuItems()) {
 			   System.out.println(mi.getName());
 		}*/
-		RestoApp menu = load();
-		for(MenuItem mi : menu.getMenu().getMenuItems()) {
+		load();
+		Table t = new Table(1, 1, 1, 1, 1, restoApp);
+		restoApp.addCurrentTable(t);
+		//save();
+		/*for(MenuItem mi : menu.getMenu().getMenuItems()) {
 			   System.out.println(mi.getName());
-		}
+		}*/
 		 java.awt.EventQueue.invokeLater(new Runnable() {
 	            public void run() {
-	                new restoAppPage().setVisible(true);
+	                //new restoAppPage().setVisible(true);
+	            	new RemoveTablePage().setVisible(true);
 	            }
 		 });	
 	}
@@ -53,9 +58,9 @@ public class RestoApplication {
 		PersistenceObjectStream.setFilename(filename);
 		restoApp = (RestoApp) PersistenceObjectStream.deserialize();
 		// model cannot be loaded - create empty restoApp
-		/*if (restoApp == null) {
+		if (restoApp == null) {
 			restoApp = new RestoApp();
-		}*/
+		}
 		
 		return restoApp;
 	}
