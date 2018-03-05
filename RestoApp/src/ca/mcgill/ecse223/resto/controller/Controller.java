@@ -91,11 +91,72 @@ public class Controller {
 	 * Feature 2: Remove tables
 	 * authors: Jake
 	 */
-	
-	/*
-	 * Feature 3: Update table number and number of seats
-	 * authors: Allison
-	 */
+   /**
+    * Featire 3: Update Table number and seats
+    * author: Allison
+    * @param aTable
+    * @param newNumber
+    * @param numberOfSeats
+    * @return
+    * @throws InvalidInputException
+    */
+   public static Table updateTable(Table aTable, int newNumber, int numberOfSeats) throws InvalidInputException {
+	   String error = "";
+	   if(aTable == null){
+		   error = "table does not exist";
+	   }
+	   if( newNumber < 0){
+		   error = "cannot have a negative new table number";
+	   }
+	   if(numberOfSeats <0){
+		   error = "cannot have negative number of seats";
+	   }
+	   if(aTable.hasReservations()){
+		   error = "The table is reserved and cannot be modified for the moment";
+	   }
+	   if(error.length() > 0 ){
+		   throw new InvalidInputException(error.trim());
+	   }
+	   
+	   RestoApp app = RestoApplication.getRestoApp();
+	   List<Order> currentOrders = app.getCurrentOrders();
+	   
+	   for(Order order: currentOrders){
+		   List<Table> tables = order.getTables();
+		   Boolean inUse = tables.contains(aTable);
+		   if(inUse){
+			   error = "the table is in use";
+			   throw new InvalidInputException(error.trim());
+		   }
+	   }
+	   
+	   if(aTable.getNumber() == newNumber){
+		   error = "error : duplicate table number";
+		   throw new InvalidInputException(error.trim());
+	   }
+	   
+	   aTable.setNumber(newNumber);
+	   
+	   int n = aTable.numberOfCurrentSeats();
+	   
+	   if(numberOfSeats > n){
+		   for(int i = 0; i< numberOfSeats - n; i++){
+			   Seat seat = aTable.addSeat();
+			   aTable.addCurrentSeat(seat);
+		   }
+	   }else if(numberOfSeats < n){
+		   for(int i = 0; i< n - numberOfSeats; i++){
+			   Seat seat = aTable.getCurrentSeat(0);
+			   aTable.removeCurrentSeat(seat);
+		   }
+	   }
+	   
+	   RestoApplication.save();
+	   
+	   return aTable;
+	  
+	   
+   }
 	
 	/**
 	 * Feature 4: Change location of a table
