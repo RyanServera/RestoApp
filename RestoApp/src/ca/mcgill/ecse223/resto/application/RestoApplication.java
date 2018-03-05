@@ -9,6 +9,9 @@ import ca.mcgill.ecse223.resto.view.RestaurantMenuPage;
 import ca.mcgill.ecse223.resto.view.restoAppPage;
 import ca.mcgill.ecse223.resto.model.*;
 import ca.mcgill.ecse223.resto.persistence.PersistenceObjectStream;
+import ca.mcgill.ecse223.resto.view.TableAddingMenu;
+import ca.mcgill.ecse223.resto.view.TableSettingsMenu;
+import ca.mcgill.ecse223.resto.view.restoAppPage;
 
 public class RestoApplication {
 	private static RestoApp restoApp;
@@ -25,6 +28,7 @@ public class RestoApplication {
 		for(MenuItem mi : restoApp.getMenu().getMenuItems()) {
 			   System.out.println(mi.getName());
 		}*/
+
 		load();
 		Table t = new Table(1, 1, 1, 1, 1, restoApp);
 		restoApp.addCurrentTable(t);
@@ -38,6 +42,7 @@ public class RestoApplication {
 	            	new RemoveTablePage().setVisible(true);
 	            }
 		 });	
+
 	}
 	
 	public static RestoApp getRestoApp(){

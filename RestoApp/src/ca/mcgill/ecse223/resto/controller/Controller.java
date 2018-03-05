@@ -1,11 +1,14 @@
 package ca.mcgill.ecse223.resto.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import ca.mcgill.ecse223.resto.application.RestoApplication;
 import ca.mcgill.ecse223.resto.model.RestoApp;
 import ca.mcgill.ecse223.resto.model.Table;
 import ca.mcgill.ecse223.resto.model.*;
+import ca.mcgill.ecse223.resto.model.MenuItem.ItemCategory;
 
 
 public class Controller {
@@ -32,14 +35,18 @@ public class Controller {
      * @param tableNum: table number
      * @throws Exception: when either width or length is negative
      */
-	public static void addTable(int x, int y, int width, int length, int tableNum) throws Exception{
+	public static void addTable(int x, int y, int width, int length, int tableNum, int numSeat) throws Exception{
 	    if(width<=0){
 	        throw new Exception("Width Must Be Positive");
         }else if(length<=0){
 	        throw new Exception("Length Must Be Positive");
+        }else if(numSeat<=0) {
+        	throw new Exception("Number of Seat Must be Positive "); 
         }else{
+        
 	        RestoApp rm = RestoApplication.getRestoApp();
 	        Table t = new Table(tableNum, x, y, width, length, rm);
+	        addSeat(numSeat, t); 
 	        rm.addTable(t);
 	        RestoApplication.save();
 
@@ -91,7 +98,7 @@ public class Controller {
 	 * Feature 2: Remove tables
 	 * authors: Jake
 	 */
-   
+
    	/**
    	 * @author Jacob Hochstrasser
    	 * Removes the currently selected table from the list of currently active tables as well the list of all
@@ -137,12 +144,73 @@ public class Controller {
 	   RestoApp ra = RestoApplication.getRestoApp();
 	   return ra.getCurrentTables();
    }
-	
-	/*
-	 * Feature 3: Update table number and number of seats
-	 * authors: Allison
-	 */
-	
+
+   /**
+    * Featire 3: Update Table number and seats
+    * author: Allison
+    * @param aTable
+    * @param newNumber
+    * @param numberOfSeats
+    * @return
+    * @throws InvalidInputException
+    */
+   public static Table updateTable(Table aTable, int newNumber, int numberOfSeats) throws InvalidInputException {
+	   String error = "";
+	   if(aTable == null){
+		   error = "table does not exist";
+	   }
+	   if( newNumber < 0){
+		   error = "cannot have a negative new table number";
+	   }
+	   if(numberOfSeats <0){
+		   error = "cannot have negative number of seats";
+	   }
+	   if(aTable.hasReservations()){
+		   error = "The table is reserved and cannot be modified for the moment";
+	   }
+	   if(error.length() > 0 ){
+		   throw new InvalidInputException(error.trim());
+	   }
+	   
+	   RestoApp app = RestoApplication.getRestoApp();
+	   List<Order> currentOrders = app.getCurrentOrders();
+	   
+	   for(Order order: currentOrders){
+		   List<Table> tables = order.getTables();
+		   Boolean inUse = tables.contains(aTable);
+		   if(inUse){
+			   error = "the table is in use";
+			   throw new InvalidInputException(error.trim());
+		   }
+	   }
+	   
+	   if(aTable.getNumber() == newNumber){
+		   error = "error : duplicate table number";
+		   throw new InvalidInputException(error.trim());
+	   }
+	   
+	   aTable.setNumber(newNumber);
+	   
+	   int n = aTable.numberOfCurrentSeats();
+	   
+	   if(numberOfSeats > n){
+		   for(int i = 0; i< numberOfSeats - n; i++){
+			   Seat seat = aTable.addSeat();
+			   aTable.addCurrentSeat(seat);
+		   }
+	   }else if(numberOfSeats < n){
+		   for(int i = 0; i< n - numberOfSeats; i++){
+			   Seat seat = aTable.getCurrentSeat(0);
+			   aTable.removeCurrentSeat(seat);
+		   }
+	   }
+	   
+	   RestoApplication.save();
+	   
+	   return aTable;
+	  
+	   
+   }
 	/**
 	 * Feature 4: Change location of a table
 	 * Author: Thomas Labourdette
@@ -199,7 +267,58 @@ public class Controller {
 	 * Feature 5: Display Menu
 	 * authors: Ryan, Jonathan
 	 */
-	
-	
-	
+
+	/**
+	 * This feature displays all of the menu item categories
+	 * Author: Ryan Servera
+	 * @return A list of all the item categories within the menu
+	 */
+	public static List<ItemCategory> getItemCategories() {
+
+		List<ItemCategory> itemCategories = Arrays.asList(ItemCategory.values());
+
+		RestoApplication.save();
+
+		return itemCategories;
+	}
+
+	/**
+	 * This feature displays all the menu items under a given item category
+	 * Author: Ryan Servera
+	 *
+	 * @param itemCategory: desired category of menu items
+	 * @return A list of menu items under a desired item category
+	 * @throws Exception cannot output a list for a null Item Category
+	 */
+	public static List<MenuItem> getMenuItems (MenuItem.ItemCategory itemCategory) throws InvalidInputException{
+
+		String error = "";
+		if(itemCategory == null){
+			error = "Please Insert A Valid Item Category";
+			throw new InvalidInputException(error.trim());
+		}
+
+		List<MenuItem> desiredItems = new ArrayList<>();
+
+		RestoApp restoApp = RestoApplication.getRestoApp();
+
+		Menu menu = restoApp.getMenu();
+
+		List<MenuItem> menuItems = menu.getMenuItems();
+
+		for(MenuItem menuItem : menuItems){
+			boolean currentMenuItem = menuItem.hasCurrentPricedMenuItem();
+
+			ItemCategory currentCategory = menuItem.getItemCategory();
+
+			if(currentMenuItem && currentCategory.equals(itemCategory)){
+				desiredItems.add(menuItem);
+			}
+		}
+
+		RestoApplication.save();
+
+		return desiredItems;
+	}
+
 }

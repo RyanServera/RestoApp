@@ -1,5 +1,10 @@
 package ca.mcgill.ecse223.resto.view;
 
+import ca.mcgill.ecse223.resto.controller.Controller;
+import ca.mcgill.ecse223.resto.controller.InvalidInputException;
+import ca.mcgill.ecse223.resto.model.MenuItem;
+
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
