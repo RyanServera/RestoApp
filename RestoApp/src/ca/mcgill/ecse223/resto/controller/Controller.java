@@ -1,11 +1,14 @@
 package ca.mcgill.ecse223.resto.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import ca.mcgill.ecse223.resto.application.RestoApplication;
 import ca.mcgill.ecse223.resto.model.RestoApp;
 import ca.mcgill.ecse223.resto.model.Table;
 import ca.mcgill.ecse223.resto.model.*;
+import ca.mcgill.ecse223.resto.model.MenuItem.ItemCategory;
 
 
 public class Controller {
@@ -153,4 +156,57 @@ public class Controller {
 	 * Feature 5: Display Menu
 	 * authors: Ryan, Jonathan
 	 */
+
+	/**
+	 * This feature displays all of the menu item categories
+	 * Author: Ryan Servera
+	 * @return A list of all the item categories within the menu
+	 */
+	public static List<ItemCategory> getItemCategories() {
+
+		List<ItemCategory> itemCategories = Arrays.asList(ItemCategory.values());
+
+		RestoApplication.save();
+
+		return itemCategories;
+	}
+
+	/**
+	 * This feature displays all the menu items under a given item category
+	 * Author: Ryan Servera
+	 *
+	 * @param itemCategory: desired category of menu items
+	 * @return A list of menu items under a desired item category
+	 * @throws Exception cannot output a list for a null Item Category
+	 */
+	public static List<MenuItem> getMenuItems (MenuItem.ItemCategory itemCategory) throws InvalidInputException{
+
+		String error = "";
+		if(itemCategory == null){
+			error = "Please Insert A Valid Item Category";
+			throw new InvalidInputException(error.trim());
+		}
+
+		List<MenuItem> desiredItems = new ArrayList<>();
+
+		RestoApp restoApp = RestoApplication.getRestoApp();
+
+		Menu menu = restoApp.getMenu();
+
+		List<MenuItem> menuItems = menu.getMenuItems();
+
+		for(MenuItem menuItem : menuItems){
+			boolean currentMenuItem = menuItem.hasCurrentPricedMenuItem();
+
+			ItemCategory currentCategory = menuItem.getItemCategory();
+
+			if(currentMenuItem && currentCategory.equals(itemCategory)){
+				desiredItems.add(menuItem);
+			}
+		}
+
+		RestoApplication.save();
+
+		return desiredItems;
+	}
 }
