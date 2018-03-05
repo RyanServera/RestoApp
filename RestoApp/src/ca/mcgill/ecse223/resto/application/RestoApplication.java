@@ -6,6 +6,9 @@ import java.io.ObjectInputStream;
 
 import ca.mcgill.ecse223.resto.model.*;
 import ca.mcgill.ecse223.resto.persistence.PersistenceObjectStream;
+import ca.mcgill.ecse223.resto.view.TableAddingMenu;
+import ca.mcgill.ecse223.resto.view.TableSettingsMenu;
+import ca.mcgill.ecse223.resto.view.restoAppPage;
 
 public class RestoApplication {
 	private static RestoApp restoApp;
@@ -22,10 +25,15 @@ public class RestoApplication {
 		for(MenuItem mi : restoApp.getMenu().getMenuItems()) {
 			   System.out.println(mi.getName());
 		}*/
-		RestoApp menu = load();
-		for(MenuItem mi : menu.getMenu().getMenuItems()) {
-			   System.out.println(mi.getName());
-		}
+		restoApp = load(); 
+		Table table0 = new Table(0, 0, 0, 0, 0, restoApp);
+		restoApp.addCurrentTable(table0);
+		save();
+		restoAppPage page = new restoAppPage();
+		page.setVisible(true);
+		
+		TableSettingsMenu editTableUI = new TableSettingsMenu(restoApp.getCurrentTable(0));
+		TableAddingMenu editTableUI1 = new TableAddingMenu(); 
 		
 		 	
 	}
