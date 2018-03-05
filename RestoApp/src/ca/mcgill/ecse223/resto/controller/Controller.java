@@ -32,14 +32,18 @@ public class Controller {
      * @param tableNum: table number
      * @throws Exception: when either width or length is negative
      */
-	public static void addTable(int x, int y, int width, int length, int tableNum) throws Exception{
+	public static void addTable(int x, int y, int width, int length, int tableNum, int numSeat) throws Exception{
 	    if(width<=0){
 	        throw new Exception("Width Must Be Positive");
         }else if(length<=0){
 	        throw new Exception("Length Must Be Positive");
+        }else if(numSeat<=0) {
+        	throw new Exception("Number of Seat Must be Positive "); 
         }else{
+        
 	        RestoApp rm = RestoApplication.getRestoApp();
 	        Table t = new Table(tableNum, x, y, width, length, rm);
+	        addSeat(numSeat, t); 
 	        rm.addTable(t);
 	        RestoApplication.save();
 
