@@ -98,6 +98,53 @@ public class Controller {
 	 * Feature 2: Remove tables
 	 * authors: Jake
 	 */
+
+   	/**
+   	 * @author Jacob Hochstrasser
+   	 * Removes the currently selected table from the list of currently active tables as well the list of all
+   	 * tables in the restaurant. Reassigns table numbers for all tables that appear after the removed table
+   	 * in the list.
+   	 * @param tableNumber : the number of the table to be removed
+   	 * @return : void
+   	 */
+   public static void removeCurrentTable(Table selectedTable) throws InvalidInputException {
+	   if(selectedTable == null) {
+		   throw new InvalidInputException("Error: Table not found.");
+	   }
+	   if(selectedTable.hasReservations()) {
+		   throw new InvalidInputException("This table has active reservations and cannot be removed.");
+	   }
+
+	   RestoApp ra = RestoApplication.getRestoApp();
+	   
+	   List<Order> currentOrders = ra.getCurrentOrders();
+	   for(Order o : currentOrders) {
+		   List<Table> tablesWithOrder = o.getTables();
+		   if(tablesWithOrder.contains(selectedTable)) {
+			   throw new InvalidInputException("This table is currently in use and cannot be removed.");
+		   }
+	   }
+
+	   ra.removeCurrentTable(selectedTable);
+	   RestoApplication.save();
+
+	  /* int numberOfCurrentTables = ra.numberOfCurrentTables();
+	   for(int i = ra.indexOfCurrentTable(selectedTable); i<= numberOfCurrentTables-2; i++) {
+		   Table temp = ra.getCurrentTable(i+1);
+		   ra.addOrMoveCurrentTableAt(temp, i);
+	   }*/
+   }
+   
+   /**
+    * @author Jacob Hochstrasser
+    * This method lists all of the current tables in the RestoApp.
+    * @return : a list of current tables in the RestoApp
+    */
+   public static List<Table> listAllTables(){
+	   RestoApp ra = RestoApplication.getRestoApp();
+	   return ra.getCurrentTables();
+   }
+
    /**
     * Featire 3: Update Table number and seats
     * author: Allison
@@ -164,7 +211,6 @@ public class Controller {
 	  
 	   
    }
-	
 	/**
 	 * Feature 4: Change location of a table
 	 * Author: Thomas Labourdette
@@ -274,4 +320,5 @@ public class Controller {
 
 		return desiredItems;
 	}
+
 }

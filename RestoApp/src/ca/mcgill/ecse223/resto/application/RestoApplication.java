@@ -4,6 +4,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
+import ca.mcgill.ecse223.resto.view.RemoveTablePage;
+import ca.mcgill.ecse223.resto.view.RestaurantMenuPage;
+import ca.mcgill.ecse223.resto.view.restoAppPage;
 import ca.mcgill.ecse223.resto.model.*;
 import ca.mcgill.ecse223.resto.persistence.PersistenceObjectStream;
 import ca.mcgill.ecse223.resto.view.TableAddingMenu;
@@ -25,22 +28,21 @@ public class RestoApplication {
 		for(MenuItem mi : restoApp.getMenu().getMenuItems()) {
 			   System.out.println(mi.getName());
 		}*/
-		restoApp = load(); 
-		Table table0 = new Table(0, 0, 0, 0, 0, restoApp);
-		restoApp.addCurrentTable(table0);
-		save();
-		restoAppPage page = new restoAppPage();
-		page.setVisible(true);
-		
-		TableSettingsMenu editTableUI = new TableSettingsMenu(restoApp.getCurrentTable(0));
-		TableAddingMenu editTableUI1 = new TableAddingMenu(); 
-		
-		 	
-	}
-	
-	public static void save() {
-		PersistenceObjectStream.setFilename(filename);
-		PersistenceObjectStream.serialize(restoApp);
+
+		load();
+		Table t = new Table(1, 1, 1, 1, 1, restoApp);
+		restoApp.addCurrentTable(t);
+		//save();
+		/*for(MenuItem mi : menu.getMenu().getMenuItems()) {
+			   System.out.println(mi.getName());
+		}*/
+		 java.awt.EventQueue.invokeLater(new Runnable() {
+	            public void run() {
+	                //new restoAppPage().setVisible(true);
+	            	new RemoveTablePage().setVisible(true);
+	            }
+		 });	
+
 	}
 	
 	public static RestoApp getRestoApp(){
@@ -50,13 +52,20 @@ public class RestoApplication {
 		return restoApp;
 	}
 	
+	
+	public static void save() {
+		PersistenceObjectStream.setFilename(filename);
+		PersistenceObjectStream.serialize(restoApp);
+	}
+	
+	
 	public static RestoApp load() {
 		PersistenceObjectStream.setFilename(filename);
 		restoApp = (RestoApp) PersistenceObjectStream.deserialize();
 		// model cannot be loaded - create empty restoApp
-		/*if (restoApp == null) {
+		if (restoApp == null) {
 			restoApp = new RestoApp();
-		}*/
+		}
 		
 		return restoApp;
 	}
