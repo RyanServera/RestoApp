@@ -68,7 +68,7 @@ public class restoAppPage extends JFrame {
 		// Error Message
 		errorMessage = new JLabel();
 		errorMessage.setForeground(Color.RED);
-		
+
 		// Change Location of Table
 		selectedTableField = new JTextField();
 		newXCoordinateField = new JTextField();
@@ -77,7 +77,11 @@ public class restoAppPage extends JFrame {
 		newXCoordinateLabel = new JLabel();
 		newYCoordinateLabel = new JLabel();
 		updateTableLocationButton = new JButton();
-		
+
+		// Set Dimensions and Visibility
+		setVisible(true);
+		setSize(200, 500);
+
 		// Displaying the Menu
 		createMenuBar();
 		

@@ -15,7 +15,7 @@ import ca.mcgill.ecse223.resto.view.restoAppPage;
 
 public class RestoApplication {
 	private static RestoApp restoApp;
-	private static String filename = "./menu.resto"; 
+	private static String filename = "./menu.resto";
 	
 	public static void main(String[] args) {
 		/*
@@ -41,8 +41,15 @@ public class RestoApplication {
 	                //new restoAppPage().setVisible(true);
 	            	new RemoveTablePage().setVisible(true);
 	            }
-		 });	
+		 });
 
+		 RestaurantMenuPage restaurantMenuPage = new RestaurantMenuPage();
+
+		 TableAddingMenu tableAddingMenu = new TableAddingMenu();
+
+		 restoAppPage restoAppPage = new restoAppPage();
+
+		 TableSettingsMenu tableSettingsMenu = new TableSettingsMenu(t);
 	}
 	
 	public static RestoApp getRestoApp(){
