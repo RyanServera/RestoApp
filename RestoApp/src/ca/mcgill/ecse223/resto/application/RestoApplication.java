@@ -43,6 +43,7 @@ public class RestoApplication {
 	            }
 		 });
 
+
 		 RestaurantMenuPage restaurantMenuPage = new RestaurantMenuPage();
 
 		 TableAddingMenu tableAddingMenu = new TableAddingMenu();
