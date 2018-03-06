@@ -104,7 +104,7 @@ public class Controller {
    	 * Removes the currently selected table from the list of currently active tables as well the list of all
    	 * tables in the restaurant. Reassigns table numbers for all tables that appear after the removed table
    	 * in the list.
-   	 * @param tableNumber : the number of the table to be removed
+   	 * @param selectedTable : the number of the table to be removed
    	 * @return : void
    	 */
    public static void removeCurrentTable(Table selectedTable) throws InvalidInputException {
