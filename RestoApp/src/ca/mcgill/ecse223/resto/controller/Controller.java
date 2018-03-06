@@ -35,14 +35,18 @@ public class Controller {
      * @param tableNum: table number
      * @throws Exception: when either width or length is negative
      */
-	public static void addTable(int x, int y, int width, int length, int tableNum) throws Exception{
+	public static void addTable(int x, int y, int width, int length, int tableNum, int numSeat) throws Exception{
 	    if(width<=0){
 	        throw new Exception("Width Must Be Positive");
         }else if(length<=0){
 	        throw new Exception("Length Must Be Positive");
+        }else if(numSeat<=0) {
+        	throw new Exception("Number of Seat Must be Positive "); 
         }else{
+        
 	        RestoApp rm = RestoApplication.getRestoApp();
 	        Table t = new Table(tableNum, x, y, width, length, rm);
+	        addSeat(numSeat, t); 
 	        rm.addTable(t);
 	        RestoApplication.save();
 
@@ -94,12 +98,119 @@ public class Controller {
 	 * Feature 2: Remove tables
 	 * authors: Jake
 	 */
-	
-	/*
-	 * Feature 3: Update table number and number of seats
-	 * authors: Allison
-	 */
-	
+
+   	/**
+   	 * @author Jacob Hochstrasser
+   	 * Removes the currently selected table from the list of currently active tables as well the list of all
+   	 * tables in the restaurant. Reassigns table numbers for all tables that appear after the removed table
+   	 * in the list.
+   	 * @param tableNumber : the number of the table to be removed
+   	 * @return : void
+   	 */
+   public static void removeCurrentTable(Table selectedTable) throws InvalidInputException {
+	   if(selectedTable == null) {
+		   throw new InvalidInputException("Error: Table not found.");
+	   }
+	   if(selectedTable.hasReservations()) {
+		   throw new InvalidInputException("This table has active reservations and cannot be removed.");
+	   }
+
+	   RestoApp ra = RestoApplication.getRestoApp();
+	   
+	   List<Order> currentOrders = ra.getCurrentOrders();
+	   for(Order o : currentOrders) {
+		   List<Table> tablesWithOrder = o.getTables();
+		   if(tablesWithOrder.contains(selectedTable)) {
+			   throw new InvalidInputException("This table is currently in use and cannot be removed.");
+		   }
+	   }
+
+	   ra.removeCurrentTable(selectedTable);
+	   RestoApplication.save();
+
+	  /* int numberOfCurrentTables = ra.numberOfCurrentTables();
+	   for(int i = ra.indexOfCurrentTable(selectedTable); i<= numberOfCurrentTables-2; i++) {
+		   Table temp = ra.getCurrentTable(i+1);
+		   ra.addOrMoveCurrentTableAt(temp, i);
+	   }*/
+   }
+   
+   /**
+    * @author Jacob Hochstrasser
+    * This method lists all of the current tables in the RestoApp.
+    * @return : a list of current tables in the RestoApp
+    */
+   public static List<Table> listAllTables(){
+	   RestoApp ra = RestoApplication.getRestoApp();
+	   return ra.getCurrentTables();
+   }
+
+   /**
+    * Featire 3: Update Table number and seats
+    * author: Allison
+    * @param aTable
+    * @param newNumber
+    * @param numberOfSeats
+    * @return
+    * @throws InvalidInputException
+    */
+   public static Table updateTable(Table aTable, int newNumber, int numberOfSeats) throws InvalidInputException {
+	   String error = "";
+	   if(aTable == null){
+		   error = "table does not exist";
+	   }
+	   if( newNumber < 0){
+		   error = "cannot have a negative new table number";
+	   }
+	   if(numberOfSeats <0){
+		   error = "cannot have negative number of seats";
+	   }
+	   if(aTable.hasReservations()){
+		   error = "The table is reserved and cannot be modified for the moment";
+	   }
+	   if(error.length() > 0 ){
+		   throw new InvalidInputException(error.trim());
+	   }
+	   
+	   RestoApp app = RestoApplication.getRestoApp();
+	   List<Order> currentOrders = app.getCurrentOrders();
+	   
+	   for(Order order: currentOrders){
+		   List<Table> tables = order.getTables();
+		   Boolean inUse = tables.contains(aTable);
+		   if(inUse){
+			   error = "the table is in use";
+			   throw new InvalidInputException(error.trim());
+		   }
+	   }
+	   
+	   if(aTable.getNumber() == newNumber){
+		   error = "error : duplicate table number";
+		   throw new InvalidInputException(error.trim());
+	   }
+	   
+	   aTable.setNumber(newNumber);
+	   
+	   int n = aTable.numberOfCurrentSeats();
+	   
+	   if(numberOfSeats > n){
+		   for(int i = 0; i< numberOfSeats - n; i++){
+			   Seat seat = aTable.addSeat();
+			   aTable.addCurrentSeat(seat);
+		   }
+	   }else if(numberOfSeats < n){
+		   for(int i = 0; i< n - numberOfSeats; i++){
+			   Seat seat = aTable.getCurrentSeat(0);
+			   aTable.removeCurrentSeat(seat);
+		   }
+	   }
+	   
+	   RestoApplication.save();
+	   
+	   return aTable;
+	  
+	   
+   }
 	/**
 	 * Feature 4: Change location of a table
 	 * Author: Thomas Labourdette
@@ -209,4 +320,5 @@ public class Controller {
 
 		return desiredItems;
 	}
+
 }

@@ -2,11 +2,15 @@ package ca.mcgill.ecse223.resto.view;
 
 import java.awt.Color;
 import java.awt.event.*;
+
+import javax.swing.GroupLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
@@ -45,6 +49,9 @@ public class restoAppPage extends JFrame {
     private JLabel TableLength;
     private JLabel NumSeat;
     private JButton addTable;
+    //Remove a table
+    private JComboBox<Table> selectedTableComboBox;
+    private JButton removeSelectedTable;
 	
 	
 	// data elements
@@ -61,7 +68,6 @@ public class restoAppPage extends JFrame {
 		// Error Message
 		errorMessage = new JLabel();
 		errorMessage.setForeground(Color.RED);
-		
 		
 		// Change Location of Table
 		selectedTableField = new JTextField();
@@ -89,7 +95,6 @@ public class restoAppPage extends JFrame {
 				updateTableLocationButtonActionPerformed(evt);
 			}
 		});
-		
 	}
 	// create the menu bar
 	private void createMenuBar() {
@@ -100,8 +105,8 @@ public class restoAppPage extends JFrame {
 		menu.setToolTipText("Open the restaurant menu");
 		menu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e){
-				JFrame RestaurantMenuPage = new RestaurantMenuPage();
-				RestaurantMenuPage.setVisible(true);
+				RestaurantMenuPage menuPage = new RestaurantMenuPage();
+				menuPage.setVisible(true);
 			}
 			
 		});

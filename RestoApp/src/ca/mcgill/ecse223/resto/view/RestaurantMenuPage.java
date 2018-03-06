@@ -121,3 +121,4 @@ public class RestaurantMenuPage extends JFrame {
         //TODO: Implement functionality that will change the description,
     }
 }
+
