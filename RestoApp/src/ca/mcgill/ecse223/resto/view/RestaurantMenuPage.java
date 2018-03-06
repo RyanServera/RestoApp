@@ -19,7 +19,6 @@ public class RestaurantMenuPage extends JFrame {
 
     public RestaurantMenuPage() {
         initComponents();
-
     }
 
 
