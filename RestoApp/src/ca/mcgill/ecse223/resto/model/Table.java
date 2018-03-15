@@ -6,7 +6,8 @@ import java.io.Serializable;
 import java.util.*;
 
 // line 29 "../../../../../RestoAppPersistence.ump"
-// line 25 "../../../../../RestoApp v2.ump"
+// line 1 "../../../../../TableStateMachine.ump"
+// line 26 "../../../../../RestoApp v2.ump"
 public class Table implements Serializable
 {
 
@@ -26,6 +27,10 @@ public class Table implements Serializable
   private int y;
   private int width;
   private int length;
+
+  //Table State Machines
+  public enum TableState { Available, InUse, Reserved }
+  private TableState tableState;
 
   //Table Associations
   private List<Seat> seats;
@@ -57,6 +62,7 @@ public class Table implements Serializable
     }
     reservations = new ArrayList<Reservation>();
     orders = new ArrayList<Order>();
+    setTableState(TableState.Available);
   }
 
   //------------------------
@@ -144,6 +150,192 @@ public class Table implements Serializable
   public int getLength()
   {
     return length;
+  }
+
+  public String getTableStateFullName()
+  {
+    String answer = tableState.toString();
+    return answer;
+  }
+
+  public TableState getTableState()
+  {
+    return tableState;
+  }
+
+  public boolean placeOrder(Order newOrder)
+  {
+    boolean wasEventProcessed = false;
+    
+    TableState aTableState = tableState;
+    switch (aTableState)
+    {
+      case Available:
+        // line 7 "../../../../../TableStateMachine.ump"
+        //call the table function
+        addOrder(newOrder);
+        setTableState(TableState.InUse);
+        wasEventProcessed = true;
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
+  public boolean reserve(Reservation newReservation)
+  {
+    boolean wasEventProcessed = false;
+    
+    TableState aTableState = tableState;
+    switch (aTableState)
+    {
+      case Available:
+        // line 12 "../../../../../TableStateMachine.ump"
+        //call the table function
+        addReservation(newReservation);
+        setTableState(TableState.Reserved);
+        wasEventProcessed = true;
+        break;
+      case Reserved:
+        if (!(iscurrentReservationdate(newReservation.getDateTime())))
+        {
+        // line 45 "../../../../../TableStateMachine.ump"
+          //TODO
+          setTableState(TableState.Reserved);
+          wasEventProcessed = true;
+          break;
+        }
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
+  public boolean payBill()
+  {
+    boolean wasEventProcessed = false;
+    
+    TableState aTableState = tableState;
+    switch (aTableState)
+    {
+      case InUse:
+        // line 21 "../../../../../TableStateMachine.ump"
+        //TODO
+        setTableState(TableState.Available);
+        wasEventProcessed = true;
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
+  public boolean cancelOrder()
+  {
+    boolean wasEventProcessed = false;
+    
+    TableState aTableState = tableState;
+    switch (aTableState)
+    {
+      case InUse:
+        // line 26 "../../../../../TableStateMachine.ump"
+        int index = numberOfOrders();
+        Order theLastOrder = getOrder(index -1);
+        removeOrder(theLastOrder);
+        setTableState(TableState.Available);
+        wasEventProcessed = true;
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
+  public boolean removeOrderItemfromOrder()
+  {
+    boolean wasEventProcessed = false;
+    
+    TableState aTableState = tableState;
+    switch (aTableState)
+    {
+      case InUse:
+        if (!(orderItemsInOrderIsEmpty()))
+        {
+        // line 33 "../../../../../TableStateMachine.ump"
+          //TODO
+          setTableState(TableState.InUse);
+          wasEventProcessed = true;
+          break;
+        }
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
+  public boolean addOrderItemtoOrder(OrderItem newItem)
+  {
+    boolean wasEventProcessed = false;
+    
+    TableState aTableState = tableState;
+    switch (aTableState)
+    {
+      case InUse:
+        // line 37 "../../../../../TableStateMachine.ump"
+        //TODO
+        setTableState(TableState.InUse);
+        wasEventProcessed = true;
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
+  public boolean cancelReservation()
+  {
+    boolean wasEventProcessed = false;
+    
+    TableState aTableState = tableState;
+    switch (aTableState)
+    {
+      case Reserved:
+        if (!(ReservationListAlmostEmpty()))
+        {
+        // line 49 "../../../../../TableStateMachine.ump"
+          //TODO
+          setTableState(TableState.Reserved);
+          wasEventProcessed = true;
+          break;
+        }
+        if (ReservationListAlmostEmpty())
+        {
+        // line 53 "../../../../../TableStateMachine.ump"
+          //TODO
+          setTableState(TableState.Available);
+          wasEventProcessed = true;
+          break;
+        }
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
+  private void setTableState(TableState aTableState)
+  {
+    tableState = aTableState;
   }
 
   public Seat getSeat(int index)
@@ -648,7 +840,31 @@ public class Table implements Serializable
     }
   }
 
-  // line 37 "../../../../../RestoApp v2.ump"
+
+  /**
+   * end of state machine
+   */
+  // line 64 "../../../../../TableStateMachine.ump"
+   private boolean orderItemsInOrderIsEmpty(){
+    int currentNumOfOrders = numberOfOrders();
+    Order currentOrder = getOrder(currentNumOfOrders -1);
+    return currentOrder.numberOfOrderItems() == 0;
+  }
+
+  // line 71 "../../../../../TableStateMachine.ump"
+   private boolean iscurrentReservationdate(Date date){
+    Date currentReservationDate = getReservation(0).getDateTime();
+    int result = date.compareTo(currentReservationDate);
+    if( result == 0) return true;
+    else return false;
+  }
+
+  // line 79 "../../../../../TableStateMachine.ump"
+   private boolean ReservationListAlmostEmpty(){
+    return numberOfReservations() == 1;
+  }
+
+  // line 38 "../../../../../RestoApp v2.ump"
    public boolean doesOverlap(int x, int y, int width, int length){
     int currentX = this.x;
 	  	int currentY = this.x;

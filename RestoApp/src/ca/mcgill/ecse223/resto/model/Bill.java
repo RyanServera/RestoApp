@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.*;
 
 // line 59 "../../../../../RestoAppPersistence.ump"
-// line 85 "../../../../../RestoApp v2.ump"
+// line 86 "../../../../../RestoApp v2.ump"
 public class Bill implements Serializable
 {
 

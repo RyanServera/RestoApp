@@ -104,7 +104,7 @@ public class RestaurantMenuPage extends JFrame {
             } catch (InvalidInputException e) {
                 e.printStackTrace();
             }
-            for (MenuItem restaurantItem : menuItemsInCategory) {
+            for (final MenuItem restaurantItem : menuItemsInCategory) {
                 JMenuItem item = new JMenuItem(restaurantItem.getName());
                 menuOption.add(item);
                 item.addActionListener(new ActionListener() {

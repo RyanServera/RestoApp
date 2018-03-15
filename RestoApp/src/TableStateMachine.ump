@@ -1,0 +1,83 @@
+class Table{
+  
+  TableState{
+    
+    Available{
+      
+      placeOrder(Order newOrder)/{
+        //call the table function
+        addOrder(newOrder);
+      }  -> InUse;
+      
+      reserve(Reservation newReservation)/{
+        //call the table function
+        addReservation(newReservation);
+      } -> Reserved;
+      
+    }
+    
+    InUse{
+      
+      payBill()/{
+        //TODO
+      } -> Available;
+      
+      
+      cancelOrder()/{
+        int index = numberOfOrders();
+        Order theLastOrder = getOrder(index -1);
+        removeOrder(theLastOrder);
+         
+      } ->Available;
+      
+      removeOrderItemfromOrder()[!orderItemsInOrderIsEmpty()]/{
+        //TODO
+      } -> InUse;
+      
+      addOrderItemtoOrder(OrderItem newItem)/{
+        //TODO
+      } ->InUse;
+      
+    }
+    
+    Reserved{
+      
+      reserve(Reservation newReservation)[!iscurrentReservationdate(newReservation.getDateTime())]/{
+        //TODO
+      } -> Reserved;
+      
+      cancelReservation()[!ReservationListAlmostEmpty()]/{
+        //TODO
+      } -> Reserved;
+      
+      cancelReservation()[ReservationListAlmostEmpty()]/{
+        //TODO
+      } -> Available;
+      
+    }
+    
+  }//end of state machine
+  
+  
+  private boolean orderItemsInOrderIsEmpty(){
+    
+    int currentNumOfOrders = numberOfOrders();
+    Order currentOrder = getOrder(currentNumOfOrders -1);
+    return currentOrder.numberOfOrderItems() == 0;
+  }
+  
+  private boolean iscurrentReservationdate(Date date){
+    
+    Date currentReservationDate = getReservation(0).getDateTime();
+    int result = date.compareTo(currentReservationDate);
+    if( result == 0) return true;
+    else return false;
+  }
+  
+  private boolean ReservationListAlmostEmpty(){
+    
+    return numberOfReservations() == 1;
+    
+  }
+  
+}
