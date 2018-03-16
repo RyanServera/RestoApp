@@ -29,7 +29,7 @@ public class Table implements Serializable
   private int length;
 
   //Table State Machines
-  public enum TableState { Available, InUse, Reserved }
+  public enum TableState { Available, InUse }
   private TableState tableState;
 
   //Table Associations
@@ -174,6 +174,7 @@ public class Table implements Serializable
         // line 7 "../../../../../TableStateMachine.ump"
         //call the table function
         addOrder(newOrder);
+        //record the time when switching state
         setTableState(TableState.InUse);
         wasEventProcessed = true;
         break;
@@ -192,18 +193,49 @@ public class Table implements Serializable
     switch (aTableState)
     {
       case Available:
-        // line 12 "../../../../../TableStateMachine.ump"
-        //call the table function
+        // line 13 "../../../../../TableStateMachine.ump"
         addReservation(newReservation);
-        setTableState(TableState.Reserved);
+        setTableState(TableState.Available);
         wasEventProcessed = true;
         break;
-      case Reserved:
-        if (!(iscurrentReservationdate(newReservation.getDateTime())))
+      case InUse:
+        // line 41 "../../../../../TableStateMachine.ump"
+        //The multiple reservation conflicts that could occur will have to be
+        //oversighted by the waiter. 
+        addReservation(newReservation);
+        setTableState(TableState.InUse);
+        wasEventProcessed = true;
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
+  public boolean cancelReservation(Reservation aReservation)
+  {
+    boolean wasEventProcessed = false;
+    
+    TableState aTableState = tableState;
+    switch (aTableState)
+    {
+      case Available:
+        if (!(ReservationListAlmostEmpty()))
         {
-        // line 45 "../../../../../TableStateMachine.ump"
+        // line 17 "../../../../../TableStateMachine.ump"
           //TODO
-          setTableState(TableState.Reserved);
+          setTableState(TableState.Available);
+          wasEventProcessed = true;
+          break;
+        }
+        break;
+      case InUse:
+        if (!(ReservationListAlmostEmpty()))
+        {
+        // line 47 "../../../../../TableStateMachine.ump"
+          //TODO
+          setTableState(TableState.InUse);
           wasEventProcessed = true;
           break;
         }
@@ -223,7 +255,7 @@ public class Table implements Serializable
     switch (aTableState)
     {
       case InUse:
-        // line 21 "../../../../../TableStateMachine.ump"
+        // line 26 "../../../../../TableStateMachine.ump"
         //TODO
         setTableState(TableState.Available);
         wasEventProcessed = true;
@@ -243,88 +275,13 @@ public class Table implements Serializable
     switch (aTableState)
     {
       case InUse:
-        // line 26 "../../../../../TableStateMachine.ump"
+        // line 31 "../../../../../TableStateMachine.ump"
         int index = numberOfOrders();
         Order theLastOrder = getOrder(index -1);
         removeOrder(theLastOrder);
+        //reset the start time when becoming available
         setTableState(TableState.Available);
         wasEventProcessed = true;
-        break;
-      default:
-        // Other states do respond to this event
-    }
-
-    return wasEventProcessed;
-  }
-
-  public boolean removeOrderItemfromOrder()
-  {
-    boolean wasEventProcessed = false;
-    
-    TableState aTableState = tableState;
-    switch (aTableState)
-    {
-      case InUse:
-        if (!(orderItemsInOrderIsEmpty()))
-        {
-        // line 33 "../../../../../TableStateMachine.ump"
-          //TODO
-          setTableState(TableState.InUse);
-          wasEventProcessed = true;
-          break;
-        }
-        break;
-      default:
-        // Other states do respond to this event
-    }
-
-    return wasEventProcessed;
-  }
-
-  public boolean addOrderItemtoOrder(OrderItem newItem)
-  {
-    boolean wasEventProcessed = false;
-    
-    TableState aTableState = tableState;
-    switch (aTableState)
-    {
-      case InUse:
-        // line 37 "../../../../../TableStateMachine.ump"
-        //TODO
-        setTableState(TableState.InUse);
-        wasEventProcessed = true;
-        break;
-      default:
-        // Other states do respond to this event
-    }
-
-    return wasEventProcessed;
-  }
-
-  public boolean cancelReservation()
-  {
-    boolean wasEventProcessed = false;
-    
-    TableState aTableState = tableState;
-    switch (aTableState)
-    {
-      case Reserved:
-        if (!(ReservationListAlmostEmpty()))
-        {
-        // line 49 "../../../../../TableStateMachine.ump"
-          //TODO
-          setTableState(TableState.Reserved);
-          wasEventProcessed = true;
-          break;
-        }
-        if (ReservationListAlmostEmpty())
-        {
-        // line 53 "../../../../../TableStateMachine.ump"
-          //TODO
-          setTableState(TableState.Available);
-          wasEventProcessed = true;
-          break;
-        }
         break;
       default:
         // Other states do respond to this event
@@ -844,14 +801,14 @@ public class Table implements Serializable
   /**
    * end of state machine
    */
-  // line 64 "../../../../../TableStateMachine.ump"
+  // line 61 "../../../../../TableStateMachine.ump"
    private boolean orderItemsInOrderIsEmpty(){
     int currentNumOfOrders = numberOfOrders();
     Order currentOrder = getOrder(currentNumOfOrders -1);
     return currentOrder.numberOfOrderItems() == 0;
   }
 
-  // line 71 "../../../../../TableStateMachine.ump"
+  // line 68 "../../../../../TableStateMachine.ump"
    private boolean iscurrentReservationdate(Date date){
     Date currentReservationDate = getReservation(0).getDateTime();
     int result = date.compareTo(currentReservationDate);
@@ -859,7 +816,7 @@ public class Table implements Serializable
     else return false;
   }
 
-  // line 79 "../../../../../TableStateMachine.ump"
+  // line 76 "../../../../../TableStateMachine.ump"
    private boolean ReservationListAlmostEmpty(){
     return numberOfReservations() == 1;
   }

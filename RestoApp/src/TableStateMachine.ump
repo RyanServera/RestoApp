@@ -7,12 +7,17 @@ class Table{
       placeOrder(Order newOrder)/{
         //call the table function
         addOrder(newOrder);
+        //record the time when switching state 
       }  -> InUse;
       
       reserve(Reservation newReservation)/{
-        //call the table function
         addReservation(newReservation);
-      } -> Reserved;
+      } -> Available;
+      
+      cancelReservation(Reservation aReservation) [!ReservationListAlmostEmpty()]/{
+        //TODO
+       
+      } -> Available; 
       
     }
     
@@ -27,36 +32,28 @@ class Table{
         int index = numberOfOrders();
         Order theLastOrder = getOrder(index -1);
         removeOrder(theLastOrder);
+        //reset the start time when becoming available 
          
       } ->Available;
       
-      removeOrderItemfromOrder()[!orderItemsInOrderIsEmpty()]/{
-        //TODO
+      //the logic for managing order items will be left in the controller
+      
+      reserve(Reservation newReservation) /{
+        //The multiple reservation conflicts that could occur will have to be
+        //oversighted by the waiter. 
+        addReservation(newReservation);
       } -> InUse;
       
-      addOrderItemtoOrder(OrderItem newItem)/{
-        //TODO
-      } ->InUse;
+      cancelReservation(Reservation aReservation)[!ReservationListAlmostEmpty()]/{
+        //TODO 
+      } -> InUse; 
       
     }
     
-    Reserved{
-      
-      reserve(Reservation newReservation)[!iscurrentReservationdate(newReservation.getDateTime())]/{
-        //TODO
-      } -> Reserved;
-      
-      cancelReservation()[!ReservationListAlmostEmpty()]/{
-        //TODO
-      } -> Reserved;
-      
-      cancelReservation()[ReservationListAlmostEmpty()]/{
-        //TODO
-      } -> Available;
-      
-    }
+    
     
   }//end of state machine
+ 
   
   
   private boolean orderItemsInOrderIsEmpty(){
@@ -74,10 +71,11 @@ class Table{
     else return false;
   }
   
-  private boolean ReservationListAlmostEmpty(){
+   private boolean ReservationListAlmostEmpty(){
     
     return numberOfReservations() == 1;
     
   }
   
+ 
 }
