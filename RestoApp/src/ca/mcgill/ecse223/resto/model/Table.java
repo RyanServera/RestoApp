@@ -803,22 +803,7 @@ public class Table implements Serializable
   /**
    * end of state machine
    */
-  // line 63 "../../../../../TableStateMachine.ump"
-   private boolean orderItemsInOrderIsEmpty(){
-    int currentNumOfOrders = numberOfOrders();
-    Order currentOrder = getOrder(currentNumOfOrders -1);
-    return currentOrder.numberOfOrderItems() == 0;
-  }
-
-  // line 70 "../../../../../TableStateMachine.ump"
-   private boolean iscurrentReservationdate(Date date){
-    Date currentReservationDate = getReservation(0).getDateTime();
-    int result = date.compareTo(currentReservationDate);
-    if( result == 0) return true;
-    else return false;
-  }
-
-  // line 78 "../../../../../TableStateMachine.ump"
+  // line 64 "../../../../../TableStateMachine.ump"
    private boolean ReservationListAlmostEmpty(){
     return numberOfReservations() == 1;
   }

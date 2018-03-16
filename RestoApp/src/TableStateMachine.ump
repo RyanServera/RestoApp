@@ -58,21 +58,7 @@ class Table{
  
   
   
-  private boolean orderItemsInOrderIsEmpty(){
-    
-    int currentNumOfOrders = numberOfOrders();
-    Order currentOrder = getOrder(currentNumOfOrders -1);
-    return currentOrder.numberOfOrderItems() == 0;
-  }
-  
-  private boolean iscurrentReservationdate(Date date){
-    
-    Date currentReservationDate = getReservation(0).getDateTime();
-    int result = date.compareTo(currentReservationDate);
-    if( result == 0) return true;
-    else return false;
-  }
-  
+ 
    private boolean ReservationListAlmostEmpty(){
     
     return numberOfReservations() == 1;
