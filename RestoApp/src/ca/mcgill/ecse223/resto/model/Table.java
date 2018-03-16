@@ -163,7 +163,7 @@ public class Table implements Serializable
     return tableState;
   }
 
-  public boolean placeOrder(Order newOrder)
+  public boolean placeOrder(java.sql.Date date,Table... tables)
   {
     boolean wasEventProcessed = false;
     
@@ -172,6 +172,8 @@ public class Table implements Serializable
     {
       case Available:
         // line 7 "../../../../../TableStateMachine.ump"
+        RestoApp restoApp = getRestoApp();
+        Order newOrder = new Order(date, restoApp, tables);
         //call the table function
         addOrder(newOrder);
         //record the time when switching state
@@ -193,13 +195,13 @@ public class Table implements Serializable
     switch (aTableState)
     {
       case Available:
-        // line 13 "../../../../../TableStateMachine.ump"
+        // line 15 "../../../../../TableStateMachine.ump"
         addReservation(newReservation);
         setTableState(TableState.Available);
         wasEventProcessed = true;
         break;
       case InUse:
-        // line 41 "../../../../../TableStateMachine.ump"
+        // line 43 "../../../../../TableStateMachine.ump"
         //The multiple reservation conflicts that could occur will have to be
         //oversighted by the waiter. 
         addReservation(newReservation);
@@ -223,7 +225,7 @@ public class Table implements Serializable
       case Available:
         if (!(ReservationListAlmostEmpty()))
         {
-        // line 17 "../../../../../TableStateMachine.ump"
+        // line 19 "../../../../../TableStateMachine.ump"
           //TODO
           setTableState(TableState.Available);
           wasEventProcessed = true;
@@ -233,7 +235,7 @@ public class Table implements Serializable
       case InUse:
         if (!(ReservationListAlmostEmpty()))
         {
-        // line 47 "../../../../../TableStateMachine.ump"
+        // line 49 "../../../../../TableStateMachine.ump"
           //TODO
           setTableState(TableState.InUse);
           wasEventProcessed = true;
@@ -255,7 +257,7 @@ public class Table implements Serializable
     switch (aTableState)
     {
       case InUse:
-        // line 26 "../../../../../TableStateMachine.ump"
+        // line 28 "../../../../../TableStateMachine.ump"
         //TODO
         setTableState(TableState.Available);
         wasEventProcessed = true;
@@ -275,7 +277,7 @@ public class Table implements Serializable
     switch (aTableState)
     {
       case InUse:
-        // line 31 "../../../../../TableStateMachine.ump"
+        // line 33 "../../../../../TableStateMachine.ump"
         int index = numberOfOrders();
         Order theLastOrder = getOrder(index -1);
         removeOrder(theLastOrder);
@@ -801,14 +803,14 @@ public class Table implements Serializable
   /**
    * end of state machine
    */
-  // line 61 "../../../../../TableStateMachine.ump"
+  // line 63 "../../../../../TableStateMachine.ump"
    private boolean orderItemsInOrderIsEmpty(){
     int currentNumOfOrders = numberOfOrders();
     Order currentOrder = getOrder(currentNumOfOrders -1);
     return currentOrder.numberOfOrderItems() == 0;
   }
 
-  // line 68 "../../../../../TableStateMachine.ump"
+  // line 70 "../../../../../TableStateMachine.ump"
    private boolean iscurrentReservationdate(Date date){
     Date currentReservationDate = getReservation(0).getDateTime();
     int result = date.compareTo(currentReservationDate);
@@ -816,7 +818,7 @@ public class Table implements Serializable
     else return false;
   }
 
-  // line 76 "../../../../../TableStateMachine.ump"
+  // line 78 "../../../../../TableStateMachine.ump"
    private boolean ReservationListAlmostEmpty(){
     return numberOfReservations() == 1;
   }

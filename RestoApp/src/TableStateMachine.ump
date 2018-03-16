@@ -4,7 +4,9 @@ class Table{
     
     Available{
       
-      placeOrder(Order newOrder)/{
+      placeOrder(java.sql.Date date, Table... tables)/{
+        RestoApp restoApp = getRestoApp();
+        Order newOrder = new Order(date, restoApp, tables);
         //call the table function
         addOrder(newOrder);
         //record the time when switching state 
