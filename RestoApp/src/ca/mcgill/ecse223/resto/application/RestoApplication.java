@@ -10,6 +10,7 @@ import ca.mcgill.ecse223.resto.controller.InvalidInputException;
 import ca.mcgill.ecse223.resto.model.*;
 import ca.mcgill.ecse223.resto.persistence.PersistenceObjectStream;
 import ca.mcgill.ecse223.resto.view.RestaurantMenuPage;
+import ca.mcgill.ecse223.resto.view.RestoAppUI;
 
 public class RestoApplication {
 	private static RestoApp restoApp;
@@ -33,7 +34,13 @@ public class RestoApplication {
 
 		List<MenuItem> menuItems = Controller.getMenuItems(MenuItem.ItemCategory.AlcoholicBeverage);
 
-		RestaurantMenuPage restaurantMenuPage = new RestaurantMenuPage();
+		RestoApp app = menu;
+		setRestoAppSimple(app);
+
+		//RestaurantMenuPage restaurantMenuPage = new RestaurantMenuPage();
+		//TableAddingMenu addMenu = new TableAddingMenu();
+		//restoAppPage appPage = new restoAppPage();
+		RestoAppUI ui = new RestoAppUI();
 	}
 
 	public static void save() {
@@ -61,5 +68,9 @@ public class RestoApplication {
 
 	public static void setFilename(String newFilename) {
 		filename = newFilename;
+	}
+	
+	public static void setRestoAppSimple(RestoApp app){
+		restoApp = app;
 	}
 }

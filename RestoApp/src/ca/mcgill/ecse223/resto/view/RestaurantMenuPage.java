@@ -80,7 +80,8 @@ public class RestaurantMenuPage extends JFrame {
 
 
 
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        //setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Menu");
         setSize(500, 500);
         setVisible(true);
