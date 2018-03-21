@@ -32,15 +32,15 @@ public class Controller {
      */
 	public static void addTable(int x, int y, int width, int length, int tableNum, int numSeat)  throws InvalidInputException{
 	    if(width<=0){
-	        throw new InvalidInputException("Width Must Be Positive");
+	        throw new InvalidInputException("Width Must Be Positive".trim());
         }else if(length<=0){
-	        throw new InvalidInputException("Length Must Be Positive");
+	        throw new InvalidInputException("Length Must Be Positive".trim());
         }else if(numSeat<=0) {
-        	throw new InvalidInputException("Number of Seat Must be Positive "); 
+        	throw new InvalidInputException("Number of Seat Must be Positive".trim()); 
         }else if(x < 0){
-        	throw new InvalidInputException("X-Axis Position Must be Positive "); 
+        	throw new InvalidInputException("X-Axis Position Must be Positive".trim()); 
         }else if(y < 0){
-        	throw new InvalidInputException("Y-Axis Position Must be Positive "); 
+        	throw new InvalidInputException("Y-Axis Position Must be Positive".trim()); 
      	}else{
         
         
@@ -50,7 +50,7 @@ public class Controller {
 	        for(Table t: currentTables){
 	        	overlaps = t.doesOverlap(x, y, width, length);
 	        	if(overlaps){
-	        		throw new InvalidInputException("New Table Overlaps With Current Table");
+	        		throw new InvalidInputException("New Table Overlaps With Current Table".trim());
 	        	}
 	        }
 	        Table newTable = new Table(tableNum, x, y, width, length, rm);
@@ -74,7 +74,7 @@ public class Controller {
      */
     public static void addSeat(int numSeat, Table t) throws Exception{
 	    if(numSeat<=0){
-	        throw new Exception("Number Added Must Be Positive");
+	        throw new Exception("Number Added Must Be Positive".trim());
         } else if(t == null){
 	        throw new Exception("Table Required");
         }else{
@@ -121,10 +121,10 @@ public class Controller {
    	 */
    public static void removeCurrentTable(Table selectedTable) throws InvalidInputException {
 	   if(selectedTable == null) {
-		   throw new InvalidInputException("Error: Table not found.");
+		   throw new InvalidInputException("Error: Table not found.".trim());
 	   }
 	   if(selectedTable.hasReservations()) {
-		   throw new InvalidInputException("This table has active reservations and cannot be removed.");
+		   throw new InvalidInputException("This table has active reservations and cannot be removed.".trim());
 	   }
 
 	   RestoApp ra = RestoApplication.getRestoApp();
@@ -133,7 +133,7 @@ public class Controller {
 	   for(Order o : currentOrders) {
 		   List<Table> tablesWithOrder = o.getTables();
 		   if(tablesWithOrder.contains(selectedTable)) {
-			   throw new InvalidInputException("This table is currently in use and cannot be removed.");
+			   throw new InvalidInputException("This table is currently in use and cannot be removed.".trim());
 		   }
 	   }
 
@@ -181,7 +181,7 @@ public class Controller {
 		   error = error + " The table is reserved and cannot be modified for the moment";
 	   }
 	   if(error.length() > 0 ){
-		   throw new InvalidInputException(error);
+		   throw new InvalidInputException(error.trim());
 	   }
 	   
 	   RestoApp app = RestoApplication.getRestoApp();
@@ -192,7 +192,7 @@ public class Controller {
 		   Boolean inUse = tables.contains(aTable);
 		   if(inUse){
 			   error = "the table is in use";
-			   throw new InvalidInputException(error);
+			   throw new InvalidInputException(error.trim());
 		   }
 	   }
 	   

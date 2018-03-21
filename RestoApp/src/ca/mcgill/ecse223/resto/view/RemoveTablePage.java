@@ -1,6 +1,8 @@
 package ca.mcgill.ecse223.resto.view;
 
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.util.HashMap;
 
 import javax.swing.GroupLayout;
@@ -117,11 +119,27 @@ public class RemoveTablePage extends JFrame {
 				try {
 					Controller.removeCurrentTable(tables.get(tableToBeRemoved));
 				} catch (InvalidInputException e) {
-					error = e.getMessage();
+					createErrorFrame(e.getMessage());
 				}
 			}
 			
 			// update visuals
 			refreshData();
+	 }
+	 
+	 private void createErrorFrame(String error){
+			JFrame errorFrame = new JFrame();
+			errorFrame.setMinimumSize(new Dimension(300, 100));
+			errorFrame.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+			JLabel succesLabel = new JLabel("Error: ");
+			JLabel newInfo = new JLabel(error);
+			GridLayout layout = new GridLayout(2,1);
+			errorFrame.setLayout(layout);
+			errorFrame.add(succesLabel);
+			errorFrame.add(newInfo);
+
+			errorFrame.setVisible(true);
+			
 	 }
 }
