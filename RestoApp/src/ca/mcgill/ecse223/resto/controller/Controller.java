@@ -19,14 +19,9 @@ public class Controller {
 	public Controller(){
 		
 	}
-	
-	/*
-	 * Feature 1: Add tables and seats 
-	 * authors: Bill 
-	 */
 
     /**
-     * @author: Bill Zhang
+     * @authors: Bill Zhang, Allison Mejia
      * This function adds a table to the system
      * @param x : x-coordinate of the table
      * @param y : y-coordinate of the table
@@ -35,19 +30,36 @@ public class Controller {
      * @param tableNum: table number
      * @throws Exception: when either width or length is negative
      */
-	public static void addTable(int x, int y, int width, int length, int tableNum, int numSeat) throws Exception{
+	public static void addTable(int x, int y, int width, int length, int tableNum, int numSeat)  throws InvalidInputException{
 	    if(width<=0){
-	        throw new Exception("Width Must Be Positive");
+	        throw new InvalidInputException("Width Must Be Positive");
         }else if(length<=0){
-	        throw new Exception("Length Must Be Positive");
+	        throw new InvalidInputException("Length Must Be Positive");
         }else if(numSeat<=0) {
-        	throw new Exception("Number of Seat Must be Positive "); 
-        }else{
+        	throw new InvalidInputException("Number of Seat Must be Positive "); 
+        }else if(x < 0){
+        	throw new InvalidInputException("X-Axis Position Must be Positive "); 
+        }else if(y < 0){
+        	throw new InvalidInputException("Y-Axis Position Must be Positive "); 
+     	}else{
+        
         
 	        RestoApp rm = RestoApplication.getRestoApp();
-	        Table t = new Table(tableNum, x, y, width, length, rm);
-	        addSeat(numSeat, t); 
-	        rm.addTable(t);
+	        List<Table> currentTables = rm.getCurrentTables();
+	        boolean overlaps = false;
+	        for(Table t: currentTables){
+	        	overlaps = t.doesOverlap(x, y, width, length);
+	        	if(overlaps){
+	        		throw new InvalidInputException("New Table Overlaps With Current Table");
+	        	}
+	        }
+	        Table newTable = new Table(tableNum, x, y, width, length, rm);
+	        rm.addCurrentTable(newTable);
+	        for(int i = 0; i < numSeat; i++ ){
+	        	Seat seat = newTable.addSeat();
+	        	newTable.addCurrentSeat(seat);
+	        }
+	    
 	        RestoApplication.save();
 
         }
@@ -157,19 +169,19 @@ public class Controller {
    public static Table updateTable(Table aTable, int newNumber, int numberOfSeats) throws InvalidInputException {
 	   String error = "";
 	   if(aTable == null){
-		   error = "table does not exist";
+		   error = error + "table does not exist";
 	   }
 	   if( newNumber < 0){
-		   error = "cannot have a negative new table number";
+		   error = error + " cannot have a negative new table number";
 	   }
 	   if(numberOfSeats <0){
-		   error = "cannot have negative number of seats";
+		   error = error + " cannot have negative number of seats";
 	   }
 	   if(aTable.hasReservations()){
-		   error = "The table is reserved and cannot be modified for the moment";
+		   error = error + " The table is reserved and cannot be modified for the moment";
 	   }
 	   if(error.length() > 0 ){
-		   throw new InvalidInputException(error.trim());
+		   throw new InvalidInputException(error);
 	   }
 	   
 	   RestoApp app = RestoApplication.getRestoApp();
@@ -180,14 +192,14 @@ public class Controller {
 		   Boolean inUse = tables.contains(aTable);
 		   if(inUse){
 			   error = "the table is in use";
-			   throw new InvalidInputException(error.trim());
+			   throw new InvalidInputException(error);
 		   }
 	   }
 	   
-	   if(aTable.getNumber() == newNumber){
-		   error = "error : duplicate table number";
-		   throw new InvalidInputException(error.trim());
-	   }
+	   //if(aTable.getNumber() == newNumber){
+		//   error = "error : duplicate table number";
+		 //  throw new InvalidInputException(error.trim());
+	   //}
 	   
 	   aTable.setNumber(newNumber);
 	   

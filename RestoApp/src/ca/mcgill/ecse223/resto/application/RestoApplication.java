@@ -14,14 +14,9 @@ import ca.mcgill.ecse223.resto.view.RestoAppUI;
 
 public class RestoApplication {
 	private static RestoApp restoApp;
-	private static String filename = "./menu.resto";
+	private static String filename = "./menu v2.resto";
 
 	public static void main(String[] args) throws InvalidInputException {
-		/*
-		 * Information: data.resto will contain our restoApp data. It already has the menu provided
-		 * by the prof.
-		 * IMPORTANT: Change the filename string to your path directory. Mainly change /Users/?/?/?/.../data.resto
-		 */
 		/*restoApp = null;
 		restoApp = load();
 		for(MenuItem mi : restoApp.getMenu().getMenuItems()) {
@@ -31,11 +26,14 @@ public class RestoApplication {
 		for(MenuItem mi : menu.getMenu().getMenuItems()) {
 			System.out.println(mi.getName());
 		}
+		for(Table t: menu.getCurrentTables()){
+			System.out.println("Table "+t.getNumber());
+		}
 
-		List<MenuItem> menuItems = Controller.getMenuItems(MenuItem.ItemCategory.AlcoholicBeverage);
+		//List<MenuItem> menuItems = Controller.getMenuItems(MenuItem.ItemCategory.AlcoholicBeverage);
 
-		RestoApp app = menu;
-		setRestoAppSimple(app);
+		//RestoApp app = menu;
+		//setRestoAppSimple(app);
 
 		//RestaurantMenuPage restaurantMenuPage = new RestaurantMenuPage();
 		//TableAddingMenu addMenu = new TableAddingMenu();

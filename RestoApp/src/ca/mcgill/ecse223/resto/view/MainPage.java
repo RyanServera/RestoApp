@@ -1,5 +1,6 @@
 package ca.mcgill.ecse223.resto.view;
 import ca.mcgill.ecse223.resto.application.RestoApplication;
+import ca.mcgill.ecse223.resto.controller.Controller;
 import ca.mcgill.ecse223.resto.model.Table;
 
 public class MainPage extends javax.swing.JPanel {
@@ -94,17 +95,17 @@ public class MainPage extends javax.swing.JPanel {
     }// </editor-fold>                        
 
     private void deleteTableButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                  
-        // TODO add your handling code here:
+    	RemoveTablePage deleteTableUI = new RemoveTablePage();
     }                                                 
 
     private void addTableButtonActionPerformed(java.awt.event.ActionEvent evt) {                                               
-        // TODO add your handling code here:
+    	TableAddingMenu addingTableUI = new TableAddingMenu();
     }                                              
 
     private void editTableButtonActionPerformed(java.awt.event.ActionEvent evt) {  
     	if(selectedTable == null){
     		//this is only for testing purpose, usually not allowed to have null table
-    		Table aSimpleTable = new Table(100, 0, 0, 1, 1, RestoApplication.getRestoApp());
+    		Table aSimpleTable = Controller.listAllTables().get(0);
     		selectedTable = aSimpleTable;
     	}
     	TableSettingsMenu settingsMenu = new TableSettingsMenu(selectedTable);
@@ -112,7 +113,7 @@ public class MainPage extends javax.swing.JPanel {
     }                                               
 
     private void MenuButtonActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        RestaurantMenuPage menuPageUi = new RestaurantMenuPage();
+        RestaurantMenuPage menuPageUI = new RestaurantMenuPage();
     }                                          
 
 

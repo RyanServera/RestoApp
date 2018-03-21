@@ -42,7 +42,7 @@ public class RemoveTablePage extends JFrame {
 	 private void initComponents() {
 		 
 		// Global Settings and Listeners
-			setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+			setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			setTitle("Remove Table");
 			
 		 errorMessage = new JLabel();
@@ -84,6 +84,7 @@ public class RemoveTablePage extends JFrame {
 				 );
 		 
 		 pack();
+		 setVisible(true);
 	 }
 	 
 	 private void refreshData() {
