@@ -266,8 +266,6 @@ public class TableAddingMenu extends javax.swing.JFrame{
 		}
 
 		createSuccesFrame(tnumber);
-		GLabeledRect rect = new GLabeledRect(width, length, tnumber);
-		rect.setFont("SansSerif-24");
 		
 	}
 

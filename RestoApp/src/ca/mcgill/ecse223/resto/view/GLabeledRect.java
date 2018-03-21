@@ -2,11 +2,11 @@ package ca.mcgill.ecse223.resto.view;
 
 import acm.graphics.*;
 
-
+//From Prof Ferrie's ECSE 202 Class
 
 public class GLabeledRect extends GCompound {
 	
-	public GLabeledRect (int width, int height, int tableNum){
+	public GLabeledRect (double width, double height, int tableNum){
 		frame = new GRect(width, height);
 		add(frame);
 	    label = new GLabel(Integer.toString(tableNum));
@@ -14,7 +14,7 @@ public class GLabeledRect extends GCompound {
 		recenterLabel();
 	}
 	
-	public GLabeledRect (int x, int y, int width, int height, int tableNum){
+	public GLabeledRect (double x, double y, double width, double height, int tableNum){
 		this(width, height, tableNum);
 		setLocation(x, y);
 	}
