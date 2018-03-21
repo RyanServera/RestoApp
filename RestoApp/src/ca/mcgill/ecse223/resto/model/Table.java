@@ -1,5 +1,5 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.26.0-b05b57321 modeling language!*/
+/*This code was generated using the UMPLE 1.27.0.3728.d139ed893 modeling language!*/
 
 package ca.mcgill.ecse223.resto.model;
 import java.io.Serializable;
@@ -871,7 +871,10 @@ public class Table implements Serializable
     currentSeats.clear();
     RestoApp placeholderRestoApp = restoApp;
     this.restoApp = null;
-    placeholderRestoApp.removeTable(this);
+    if(placeholderRestoApp != null)
+    {
+      placeholderRestoApp.removeTable(this);
+    }
     ArrayList<Reservation> copyOfReservations = new ArrayList<Reservation>(reservations);
     reservations.clear();
     for(Reservation aReservation : copyOfReservations)
@@ -906,28 +909,32 @@ public class Table implements Serializable
    */
   // line 59 "../../../../../RestoAppTableStateMachine.ump"
    private boolean quantityNotNegative(int quantity){
-    // TODO
-      return false;
+    return (quantity > 0);
   }
 
 
   /**
    * check that the provided order item is the last item of the current order of the table
    */
-  // line 65 "../../../../../RestoAppTableStateMachine.ump"
+  // line 64 "../../../../../RestoAppTableStateMachine.ump"
    private boolean iIsLastItem(OrderItem i){
-    // TODO
-      return false;
+    return (i.getOrder().numberOfOrderItems() == 1);
   }
 
 
   /**
    * check that all seats of the table have a bill that belongs to the current order of the table
    */
-  // line 71 "../../../../../RestoAppTableStateMachine.ump"
+  // line 69 "../../../../../RestoAppTableStateMachine.ump"
    private boolean allSeatsBilled(){
-    // TODO
-      return false;
+    List<Seat> seats = getCurrentSeats();
+      Order o = getOrder(numberOfOrders()-1);
+      for(Seat s : seats){
+      	if(o.indexOfBill(s.getBill(s.numberOfBills()-1)) == -1){
+      		return false;
+      	}
+      }
+      return true;
   }
 
   // line 39 "../../../../../RestoApp v3.ump"
@@ -962,7 +969,7 @@ public class Table implements Serializable
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
-  // line 32 ../../../../../RestoAppPersistence.ump
+  // line 32 "../../../../../RestoAppPersistence.ump"
   private static final long serialVersionUID = 8896099581655989380L ;
 
   
