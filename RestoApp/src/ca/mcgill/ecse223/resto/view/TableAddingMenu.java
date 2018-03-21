@@ -10,10 +10,15 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import acm.graphics.GCompound;
+import acm.graphics.GLabel;
+import acm.graphics.GRect;
 import ca.mcgill.ecse223.resto.controller.Controller;
 import ca.mcgill.ecse223.resto.controller.InvalidInputException;
 import ca.mcgill.ecse223.resto.model.Seat;
 import ca.mcgill.ecse223.resto.model.Table;
+import ca.mcgill.ecse223.resto.view.GLabeledRect;
+
 
 
 public class TableAddingMenu extends javax.swing.JFrame{
@@ -261,6 +266,9 @@ public class TableAddingMenu extends javax.swing.JFrame{
 		}
 
 		createSuccesFrame(tnumber);
+		GLabeledRect rect = new GLabeledRect(width, length, tnumber);
+		rect.setFont("SansSerif-24");
+		
 	}
 
 	private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {
@@ -284,6 +292,4 @@ public class TableAddingMenu extends javax.swing.JFrame{
 
 
 	}
-
-
 }
