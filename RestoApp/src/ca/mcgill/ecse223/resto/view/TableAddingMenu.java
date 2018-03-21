@@ -266,7 +266,6 @@ public class TableAddingMenu extends javax.swing.JFrame{
 		}
 
 		createSuccesFrame(tnumber);
-		
 	}
 
 	private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {

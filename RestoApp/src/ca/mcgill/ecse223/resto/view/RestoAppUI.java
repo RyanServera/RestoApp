@@ -22,7 +22,7 @@ public class RestoAppUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
  
-        jScrollPane1 = new javax.swing.JScrollPane();
+        jScrollPane1 = new DragCanvas();
         tabbedPane = new javax.swing.JTabbedPane();
         MainPage mainPage = new MainPage();
         tabbedPane.addTab("home", mainPage);
@@ -55,7 +55,7 @@ public class RestoAppUI extends javax.swing.JFrame {
     
 
     // Variables declaration - do not modify                     
-    private javax.swing.JScrollPane jScrollPane1;
+    private DragCanvas jScrollPane1;
     private javax.swing.JTabbedPane tabbedPane;
    
     // End of variables declaration                   

@@ -13,6 +13,9 @@ public class DragCanvas extends GCanvas implements MouseListener, MouseMotionLis
 	int tabNum;
 	GLabeledRect rect;
 	
+	public DragCanvas(){
+				
+	}
 	public DragCanvas (double xTable, double yTable, double widthTable, double lengthTable, int tableNum) {
 		x = xTable;
 		y = yTable;
@@ -37,9 +40,8 @@ public class DragCanvas extends GCanvas implements MouseListener, MouseMotionLis
 			x = xDrag - offX;
 			y = yDrag - offY;
 			
-			GLabeledRect newRect = new GLabeledRect(x, y, width, height, tabNum);
-			add(newRect);
 			remove(rect);
+			DragCanvas dc = new DragCanvas(x, y, width, height, tabNum);
 		}
 		
 	}
