@@ -340,6 +340,27 @@ public class Reservation implements Serializable
     wasSet = true;
     return wasSet;
   }
+  public boolean doesOverlap(Date d, Time t) {
+	if(this.getDate().equals(d)) {
+		Time rt = this.getTime(); 
+		Time rt1 = this.getTime(); 
+		Time t1 = (Time) t.clone(); 
+		long plus2 = rt.getTime() + 7200000;
+		long plus = t.getTime() - 7200000; 
+		rt.setTime(plus2);
+		t1.setTime(plus);
+		
+		if(t.before(rt)) {
+			return true; 
+		}else if(t1.after(rt1)) {
+			return true; 
+		}else return false; 
+		
+	}else { 
+		return false; 
+	} 
+  }
+
 
   public void delete()
   {
