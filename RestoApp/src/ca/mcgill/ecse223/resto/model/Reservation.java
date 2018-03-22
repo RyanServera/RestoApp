@@ -340,6 +340,12 @@ public class Reservation implements Serializable
     wasSet = true;
     return wasSet;
   }
+  /**
+   * @author Bill Zhang 
+   * @param d
+   * @param t
+   * @return
+   */
   public boolean doesOverlap(Date d, Time t) {
 	if(this.getDate().equals(d)) {
 		Time rt = this.getTime(); 

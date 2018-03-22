@@ -28,6 +28,7 @@ public class testController {
 		Date date = new Date(System.currentTimeMillis() + 86400000);
 		System.out.println(date);
 		Time time = new Time(System.currentTimeMillis() + 8000000);
+		Time time1 = new Time(System.currentTimeMillis() + 7800000); 
 		System.out.println(time);
 		int numberInParty = 2;
 		String contactName = "Bill";
@@ -49,6 +50,9 @@ public class testController {
 			try {
 				con.reserveTable(date, time, numberInParty, contactName, contactEmailAddress, contactPhoneNumber,
 						tables);
+				con.reserveTable(date, time1, numberInParty, contactName, contactEmailAddress, contactPhoneNumber,
+						tables);
+				
 			} catch (InvalidInputException e) {
 				System.out.println(e);
 			}
