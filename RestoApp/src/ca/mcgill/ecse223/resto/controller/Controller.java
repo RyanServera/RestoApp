@@ -1,12 +1,14 @@
 package ca.mcgill.ecse223.resto.controller;
 
+import java.sql.Date;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
+
 import ca.mcgill.ecse223.resto.application.RestoApplication;
-import ca.mcgill.ecse223.resto.model.RestoApp;
-import ca.mcgill.ecse223.resto.model.Table;
 import ca.mcgill.ecse223.resto.model.*;
 import ca.mcgill.ecse223.resto.model.MenuItem.ItemCategory;
 
@@ -332,5 +334,67 @@ public class Controller {
 
 		return desiredItems;
 	}
-
+	
+	/**
+	 * Feature: Reserve a table
+	 * Author: Thomas Labourdette & Bill Zhang 
+	 * @param x: x-coordinate 
+	 * @param y: y-coordinate 
+	 * @throws Exception:
+	 */
+	
+	public void reserveTable(Date date, Time time, int numberInParty, String contactName, String contactEmailAddress, String contactPhoneNumber, List<Table> tables) throws InvalidInputException 
+	{
+		
+		long mills = System.currentTimeMillis(); 
+		Date today = new Date(mills); 
+		Time now = new Time(mills); 
+		
+		if(date == null) {
+			throw new InvalidInputException("Date Required"); 
+		}else if(time == null) {
+			throw new InvalidInputException("Time Requried"); 
+		}else if(contactName == null) {
+			throw new InvalidInputException("Name Required"); 
+		}else if(contactEmailAddress == null) {
+			throw new InvalidInputException("Email Required"); 
+		}else if(contactPhoneNumber == null) {
+			throw new InvalidInputException("Phone Number Required"); 
+		}else if(numberInParty <= 0) {
+			throw new InvalidInputException("Number must be greater than 0"); 
+		}else if(date.before(today)) {
+			throw new InvalidInputException("Enter A Valid Date" + today); 
+		}else if(time.before(now)) {
+			throw new InvalidInputException("Enter A Valid Time"); 
+		}else { 
+			RestoApp rm = RestoApplication.getRestoApp(); 
+			int seatCapacity = 0; 
+			List<Table> current = rm.getCurrentTables(); 
+			for(Table t: tables) {
+				if(!current.contains(t)) {
+					throw new InvalidInputException("Reserved table does not exist in the current tables"); 
+				}
+				seatCapacity = seatCapacity+ t.numberOfCurrentSeats(); 
+				List<Reservation> reservations = t.getReservations(); 
+				for(Reservation r: reservations) {
+					//check for overlapping
+					if(r.doesOverlap(date, time)) {
+						throw new InvalidInputException("Time Overlap"); 
+					}
+				}
+			}
+			if(numberInParty > seatCapacity) {
+				throw new InvalidInputException("Not Enough Seat: " + seatCapacity); 
+			}else {
+				Table[] tablesArray = (Table[]) tables.toArray(new Table[tables.size()]);
+				Reservation newrv = new Reservation(date, time, numberInParty, 
+						contactName, contactEmailAddress, contactPhoneNumber, rm, tablesArray); 
+				rm.addReservation(newrv); 
+				RestoApplication.save();
+			}
+		}
+		
+	}
+	
+	
 }
