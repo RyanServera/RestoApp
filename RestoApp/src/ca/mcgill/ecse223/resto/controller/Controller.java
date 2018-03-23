@@ -108,6 +108,12 @@ public class Controller {
 
         return null;
    }
+   
+   public static Table returnTable() {
+	   RestoApp rm = RestoApplication.getRestoApp(); 
+	   Table t = rm.getTable(0); 
+	   return t; 
+   }
     /*
 	 * Feature 2: Remove tables
 	 * authors: Jake

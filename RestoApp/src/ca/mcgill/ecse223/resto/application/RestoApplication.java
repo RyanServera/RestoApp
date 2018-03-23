@@ -29,6 +29,9 @@ public class RestoApplication {
 		for(Table t: menu.getCurrentTables()){
 			System.out.println("Table "+t.getNumber());
 		}
+		for(Reservation r: menu.getReservations()) {
+			System.out.println("Reservation "+r.getDate()); 
+		}
 
 		//List<MenuItem> menuItems = Controller.getMenuItems(MenuItem.ItemCategory.AlcoholicBeverage);
 
