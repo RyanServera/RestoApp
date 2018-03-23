@@ -27,10 +27,16 @@ public class RestoApplication {
 			System.out.println(mi.getName());
 		}
 		for(Table t: menu.getCurrentTables()){
-			System.out.println("Table "+t.getNumber());
+			System.out.println("Table "+t.getNumber() + " X:" + t.getX() + " Y:" + t.getY()
+			+ " Size:" + t.getLength() + "x" + t.getWidth());
 		}
 		for(Reservation r: menu.getReservations()) {
 			System.out.println("Reservation "+r.getDate()); 
+			int index; 
+			List<Table> tables = r.getTables(); 
+			for(index = 0; index < tables.size(); index++) {
+				System.out.println("Table(s):" + r.getTable(index).getNumber()); 
+			} 
 		}
 
 		//List<MenuItem> menuItems = Controller.getMenuItems(MenuItem.ItemCategory.AlcoholicBeverage);
