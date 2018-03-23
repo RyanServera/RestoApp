@@ -338,12 +338,10 @@ public class Controller {
 	/**
 	 * Feature: Reserve a table
 	 * Author: Thomas Labourdette & Bill Zhang 
-	 * @param x: x-coordinate 
-	 * @param y: y-coordinate 
 	 * @throws Exception:
 	 */
 	
-	public void reserveTable(Date date, Time time, int numberInParty, String contactName, String contactEmailAddress, String contactPhoneNumber, List<Table> tables) throws InvalidInputException 
+	public static void reserveTable(Date date, Time time, int numberInParty, String contactName, String contactEmailAddress, String contactPhoneNumber, List<Table> tables) throws InvalidInputException 
 	{
 		
 		long mills = System.currentTimeMillis(); 
@@ -363,10 +361,11 @@ public class Controller {
 		}else if(numberInParty <= 0) {
 			throw new InvalidInputException("Number must be greater than 0"); 
 		}else if(date.before(today)) {
-			throw new InvalidInputException("Enter A Valid Date" + today); 
-		}else if(time.before(now)) {
-			throw new InvalidInputException("Enter A Valid Time"); 
-		}else { 
+			throw new InvalidInputException("Date is in the past, today is " + today); 
+		}else if((time.getHours() < now.getHours()) || (time.getHours() == now.getHours() && time.getMinutes() < now.getMinutes()) || (time.getHours() == now.getHours() && time.getMinutes() == now.getMinutes() && time.getSeconds() < now.getSeconds())) {
+			throw new InvalidInputException("Time is in the past, it is " + now); 
+		}
+	else { 
 			RestoApp rm = RestoApplication.getRestoApp(); 
 			int seatCapacity = 0; 
 			List<Table> current = rm.getCurrentTables(); 
