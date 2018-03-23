@@ -61,6 +61,11 @@ public class DragCanvas extends GCanvas implements MouseListener, MouseMotionLis
 		labeledRects.add(rect);
 		add(rect);
 	}
+	
+	public void refreshData(){
+		this.removeAll();
+		for(GLabeledRect table: labeledRects) this.add(table);
+	}
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
