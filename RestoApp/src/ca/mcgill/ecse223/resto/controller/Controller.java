@@ -338,12 +338,10 @@ public class Controller {
 	/**
 	 * Feature: Reserve a table
 	 * Author: Thomas Labourdette & Bill Zhang 
-	 * @param x: x-coordinate 
-	 * @param y: y-coordinate 
 	 * @throws Exception:
 	 */
 	
-	public void reserveTable(Date date, Time time, int numberInParty, String contactName, String contactEmailAddress, String contactPhoneNumber, List<Table> tables) throws InvalidInputException 
+	public static void reserveTable(Date date, Time time, int numberInParty, String contactName, String contactEmailAddress, String contactPhoneNumber, List<Table> tables) throws InvalidInputException 
 	{
 		
 		long mills = System.currentTimeMillis(); 
@@ -363,10 +361,11 @@ public class Controller {
 		}else if(numberInParty <= 0) {
 			throw new InvalidInputException("Number must be greater than 0"); 
 		}else if(date.before(today)) {
-			throw new InvalidInputException("Enter A Valid Date" + today); 
-		}else if(time.before(now)) {
-			throw new InvalidInputException("Enter A Valid Time"); 
-		}else { 
+			throw new InvalidInputException("Date is in the past, today is " + today); 
+		}else if((time.getHours() < now.getHours()) || (time.getHours() == now.getHours() && time.getMinutes() < now.getMinutes()) || (time.getHours() == now.getHours() && time.getMinutes() == now.getMinutes() && time.getSeconds() < now.getSeconds())) {
+			throw new InvalidInputException("Time is in the past, it is " + now); 
+		}
+	else { 
 			RestoApp rm = RestoApplication.getRestoApp(); 
 			int seatCapacity = 0; 
 			List<Table> current = rm.getCurrentTables(); 
@@ -395,6 +394,121 @@ public class Controller {
 		}
 		
 	}
-	
-	
+
+	/**
+	 *
+	 * Author: Ryan Servera
+	 * @param tables
+	 * @throws InvalidInputException
+	 */
+
+	public static void startOrder(List<Table> tables) throws InvalidInputException{
+		String error ="";
+
+		if(tables == null){
+			error = "Please Insert Tables";
+			throw new InvalidInputException(error.trim());
+		}
+
+		RestoApp rm = RestoApplication.getRestoApp();
+		List<Table> currentTables = rm.getCurrentTables();
+
+		for(Table table: tables){
+			boolean current = currentTables.contains(table);
+
+			if(!current){
+				error = "Please Ensure That All Tables Selected Were Valid";
+				throw new InvalidInputException(error.trim());
+			}
+		}
+
+		boolean orderCreated = false;
+		Order newOrder = null;
+
+		for(Table table: tables){
+			if(orderCreated){
+				table.addToOrder(newOrder);
+			}else{
+
+				Order lastOrder = null;
+				if(table.numberOfOrders() > 0){
+					lastOrder = table.getOrder(table.numberOfOrders()-1);
+				}
+
+				table.startOrder();
+
+				if(table.numberOfOrders() > 0 && !table.getOrder(table.numberOfOrders()-1).equals(lastOrder)){
+					orderCreated = true;
+					newOrder = table.getOrder(table.numberOfOrders() - 1);
+				}
+			}
+		}
+
+		if(!orderCreated){
+			error = "Error: Order Could Not Be Created";
+			throw new InvalidInputException(error.trim());
+		}
+
+		rm.addCurrentOrder(newOrder);
+		RestoApplication.save();
+	}
+
+	/**
+	 *
+	 * Author: Ryan Servera
+	 * @param order
+	 * @throws InvalidInputException
+	 */
+
+	public static void endOrder(Order order) throws InvalidInputException{
+
+		String error ="";
+
+		if(order == null){
+			error = "Please Select an Order";
+			throw new InvalidInputException(error.trim());
+		}
+
+		RestoApp rm = RestoApplication.getRestoApp();
+		List<Order> currentOrders = rm.getCurrentOrders();
+
+		boolean current = currentOrders.contains(order);
+
+		if(!current){
+			error = "Please Ensure The Order Selected Is Valid";
+			throw new InvalidInputException(error.trim());
+		}
+
+		List<Table> tables = order.getTables();
+		int numberOfTables = tables.size();
+		for(int i = 0; 0 < tables.size(); i = 0){
+			Table table = tables.get(i);
+			if (table.numberOfOrders() > 0
+					&& table.getOrder(table.numberOfOrders() - 1).equals(order)){
+				table.endOrder(order);
+			}
+		}
+
+		if(allTablesAvailableOrDifferentCurrentOrder(tables, order)){
+			rm.removeCurrentOrder(order);
+		}
+
+		RestoApplication.save();
+	}
+
+	/**
+	 * Helper
+	 * Author: Ryan Servera
+	 * @param tables
+	 * @param order
+	 * @return
+	 */
+	private static boolean allTablesAvailableOrDifferentCurrentOrder(List<Table> tables, Order order){
+		for(Table table: tables){
+			if(!table.getStatus().equals(Table.Status.Available) || table.getOrder(table.numberOfOrders() - 1).equals(order)){
+				return false;
+			}
+		}
+		return true;
+	}
 }
