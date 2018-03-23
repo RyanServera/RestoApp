@@ -2,6 +2,7 @@ package ca.mcgill.ecse223.resto.view;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
+import ca.mcgill.ecse223.resto.controller.Controller;
 import ca.mcgill.ecse223.resto.model.Table;
 
 public class RestoAppUI extends javax.swing.JFrame {
@@ -22,7 +23,7 @@ public class RestoAppUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
  
-        jScrollPane1 = new javax.swing.JScrollPane();
+        jScrollPane1 = new DragCanvas(Controller.listAllTables());
         tabbedPane = new javax.swing.JTabbedPane();
         MainPage mainPage = new MainPage();
         tabbedPane.addTab("home", mainPage);
@@ -55,7 +56,7 @@ public class RestoAppUI extends javax.swing.JFrame {
     
 
     // Variables declaration - do not modify                     
-    private javax.swing.JScrollPane jScrollPane1;
+    private DragCanvas jScrollPane1;
     private javax.swing.JTabbedPane tabbedPane;
    
     // End of variables declaration                   
