@@ -368,7 +368,7 @@ public class Controller {
 			throw new InvalidInputException("Number must be greater than 0"); 
 		}else if(date.before(today)) {
 			throw new InvalidInputException("Date is in the past, today is " + today); 
-		}else if((time.getHours() < now.getHours()) || (time.getHours() == now.getHours() && time.getMinutes() < now.getMinutes()) || (time.getHours() == now.getHours() && time.getMinutes() == now.getMinutes() && time.getSeconds() < now.getSeconds())) {
+		}else if((date.equals(today)) && ((time.getHours() < now.getHours()) || (time.getHours() == now.getHours() && time.getMinutes() < now.getMinutes()) || (time.getHours() == now.getHours() && time.getMinutes() == now.getMinutes() && time.getSeconds() < now.getSeconds()))) {
 			throw new InvalidInputException("Time is in the past, it is " + now); 
 		}
 	else { 
