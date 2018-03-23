@@ -265,6 +265,8 @@ public class TableAddingMenu extends javax.swing.JFrame{
 		}
 
 		//createSuccesFrame(tnumber);
+		GLabeledRect newTable = new GLabeledRect((double)x, (double)y, (double)width, (double)length, tnumber);
+		DragCanvas.labeledRects.add(newTable);
 	}
 
 	private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {
