@@ -103,7 +103,7 @@ public class RestaurantMenuPage extends JFrame {
             try {
                 menuItemsInCategory = Controller.getMenuItems(itemCategory);
             } catch (InvalidInputException e) {
-                e.printStackTrace();
+                createErrorFrame(e.getMessage());
             }
             for (final MenuItem restaurantItem : menuItemsInCategory) {
                 JMenuItem item = new JMenuItem(restaurantItem.getName());
@@ -117,6 +117,22 @@ public class RestaurantMenuPage extends JFrame {
             }
         }
     }
+    
+    private void createErrorFrame(String error){
+		JFrame errorFrame = new JFrame();
+		errorFrame.setMinimumSize(new Dimension(400, 100));
+		errorFrame.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+		JLabel succesLabel = new JLabel("Error: ");
+		JLabel newInfo = new JLabel(error);
+		GridLayout layout = new GridLayout(2,1);
+		errorFrame.setLayout(layout);
+		errorFrame.add(succesLabel);
+		errorFrame.add(newInfo);
+
+		errorFrame.setVisible(true);
+		
+	}
 
     private void createItemInfo(MenuItem menuItem){
         foodLabel.setText(menuItem.getName());

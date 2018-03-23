@@ -181,8 +181,7 @@ public class TableSettingsMenu extends javax.swing.JFrame {
         try {
 			 tableUpdated = Controller.updateTable(this.table, newTableNumber, newSeatNumbers);
 		} catch (InvalidInputException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			createErrorFrame(e.getMessage());
 		}
         if(tableUpdated !=null){
         	createSuccesFrame(tableUpdated);
@@ -209,6 +208,22 @@ public class TableSettingsMenu extends javax.swing.JFrame {
     	
     	
     }
+    
+    private void createErrorFrame(String error){
+		JFrame errorFrame = new JFrame();
+		errorFrame.setMinimumSize(new Dimension(300, 100));
+		errorFrame.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+		JLabel succesLabel = new JLabel("Error: ");
+		JLabel newInfo = new JLabel(error);
+		GridLayout layout = new GridLayout(2,1);
+		errorFrame.setLayout(layout);
+		errorFrame.add(succesLabel);
+		errorFrame.add(newInfo);
+
+		errorFrame.setVisible(true);
+		
+	}
 
 
     // Variables declaration - do not modify                     

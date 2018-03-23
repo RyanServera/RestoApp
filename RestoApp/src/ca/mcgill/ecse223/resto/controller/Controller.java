@@ -1,12 +1,14 @@
 package ca.mcgill.ecse223.resto.controller;
 
+import java.sql.Date;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
+
 import ca.mcgill.ecse223.resto.application.RestoApplication;
-import ca.mcgill.ecse223.resto.model.RestoApp;
-import ca.mcgill.ecse223.resto.model.Table;
 import ca.mcgill.ecse223.resto.model.*;
 import ca.mcgill.ecse223.resto.model.MenuItem.ItemCategory;
 
@@ -32,15 +34,15 @@ public class Controller {
      */
 	public static void addTable(int x, int y, int width, int length, int tableNum, int numSeat)  throws InvalidInputException{
 	    if(width<=0){
-	        throw new InvalidInputException("Width Must Be Positive");
+	        throw new InvalidInputException("Width Must Be Positive".trim());
         }else if(length<=0){
-	        throw new InvalidInputException("Length Must Be Positive");
+	        throw new InvalidInputException("Length Must Be Positive".trim());
         }else if(numSeat<=0) {
-        	throw new InvalidInputException("Number of Seat Must be Positive "); 
+        	throw new InvalidInputException("Number of Seat Must be Positive".trim()); 
         }else if(x < 0){
-        	throw new InvalidInputException("X-Axis Position Must be Positive "); 
+        	throw new InvalidInputException("X-Axis Position Must be Positive".trim()); 
         }else if(y < 0){
-        	throw new InvalidInputException("Y-Axis Position Must be Positive "); 
+        	throw new InvalidInputException("Y-Axis Position Must be Positive".trim()); 
      	}else{
         
         
@@ -50,7 +52,7 @@ public class Controller {
 	        for(Table t: currentTables){
 	        	overlaps = t.doesOverlap(x, y, width, length);
 	        	if(overlaps){
-	        		throw new InvalidInputException("New Table Overlaps With Current Table");
+	        		throw new InvalidInputException("New Table Overlaps With Current Table".trim());
 	        	}
 	        }
 	        Table newTable = new Table(tableNum, x, y, width, length, rm);
@@ -74,7 +76,7 @@ public class Controller {
      */
     public static void addSeat(int numSeat, Table t) throws Exception{
 	    if(numSeat<=0){
-	        throw new Exception("Number Added Must Be Positive");
+	        throw new Exception("Number Added Must Be Positive".trim());
         } else if(t == null){
 	        throw new Exception("Table Required");
         }else{
@@ -121,10 +123,10 @@ public class Controller {
    	 */
    public static void removeCurrentTable(Table selectedTable) throws InvalidInputException {
 	   if(selectedTable == null) {
-		   throw new InvalidInputException("Error: Table not found.");
+		   throw new InvalidInputException("Error: Table not found.".trim());
 	   }
 	   if(selectedTable.hasReservations()) {
-		   throw new InvalidInputException("This table has active reservations and cannot be removed.");
+		   throw new InvalidInputException("This table has active reservations and cannot be removed.".trim());
 	   }
 
 	   RestoApp ra = RestoApplication.getRestoApp();
@@ -133,7 +135,7 @@ public class Controller {
 	   for(Order o : currentOrders) {
 		   List<Table> tablesWithOrder = o.getTables();
 		   if(tablesWithOrder.contains(selectedTable)) {
-			   throw new InvalidInputException("This table is currently in use and cannot be removed.");
+			   throw new InvalidInputException("This table is currently in use and cannot be removed.".trim());
 		   }
 	   }
 
@@ -181,7 +183,7 @@ public class Controller {
 		   error = error + " The table is reserved and cannot be modified for the moment";
 	   }
 	   if(error.length() > 0 ){
-		   throw new InvalidInputException(error);
+		   throw new InvalidInputException(error.trim());
 	   }
 	   
 	   RestoApp app = RestoApplication.getRestoApp();
@@ -192,7 +194,7 @@ public class Controller {
 		   Boolean inUse = tables.contains(aTable);
 		   if(inUse){
 			   error = "the table is in use";
-			   throw new InvalidInputException(error);
+			   throw new InvalidInputException(error.trim());
 		   }
 	   }
 	   
@@ -332,5 +334,67 @@ public class Controller {
 
 		return desiredItems;
 	}
-
+	
+	/**
+	 * Feature: Reserve a table
+	 * Author: Thomas Labourdette & Bill Zhang 
+	 * @param x: x-coordinate 
+	 * @param y: y-coordinate 
+	 * @throws Exception:
+	 */
+	
+	public void reserveTable(Date date, Time time, int numberInParty, String contactName, String contactEmailAddress, String contactPhoneNumber, List<Table> tables) throws InvalidInputException 
+	{
+		
+		long mills = System.currentTimeMillis(); 
+		Date today = new Date(mills); 
+		Time now = new Time(mills); 
+		
+		if(date == null) {
+			throw new InvalidInputException("Date Required"); 
+		}else if(time == null) {
+			throw new InvalidInputException("Time Requried"); 
+		}else if(contactName == null) {
+			throw new InvalidInputException("Name Required"); 
+		}else if(contactEmailAddress == null) {
+			throw new InvalidInputException("Email Required"); 
+		}else if(contactPhoneNumber == null) {
+			throw new InvalidInputException("Phone Number Required"); 
+		}else if(numberInParty <= 0) {
+			throw new InvalidInputException("Number must be greater than 0"); 
+		}else if(date.before(today)) {
+			throw new InvalidInputException("Enter A Valid Date" + today); 
+		}else if(time.before(now)) {
+			throw new InvalidInputException("Enter A Valid Time"); 
+		}else { 
+			RestoApp rm = RestoApplication.getRestoApp(); 
+			int seatCapacity = 0; 
+			List<Table> current = rm.getCurrentTables(); 
+			for(Table t: tables) {
+				if(!current.contains(t)) {
+					throw new InvalidInputException("Reserved table does not exist in the current tables"); 
+				}
+				seatCapacity = seatCapacity+ t.numberOfCurrentSeats(); 
+				List<Reservation> reservations = t.getReservations(); 
+				for(Reservation r: reservations) {
+					//check for overlapping
+					if(r.doesOverlap(date, time)) {
+						throw new InvalidInputException("Time Overlap"); 
+					}
+				}
+			}
+			if(numberInParty > seatCapacity) {
+				throw new InvalidInputException("Not Enough Seat: " + seatCapacity); 
+			}else {
+				Table[] tablesArray = (Table[]) tables.toArray(new Table[tables.size()]);
+				Reservation newrv = new Reservation(date, time, numberInParty, 
+						contactName, contactEmailAddress, contactPhoneNumber, rm, tablesArray); 
+				rm.addReservation(newrv); 
+				RestoApplication.save();
+			}
+		}
+		
+	}
+	
+	
 }

@@ -26,6 +26,7 @@ public class MainPage extends javax.swing.JPanel {
         deleteTableButton = new javax.swing.JButton();
         editTableButton = new javax.swing.JButton();
         MenuButton = new javax.swing.JButton();
+        moveTableButton = new javax.swing.JButton();
 
         homeLabel.setText("Home");
 
@@ -56,41 +57,51 @@ public class MainPage extends javax.swing.JPanel {
                 MenuButtonActionPerformed(evt);
             }
         });
+        
+        moveTableButton.setText("Move Table");
+        moveTableButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+               moveButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(0, 20, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(MenuButton)
-                    .addComponent(editTableButton)
-                    .addComponent(deleteTableButton)
-                    .addComponent(addTableButton, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(25, 25, 25))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(66, 66, 66)
-                .addComponent(homeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        		layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(66, 66, 66)
+                    .addComponent(homeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGap(0, 23, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(moveTableButton)
+                        .addComponent(MenuButton)
+                        .addComponent(editTableButton)
+                        .addComponent(deleteTableButton)
+                        .addComponent(addTableButton, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGap(25, 25, 25))
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {MenuButton, addTableButton, deleteTableButton, editTableButton});
 
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(homeLabel)
-                .addGap(18, 18, 18)
-                .addComponent(MenuButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 130, Short.MAX_VALUE)
-                .addComponent(addTableButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(deleteTableButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(editTableButton)
-                .addGap(93, 93, 93))
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(16, 16, 16)
+                    .addComponent(homeLabel)
+                    .addGap(18, 18, 18)
+                    .addComponent(MenuButton)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 130, Short.MAX_VALUE)
+                    .addComponent(addTableButton)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(deleteTableButton)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(editTableButton)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(moveTableButton)
+                    .addGap(52, 52, 52))
         );
     }// </editor-fold>                        
 
@@ -108,13 +119,18 @@ public class MainPage extends javax.swing.JPanel {
     		Table aSimpleTable = Controller.listAllTables().get(0);
     		selectedTable = aSimpleTable;
     	}
-    	TableSettingsMenu settingsMenu = new TableSettingsMenu(selectedTable);
+    	//TableSettingsMenu settingsMenu = new TableSettingsMenu(selectedTable);
+    	SelectTableFrame selectTable = new SelectTableFrame("editTable");
     	
     }                                               
 
     private void MenuButtonActionPerformed(java.awt.event.ActionEvent evt) {                                           
         RestaurantMenuPage menuPageUI = new RestaurantMenuPage();
-    }                                          
+    }   
+    
+    private void moveButtonActionPerformed(java.awt.event.ActionEvent evt) {                                           
+    	SelectTableFrame selectTable = new SelectTableFrame("moveTable");
+    } 
 
 
     // Variables declaration - do not modify                     
@@ -122,6 +138,7 @@ public class MainPage extends javax.swing.JPanel {
     private javax.swing.JButton addTableButton;
     private javax.swing.JButton deleteTableButton;
     private javax.swing.JButton editTableButton;
+    private javax.swing.JButton moveTableButton;
     private javax.swing.JLabel homeLabel;
     private Table selectedTable = null;
     // End of variables declaration                   

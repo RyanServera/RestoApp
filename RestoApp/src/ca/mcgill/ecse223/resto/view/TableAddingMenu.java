@@ -261,11 +261,10 @@ public class TableAddingMenu extends javax.swing.JFrame{
 		try {
 			Controller.addTable(x, y, width, length, tnumber, snumber);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			createErrorFrame(e.getMessage());
 		}
 
-		createSuccesFrame(tnumber);
+		//createSuccesFrame(tnumber);
 	}
 
 	private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {
@@ -288,5 +287,21 @@ public class TableAddingMenu extends javax.swing.JFrame{
 		succesFrame.setVisible(true);
 
 
+	}
+	
+	private void createErrorFrame(String error){
+		JFrame errorFrame = new JFrame();
+		errorFrame.setMinimumSize(new Dimension(300, 100));
+		errorFrame.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+		JLabel succesLabel = new JLabel("Error: ");
+		JLabel newInfo = new JLabel(error);
+		GridLayout layout = new GridLayout(2,1);
+		errorFrame.setLayout(layout);
+		errorFrame.add(succesLabel);
+		errorFrame.add(newInfo);
+
+		errorFrame.setVisible(true);
+		
 	}
 }

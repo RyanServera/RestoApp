@@ -3,10 +3,12 @@ package ca.mcgill.ecse223.resto.view;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
 
 import acm.graphics.GCanvas;
 
 public class DragCanvas extends GCanvas implements MouseListener, MouseMotionListener{
+	public static ArrayList<GLabeledRect> labeledRects;
 	double x, y, offX, offY;
 	double width, height;
 	boolean dragging = false;
@@ -24,7 +26,7 @@ public class DragCanvas extends GCanvas implements MouseListener, MouseMotionLis
 		tabNum = tableNum;
 		
 		rect = new GLabeledRect(x, y, width, height, tableNum);
-		add(rect);	
+		labeledRects.add(rect);	
 		
 		addMouseListener(this);
 		addMouseMotionListener(this);
@@ -40,7 +42,7 @@ public class DragCanvas extends GCanvas implements MouseListener, MouseMotionLis
 			x = xDrag - offX;
 			y = yDrag - offY;
 			
-			remove(rect);
+			labeledRects.remove(rect);
 			DragCanvas dc = new DragCanvas(x, y, width, height, tabNum);
 		}
 		
