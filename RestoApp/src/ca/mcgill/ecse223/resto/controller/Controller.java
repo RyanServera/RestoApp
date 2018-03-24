@@ -95,18 +95,17 @@ public class Controller {
      * @return: the target table
      */
    public static Table getTable(int tableNum){
+	    Table t = null; 
         RestoApp rm = RestoApplication.load();
-        List<Table> tables = rm.getTables();
+        List<Table> tables = rm.getCurrentTables();
         for(int i = 0; i<tables.size(); i++){
             if(tables.get(i).getNumber() == tableNum){
-                return tables.get(i);
+                t = tables.get(i);
             }
-            else{
-                return null;
-            }
+            
         }
 
-        return null;
+        return t;
    }
    
    public static Table returnTable() {
@@ -372,13 +371,17 @@ public class Controller {
 			throw new InvalidInputException("Time is in the past, it is " + now); 
 		}
 	else { 
-			RestoApp rm = RestoApplication.getRestoApp(); 
+			RestoApp rm = RestoApplication.load(); 
 			int seatCapacity = 0; 
 			List<Table> current = rm.getCurrentTables(); 
 			for(Table t: tables) {
-				if(!current.contains(t)) {
+				//copy issue here 
+				if(current.contains(t)) {
+					System.out.println("Current: "+ current.size());
 					throw new InvalidInputException("Reserved table does not exist in the current tables"); 
+					
 				}
+				
 				seatCapacity = seatCapacity+ t.numberOfCurrentSeats(); 
 				List<Reservation> reservations = t.getReservations(); 
 				for(Reservation r: reservations) {
