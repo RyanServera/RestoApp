@@ -5,6 +5,7 @@ import java.awt.GridLayout;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -68,7 +69,7 @@ public class ReserveTable extends javax.swing.JFrame {
 		contentPane.add(lblTables);
 
 		txtEnterTables = new JTextField();
-		txtEnterTables.setText("Enter A Number");
+		txtEnterTables.setText("e.g 1,2,3");
 		txtEnterTables.setBounds(57, 188, 130, 26);
 		contentPane.add(txtEnterTables);
 		txtEnterTables.setColumns(10);
@@ -122,7 +123,62 @@ public class ReserveTable extends javax.swing.JFrame {
 	private void reserveButtonActionPerformed(java.awt.event.ActionEvent evt) {
 		// call the controller
 		String numTable = txtEnterTables.getText();
-		int numT = Integer.parseInt(numTable);
+		List<Integer> tableNums = new LinkedList<Integer>(); 
+		for (String retval: numTable.split(",")) {
+	    	 int i = Integer.parseInt(retval); 
+	    	 if(i > 0) { 
+	    		 tableNums.add(i); 
+	    		 System.out.println(i);
+	    	 } else {
+	    		 try {
+					throw new InvalidInputException("Number of Tables must be positve");
+				} catch (InvalidInputException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	    	 }
+	         
+	      }
+		Iterator<Integer> itr = tableNums.iterator(); 
+		List<Table> tables = new LinkedList<Table>(); 
+		System.out.println(tables.size());
+		System.out.println(tableNums.size());
+	    while(itr.hasNext()) {
+	    	  int index = itr.next(); 
+	    	  System.out.println("Index: " + index);
+	    	  Table table = Controller.getTable(index); 
+	    	  if(table == null) {
+	    		  System.out.println("Controller Issue");
+	    	  }
+	    	  tables.add(table); 
+	    	  
+	    }
+	    if(tables.isEmpty()) {
+	    	System.out.println("List Wrong"); 
+	    }else {
+	    	System.out.println(tables.size());
+	    	Iterator<Table> it = tables.iterator(); 
+	    	while(it.hasNext()) {
+	    		 Table t1 = it.next(); 
+	    		 System.out.println("Table Number: "+t1.getNumber() + "X: " + t1.getX());
+	    	}
+	    	try {
+	    		
+	    		Controller.reserveTable(Date.valueOf(txtYyyymmdd.getText()), Time.valueOf(txtHhmmss.getText()),
+						Integer.parseInt(txtEnterPartySize.getText()), txtEnterContactName.getText(),
+						txtEnterContactEmail.getText(), txtEnterContactNumber.getText(), tables);
+	    		
+	    	}catch(InvalidInputException e) {
+	    		createErrorFrame(e.getMessage());
+	    	}
+	    }
+	      
+	      
+	      
+	      
+	      
+	      
+		/*int numT = Integer.parseInt(numTable);
 		if (numT <= 0) {
 			try {
 				throw new InvalidInputException("Number of Tables must be positve");
@@ -150,7 +206,7 @@ public class ReserveTable extends javax.swing.JFrame {
 			} catch (InvalidInputException e) {
 				createErrorFrame(e.getMessage());
 			}
-		}
+		}*/
 	}
 
 	private void createErrorFrame(String error) {
