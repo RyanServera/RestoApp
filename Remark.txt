@@ -1,1 +1,2 @@
 The page refresh functionality is yet to be implemented, therefore, re-run the program to view any changes made by the features implemented
+The external library acm.jar is located under lib folder, based on your machine configuration, the jar file may be not present. If so, please add it to your build path
