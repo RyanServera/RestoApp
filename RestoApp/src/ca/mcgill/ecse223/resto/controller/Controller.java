@@ -373,15 +373,18 @@ public class Controller {
 	else { 
 			RestoApp rm = RestoApplication.load(); 
 			int seatCapacity = 0; 
+			int counter = 0; 
 			List<Table> current = rm.getCurrentTables(); 
 			for(Table t: tables) {
-				//copy issue here 
-				if(current.contains(t)) {
-					System.out.println("Current: "+ current.size());
-					throw new InvalidInputException("Reserved table does not exist in the current tables"); 
-					
-				}
 				
+				for(Table tc: current) {
+					if(tc.getNumber() == t.getNumber()) {
+						counter++; 
+					}
+				}
+				if(counter == 0) {
+					throw new InvalidInputException("Reserved table does not exist in the current tables"); 
+				}
 				seatCapacity = seatCapacity+ t.numberOfCurrentSeats(); 
 				List<Reservation> reservations = t.getReservations(); 
 				for(Reservation r: reservations) {
