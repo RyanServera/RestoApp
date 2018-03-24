@@ -59,5 +59,9 @@ public class RestoAppUI extends javax.swing.JFrame {
     private DragCanvas jScrollPane1;
     private javax.swing.JTabbedPane tabbedPane;
    
-    // End of variables declaration                   
+    // End of variables declaration
+    
+    /*public DragCanvas getDragCanvas () {
+    	return jScrollPane1;
+    }*/
 }
