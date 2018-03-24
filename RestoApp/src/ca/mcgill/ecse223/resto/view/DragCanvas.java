@@ -1,5 +1,6 @@
 package ca.mcgill.ecse223.resto.view;
 
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -36,7 +37,12 @@ public class DragCanvas extends GCanvas implements MouseListener, MouseMotionLis
 		for(Table table: list){
 			System.out.println("In DragCanvas, table values, table num = "+ table.getNumber()+" x = "+table.getX()+", y = "+table.getY()+" ");
 			rect = new GLabeledRect(table.getX(), table.getY(), table.getLength(), table.getWidth(), table.getNumber());
-			labeledRects.add(rect);	
+			if(table.getStatus().equals(Table.Status.Available)){
+				rect.setColor(Color.GREEN);
+			}else{
+				rect.setColor(Color.RED);
+			}
+			labeledRects.add(rect);
 			add(rect);
 		}
 	}
