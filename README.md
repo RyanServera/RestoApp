@@ -1,4 +1,7 @@
 # Group20
+
+The view package classes use an external library: acm.jar which can be found in in RestoApp/lib/. If when pulling, there are any build path issues, make sure the jar file is added to the path.
+-------------------------------------------------------
 The umple model file is under src in RestoAPP
 The persistence file data.resto is under src in RestoApp
 
