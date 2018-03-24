@@ -11,6 +11,8 @@ import java.util.List;
 import ca.mcgill.ecse223.resto.application.RestoApplication;
 import ca.mcgill.ecse223.resto.model.*;
 import ca.mcgill.ecse223.resto.model.MenuItem.ItemCategory;
+import ca.mcgill.ecse223.resto.view.RestoAppUI;
+
 
 
 public class Controller {
@@ -145,6 +147,8 @@ public class Controller {
 	   }
 
 	   ra.removeCurrentTable(selectedTable);
+	   //RestoAppUI ui = RestoApplication.getRestoAppUI();
+	   //ui.getDragCanvas().refreshData();
 	   RestoApplication.save();
 
 	  /* int numberOfCurrentTables = ra.numberOfCurrentTables();

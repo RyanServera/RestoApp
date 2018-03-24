@@ -15,6 +15,7 @@ import ca.mcgill.ecse223.resto.view.RestoAppUI;
 public class RestoApplication {
 	private static RestoApp restoApp;
 	private static String filename = "./menu v2.resto";
+	private static RestoAppUI ui;
 
 	public static void main(String[] args) throws InvalidInputException {
 		/*restoApp = null;
@@ -47,7 +48,8 @@ public class RestoApplication {
 		//RestaurantMenuPage restaurantMenuPage = new RestaurantMenuPage();
 		//TableAddingMenu addMenu = new TableAddingMenu();
 		//restoAppPage appPage = new restoAppPage();
-		RestoAppUI ui = new RestoAppUI();
+		ui = new RestoAppUI();
+		
 	}
 
 	public static void save() {
@@ -61,6 +63,15 @@ public class RestoApplication {
 		}
 		return restoApp;
 	}
+	
+	/*public static RestoAppUI getRestoAppUI() {
+		if(ui != null) {
+			return ui;
+		}
+		else {
+			return new RestoAppUI();
+		}
+	}*/
 
 	public static RestoApp load() {
 		PersistenceObjectStream.setFilename(filename);

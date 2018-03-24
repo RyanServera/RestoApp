@@ -54,7 +54,6 @@ public class RemoveTablePage extends JFrame {
 			 public void actionPerformed(java.awt.event.ActionEvent evt) {
 				 JComboBox<String> cb = (JComboBox<String>) evt.getSource();
 				 tableToBeRemoved = cb.getSelectedIndex();
-				 refreshData();
 			 }
 		 });
 		 
@@ -111,8 +110,9 @@ public class RemoveTablePage extends JFrame {
 	 private void removeSelectedTableButtonActionPerformed(java.awt.event.ActionEvent evt) {
 		// clear error message and basic input validation
 			error = "";
-			if (tableToBeRemoved < 0)
+			if (tableToBeRemoved < 0) {
 				error = "Table needs to be selected for removal.";
+			}
 			
 			if (error.length() == 0) {
 				// call the controller
