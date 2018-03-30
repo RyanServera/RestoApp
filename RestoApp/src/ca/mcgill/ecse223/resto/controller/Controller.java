@@ -527,4 +527,56 @@ public class Controller {
 		}
 		return true;
 	}
+	
+	//Feature: Issue Bill
+	
+	/**
+	 * Author: Jacob Hochstrasser
+	 * @param o: 
+	 * @param s
+	 * 
+	 */
+	
+	public static void issueNewBill(Order o, Seat s) {
+		String error = null;
+		RestoApp ra = RestoApplication.getRestoApp();
+		Table t = s.getTable();
+		checkSeatForBill(s);
+		try {
+			Bill b = new Bill(o, ra, s);
+			ra.addBill(b);
+			s.addBill(b);
+			t.billForSeat(o, s);
+		}catch(RuntimeException e) {
+			error = e.getMessage();
+		}
+		
+		RestoApplication.save();
+	}
+	
+	public static void addSeatToBill(Bill b, Seat s) {
+		String error = null;
+		RestoApp ra = RestoApplication.getRestoApp();
+		Table t = s.getTable();
+		checkSeatForBill(s);
+		if(b.indexOfIssuedForSeat(s) == -1) {
+			b.addIssuedForSeat(s);
+			s.addBill(b);
+		}
+		t.addToBill(b, s);
+		
+		RestoApplication.save();
+	}
+
+	private static void checkSeatForBill(Seat s) {
+		Bill b = s.getBill(s.numberOfBills()-1);
+		if(b.indexOfIssuedForSeat(s) != -1) {
+			b.removeIssuedForSeat(s);
+			if(!b.hasIssuedForSeats()) {
+				b.delete();
+			}
+		}
+	}
+	
+	
 }
