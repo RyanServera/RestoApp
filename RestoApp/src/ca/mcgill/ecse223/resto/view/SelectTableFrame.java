@@ -90,6 +90,11 @@ public class SelectTableFrame extends javax.swing.JFrame {
         	MoveTableUI moveTableFrame = new MoveTableUI(theTable);
         	this.dispose();
         }
+        else if(utility.equalsIgnoreCase("viewOrder")){
+        	this.setVisible(false);
+        	ViewOrderFrame viewOrderFrame = new ViewOrderFrame(theTable);
+        	this.dispose();
+        }
     }                                            
     
     public void refreshData() {
