@@ -527,6 +527,54 @@ public class Controller {
 		}
 		return true;
 	}
+
+	/**
+	 * Author: Allison
+	 * Feature: View order. This method returns the order items from a current Order
+	 * at a given table
+	 * @param table
+	 * @return
+	 * @throws InvalidInputException
+	 */
+	public static List<OrderItem> getOrderItems(Table table) throws InvalidInputException{
+		if(table.getSeats() == null){
+			throw new InvalidInputException("This table has no seats");
+		}
+		RestoApp r = RestoApplication.getRestoApp();
+		List<Table> currentTables = r.getCurrentTables();
+		Boolean current = currentTables.contains(table);
+		if(current == false){
+			throw new InvalidInputException("this is not a current table");
+		}
+		
+		Table.Status status = table.getStatus();
+		if(status == Table.Status.Available){
+			throw new InvalidInputException("The table is still available");
+		}
+		
+		Order lastOrder = null;
+		if(table.numberOfOrders() > 0){
+			lastOrder = table.getOrder(table.numberOfOrders()-1);
+		}else{
+			throw new InvalidInputException("This table has no order");
+		}
+		
+		List<Seat> currentSeats = table.getCurrentSeats();
+		
+		List<OrderItem> result = new ArrayList<OrderItem>();
+		
+		for(Seat s : currentSeats){
+			List<OrderItem> orderItems = s.getOrderItems();
+			for(OrderItem oi: orderItems){
+				Order order = oi.getOrder();
+				if(lastOrder.equals(order) && !result.contains(oi)){
+					result.add(oi);
+				}
+			}
+		}
+		
+		return result;
+	}
 	
 	/**
 	 * Feature: Cancel an OrderItem
@@ -602,5 +650,5 @@ public class Controller {
 			RestoApplication.save();
 		}
 	}
-		
 }
+

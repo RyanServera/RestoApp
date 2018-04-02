@@ -24,6 +24,9 @@ public class RestoApplication {
 			   System.out.println(mi.getName());
 		}*/
 		RestoApp menu = load();
+		//For testing purposes only
+		//delete everything before this
+		
 		for(MenuItem mi : menu.getMenu().getMenuItems()) {
 			System.out.println(mi.getName());
 		}
