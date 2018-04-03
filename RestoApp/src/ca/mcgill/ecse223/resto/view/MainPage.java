@@ -28,6 +28,7 @@ public class MainPage extends javax.swing.JPanel {
         MenuButton = new javax.swing.JButton();
         moveTableButton = new javax.swing.JButton();
         reserveTableButton = new javax.swing.JButton();
+        issueBillButton = new javax.swing.JButton();
 
         homeLabel.setText("Home");
 
@@ -72,6 +73,13 @@ public class MainPage extends javax.swing.JPanel {
                reserveTableButtonActionPerformed(evt);
             }
         });
+        
+        issueBillButton.setText("Issue Bills");
+        issueBillButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+               issueBillButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -89,7 +97,8 @@ public class MainPage extends javax.swing.JPanel {
                         .addComponent(editTableButton)
                         .addComponent(deleteTableButton)
                         .addComponent(reserveTableButton)
-                        .addComponent(addTableButton, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(addTableButton, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(issueBillButton))
                     .addGap(25, 25, 25))
         );
 
@@ -112,6 +121,8 @@ public class MainPage extends javax.swing.JPanel {
                     .addComponent(moveTableButton)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                     .addComponent(reserveTableButton)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(issueBillButton)
                     .addGap(52, 52, 52))
         );
     }// </editor-fold>                        
@@ -146,6 +157,10 @@ public class MainPage extends javax.swing.JPanel {
     private void reserveTableButtonActionPerformed(java.awt.event.ActionEvent evt) {                                           
     	ReserveTable reserveTableUI = new ReserveTable();
     } 
+    
+    private void issueBillButtonActionPerformed(java.awt.event.ActionEvent evt) {
+    	IssueBillPage issueBill = new IssueBillPage();
+    }
 
 
     // Variables declaration - do not modify                     
@@ -155,7 +170,9 @@ public class MainPage extends javax.swing.JPanel {
     private javax.swing.JButton editTableButton;
     private javax.swing.JButton moveTableButton;
     private javax.swing.JButton reserveTableButton;
+    private javax.swing.JButton issueBillButton;
     private javax.swing.JLabel homeLabel;
+   
     private Table selectedTable = null;
     // End of variables declaration                   
 }

@@ -532,12 +532,15 @@ public class Controller {
 	
 	/**
 	 * Author: Jacob Hochstrasser
-	 * @param o: 
-	 * @param s
+	 * @param o: The order for which which a bill will be created
+	 * @param s: The seat that will be added to the new bill
 	 * 
 	 */
 	
-	public static void issueNewBill(Order o, Seat s) {
+	public static void issueNewBill(Order o, Seat s) throws InvalidInputException {
+		if(o == null || s == null) {
+			throw new InvalidInputException("Please select an order and a seat.");
+		}
 		String error = null;
 		RestoApp ra = RestoApplication.getRestoApp();
 		Table t = s.getTable();
@@ -554,7 +557,16 @@ public class Controller {
 		RestoApplication.save();
 	}
 	
-	public static void addSeatToBill(Bill b, Seat s) {
+	/**
+	 * @author Jacob Hochstrasser
+	 * @param b: the bill to which we will add a seat
+	 * @param s: the seat we are adding to the bill
+	 */
+	
+	public static void addSeatToBill(Bill b, Seat s) throws InvalidInputException{
+		if(b == null || s == null) {
+			throw new InvalidInputException("Please select a bill and a seat.");
+		}
 		String error = null;
 		RestoApp ra = RestoApplication.getRestoApp();
 		Table t = s.getTable();
@@ -567,6 +579,10 @@ public class Controller {
 		
 		RestoApplication.save();
 	}
+	
+	/*public static void billTable(Table t) {
+		
+	}*/
 
 	private static void checkSeatForBill(Seat s) {
 		Bill b = s.getBill(s.numberOfBills()-1);
@@ -576,6 +592,11 @@ public class Controller {
 				b.delete();
 			}
 		}
+	}
+	
+	public static List<Order> listAllCurrentOrders() {
+		RestoApp ra = RestoApplication.getRestoApp();
+		return ra.getCurrentOrders();
 	}
 	
 	
