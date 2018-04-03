@@ -527,6 +527,7 @@ public class Controller {
 		}
 		return true;
 	}
+
 	/**
 	 * Author: Allison
 	 * Feature: View order. This method returns the order items from a current Order
@@ -574,4 +575,80 @@ public class Controller {
 		
 		return result;
 	}
+	
+	/**
+	 * Feature: Cancel an OrderItem
+	 * Author: Thomas Labourdette
+	 * @throws Exception:
+	 */
+	
+	public static void cancelOrder(Table table) throws InvalidInputException 
+	{
+		
+		if(table == null) 
+		{
+			throw new InvalidInputException("Please enter a table"); 
+		} 
+		else 
+		{ 
+			RestoApp rm = RestoApplication.getRestoApp(); 
+			List<Table> currentTables = rm.getCurrentTables(); 
+			boolean current = currentTables.contains(table);
+			
+			if (current == false)
+			{
+				throw new InvalidInputException("Table does not exist"); 
+			}
+			
+			table.cancelOrder();
+			RestoApplication.save();
+		}
+	}
+	
+	/**
+	 * Feature: Cancel an Order
+	 * Author: Thomas Labourdette
+	 * @throws Exception:
+	 */
+	
+	public static void cancelOrderItem(OrderItem orderItem) throws InvalidInputException 
+	{
+		
+		if(orderItem == null) 
+		{
+			throw new InvalidInputException("Please enter a table"); 
+		} 
+		else 
+		{ 
+			List<Seat> seats = orderItem.getSeats();
+			Order order = orderItem.getOrder();
+			List<Table> tables = new ArrayList<Table>(); 
+			
+			for(Seat seat: seats)
+			{
+				Table table = seat.getTable();
+				Order lastOrder = null;
+				if (table.numberOfOrders()>0)
+				{
+					lastOrder = table.getOrder(table.numberOfOrders()-1);
+					if (lastOrder.equals(order) && !tables.contains(table))
+					{
+						tables.add(table);
+					}
+				}
+				else
+				{
+					throw new InvalidInputException("This should not happen");
+				}
+				
+			}
+			for(Table table: tables)
+			{
+				table.cancelOrderItem(orderItem);
+			}
+
+			RestoApplication.save();
+		}
+	}
 }
+
