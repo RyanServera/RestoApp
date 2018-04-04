@@ -29,6 +29,7 @@ public class MainPage extends javax.swing.JPanel {
         moveTableButton = new javax.swing.JButton();
         reserveTableButton = new javax.swing.JButton();
         issueBillButton = new javax.swing.JButton();
+        viewOrderButton = new javax.swing.JButton();
 
         homeLabel.setText("Home");
 
@@ -81,49 +82,65 @@ public class MainPage extends javax.swing.JPanel {
             }
         });
 
+        viewOrderButton.setText("View Order");
+        viewOrderButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+               viewOrderButtonActionPerformed(evt);
+            }
+        });
+        
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-        		layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(66, 66, 66)
-                    .addComponent(homeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addGap(0, 23, Short.MAX_VALUE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(moveTableButton)
-                        .addComponent(MenuButton)
-                        .addComponent(editTableButton)
-                        .addComponent(deleteTableButton)
-                        .addComponent(reserveTableButton)
-                        .addComponent(addTableButton, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(issueBillButton))
-                    .addGap(25, 25, 25))
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(66, 66, 66)
+                .addComponent(homeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(viewOrderButton)
+                        .addComponent(issueBillButton)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(reserveTableButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(moveTableButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(MenuButton, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(editTableButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(deleteTableButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(addTableButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(25, 25, 25))))
         );
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {MenuButton, addTableButton, deleteTableButton, editTableButton});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {MenuButton, addTableButton, deleteTableButton, editTableButton, moveTableButton, reserveTableButton, viewOrderButton});
 
         layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(16, 16, 16)
-                    .addComponent(homeLabel)
-                    .addGap(18, 18, 18)
-                    .addComponent(MenuButton)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 130, Short.MAX_VALUE)
-                    .addComponent(addTableButton)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(deleteTableButton)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(editTableButton)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                    .addComponent(moveTableButton)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                    .addComponent(reserveTableButton)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                    .addComponent(issueBillButton)
-                    .addGap(52, 52, 52))
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addComponent(homeLabel)
+                .addGap(18, 18, 18)
+                .addComponent(MenuButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(addTableButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(deleteTableButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(editTableButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(moveTableButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(reserveTableButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(viewOrderButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(issueBillButton)
+                .addContainerGap(100, Short.MAX_VALUE))
         );
     }// </editor-fold>                        
 
@@ -161,6 +178,10 @@ public class MainPage extends javax.swing.JPanel {
     private void issueBillButtonActionPerformed(java.awt.event.ActionEvent evt) {
     	IssueBillPage issueBill = new IssueBillPage();
     }
+    
+    private void viewOrderButtonActionPerformed(java.awt.event.ActionEvent evt){
+    	SelectTableFrame selecTavle = new SelectTableFrame("viewOrder");
+    }
 
 
     // Variables declaration - do not modify                     
@@ -171,6 +192,7 @@ public class MainPage extends javax.swing.JPanel {
     private javax.swing.JButton moveTableButton;
     private javax.swing.JButton reserveTableButton;
     private javax.swing.JButton issueBillButton;
+    private javax.swing.JButton viewOrderButton;
     private javax.swing.JLabel homeLabel;
    
     private Table selectedTable = null;

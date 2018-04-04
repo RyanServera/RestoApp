@@ -599,5 +599,127 @@ public class Controller {
 		return ra.getCurrentOrders();
 	}
 	
+
+	/**
+	 * Author: Allison
+	 * Feature: View order. This method returns the order items from a current Order
+	 * at a given table
+	 * @param table
+	 * @return
+	 * @throws InvalidInputException
+	 */
+	public static List<OrderItem> getOrderItems(Table table) throws InvalidInputException{
+		if(table.getSeats() == null){
+			throw new InvalidInputException("This table has no seats");
+		}
+		RestoApp r = RestoApplication.getRestoApp();
+		List<Table> currentTables = r.getCurrentTables();
+		Boolean current = currentTables.contains(table);
+		if(current == false){
+			throw new InvalidInputException("this is not a current table");
+		}
+		
+		Table.Status status = table.getStatus();
+		if(status == Table.Status.Available){
+			throw new InvalidInputException("The table is still available");
+		}
+		
+		Order lastOrder = null;
+		if(table.numberOfOrders() > 0){
+			lastOrder = table.getOrder(table.numberOfOrders()-1);
+		}else{
+			throw new InvalidInputException("This table has no order");
+		}
+		
+		List<Seat> currentSeats = table.getCurrentSeats();
+		
+		List<OrderItem> result = new ArrayList<OrderItem>();
+		
+		for(Seat s : currentSeats){
+			List<OrderItem> orderItems = s.getOrderItems();
+			for(OrderItem oi: orderItems){
+				Order order = oi.getOrder();
+				if(lastOrder.equals(order) && !result.contains(oi)){
+					result.add(oi);
+				}
+			}
+		}
+		
+		return result;
+	}
 	
+	/**
+	 * Feature: Cancel an OrderItem
+	 * Author: Thomas Labourdette
+	 * @throws Exception:
+	 */
+	
+	public static void cancelOrder(Table table) throws InvalidInputException 
+	{
+		
+		if(table == null) 
+		{
+			throw new InvalidInputException("Please enter a table"); 
+		} 
+		else 
+		{ 
+			RestoApp rm = RestoApplication.getRestoApp(); 
+			List<Table> currentTables = rm.getCurrentTables(); 
+			boolean current = currentTables.contains(table);
+			
+			if (current == false)
+			{
+				throw new InvalidInputException("Table does not exist"); 
+			}
+			
+			table.cancelOrder();
+			RestoApplication.save();
+		}
+	}
+	
+	/**
+	 * Feature: Cancel an Order
+	 * Author: Thomas Labourdette
+	 * @throws Exception:
+	 */
+	
+	public static void cancelOrderItem(OrderItem orderItem) throws InvalidInputException 
+	{
+		
+		if(orderItem == null) 
+		{
+			throw new InvalidInputException("Please enter a table"); 
+		} 
+		else 
+		{ 
+			List<Seat> seats = orderItem.getSeats();
+			Order order = orderItem.getOrder();
+			List<Table> tables = new ArrayList<Table>(); 
+			
+			for(Seat seat: seats)
+			{
+				Table table = seat.getTable();
+				Order lastOrder = null;
+				if (table.numberOfOrders()>0)
+				{
+					lastOrder = table.getOrder(table.numberOfOrders()-1);
+					if (lastOrder.equals(order) && !tables.contains(table))
+					{
+						tables.add(table);
+					}
+				}
+				else
+				{
+					throw new InvalidInputException("This should not happen");
+				}
+				
+			}
+			for(Table table: tables)
+			{
+				table.cancelOrderItem(orderItem);
+			}
+
+			RestoApplication.save();
+		}
+	}
 }
