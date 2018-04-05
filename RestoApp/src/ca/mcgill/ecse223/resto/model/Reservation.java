@@ -340,14 +340,26 @@ public class Reservation implements Serializable
     wasSet = true;
     return wasSet;
   }
-  /**
-   * @author Bill Zhang 
-   * @param d
-   * @param t
-   * @return
-   */
-  public boolean doesOverlap(Date d, Time t) {
-	if(this.getDate().equals(d)) {
+
+  public void delete()
+  {
+    ArrayList<Table> copyOfTables = new ArrayList<Table>(tables);
+    tables.clear();
+    for(Table aTable : copyOfTables)
+    {
+      aTable.removeReservation(this);
+    }
+    RestoApp placeholderRestoApp = restoApp;
+    this.restoApp = null;
+    if(placeholderRestoApp != null)
+    {
+      placeholderRestoApp.removeReservation(this);
+    }
+  }
+
+  // line 27 "../../../../../RestoApp v3.ump"
+   public boolean doesOverlap(Date d, Time t){
+    if(this.getDate().equals(d)) {
 		Time rt = this.getTime(); 
 		Time rt1 = this.getTime(); 
 		Time t1 = (Time) t.clone(); 
@@ -364,24 +376,7 @@ public class Reservation implements Serializable
 		
 	}else { 
 		return false; 
-	} 
-  }
-
-
-  public void delete()
-  {
-    ArrayList<Table> copyOfTables = new ArrayList<Table>(tables);
-    tables.clear();
-    for(Table aTable : copyOfTables)
-    {
-      aTable.removeReservation(this);
-    }
-    RestoApp placeholderRestoApp = restoApp;
-    this.restoApp = null;
-    if(placeholderRestoApp != null)
-    {
-      placeholderRestoApp.removeReservation(this);
-    }
+	}
   }
 
 
