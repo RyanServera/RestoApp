@@ -17,7 +17,7 @@ import ca.mcgill.ecse223.resto.controller.Controller;
 import ca.mcgill.ecse223.resto.controller.InvalidInputException;
 import ca.mcgill.ecse223.resto.model.Table;
 
-public class CancelOrderPage extends JFrame {
+public class CancelOrderItemPage extends JFrame {
 
 	private static final long serialVersionUID = 3L;
 
@@ -25,7 +25,7 @@ public class CancelOrderPage extends JFrame {
 	private JLabel errorMessage;
 
 	//button for canceling order
-	private JButton cancelOrder;
+	private JButton cancelOrderItem;
 
 	//combo box for selecting table to be removed
 	private JComboBox<String> selectedTableComboBox;
@@ -36,7 +36,7 @@ public class CancelOrderPage extends JFrame {
 
 	private String error = null;
 
-	public CancelOrderPage() {
+	public CancelOrderItemPage() {
 		initComponents();
 		refreshData();
 	}
@@ -45,7 +45,7 @@ public class CancelOrderPage extends JFrame {
 
 		// Global Settings and Listeners
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		setTitle("Cancel Order");
+		setTitle("Cancel Order Item");
 
 		errorMessage = new JLabel();
 		errorMessage.setForeground(Color.RED);
@@ -57,8 +57,8 @@ public class CancelOrderPage extends JFrame {
 			}
 		});
 
-		cancelOrder = new JButton("Cancel order");
-		cancelOrder.addActionListener(new java.awt.event.ActionListener() {
+		cancelOrderItem = new JButton("Cancel order item");
+		cancelOrderItem.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				cancelOrderButtonActionPerformed(evt);
 			}
@@ -72,16 +72,16 @@ public class CancelOrderPage extends JFrame {
 				layout.createSequentialGroup()
 				.addGroup(layout.createParallelGroup()
 						.addComponent(selectedTableComboBox)
-						.addComponent(cancelOrder))
+						.addComponent(cancelOrderItem))
 				);
-		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {selectedTableComboBox, cancelOrder});
-		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] { selectedTableComboBox, cancelOrder});
+		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {selectedTableComboBox, cancelOrderItem});
+		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] { selectedTableComboBox, cancelOrderItem});
 
 		layout.setVerticalGroup(
 				layout.createParallelGroup()
 				.addGroup(layout.createSequentialGroup()
 						.addComponent(selectedTableComboBox)
-						.addComponent(cancelOrder))
+						.addComponent(cancelOrderItem))
 				);
 
 		pack();
@@ -94,6 +94,7 @@ public class CancelOrderPage extends JFrame {
 			tables = new HashMap<Integer, Table>();
 			selectedTableComboBox.removeAllItems();
 			Integer index = 0;
+			//change to fill with all order items not tables
 			for(Table t : Controller.listAllTables()) {
 				tables.put(index, t);
 				selectedTableComboBox.addItem("Table # " + t.getNumber());
@@ -111,12 +112,13 @@ public class CancelOrderPage extends JFrame {
 		// clear error message and basic input validation
 		error = "";
 		if (tableToBeCancelled < 0) {
-			error = "Table needs to be selected to cancel an order.";
+			error = "Order item needs to be selected.";
 		}
 
 		if (error.length() == 0) {
 			// call the controller
 			try {
+				// change to cancel order item function
 				Controller.cancelOrder(tables.get(tableToBeCancelled));
 			} catch (InvalidInputException e) {
 				createErrorFrame(e.getMessage());

@@ -268,9 +268,9 @@ public class Controller {
 			
 			for (Table currentTable : currentTables) 
 			{
-				if (currentTable.doesOverlap(x, y, width, length))
+				if (currentTable.doesOverlap(x, y, width, length) && !(currentTable.getNumber() == table.getNumber()))
 				{
-					throw new InvalidInputException("Table overlaps with another table.");
+					throw new InvalidInputException("Table overlaps with another table: " + currentTable.getNumber());
 				}
 			}
 			
