@@ -28,6 +28,7 @@ public class MainPage extends javax.swing.JPanel {
         MenuButton = new javax.swing.JButton();
         moveTableButton = new javax.swing.JButton();
         reserveTableButton = new javax.swing.JButton();
+        issueBillButton = new javax.swing.JButton();
         viewOrderButton = new javax.swing.JButton();
 
         homeLabel.setText("Home");
@@ -74,6 +75,13 @@ public class MainPage extends javax.swing.JPanel {
             }
         });
         
+        issueBillButton.setText("Issue Bills");
+        issueBillButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+               issueBillButtonActionPerformed(evt);
+            }
+        });
+
         viewOrderButton.setText("View Order");
         viewOrderButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -94,6 +102,7 @@ public class MainPage extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(viewOrderButton)
+                        .addComponent(issueBillButton)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -129,6 +138,8 @@ public class MainPage extends javax.swing.JPanel {
                 .addComponent(reserveTableButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(viewOrderButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(issueBillButton)
                 .addContainerGap(100, Short.MAX_VALUE))
         );
     }// </editor-fold>                        
@@ -164,6 +175,10 @@ public class MainPage extends javax.swing.JPanel {
     	ReserveTable reserveTableUI = new ReserveTable();
     } 
     
+    private void issueBillButtonActionPerformed(java.awt.event.ActionEvent evt) {
+    	IssueBillPage issueBill = new IssueBillPage();
+    }
+    
     private void viewOrderButtonActionPerformed(java.awt.event.ActionEvent evt){
     	SelectTableFrame selecTavle = new SelectTableFrame("viewOrder");
     }
@@ -176,8 +191,10 @@ public class MainPage extends javax.swing.JPanel {
     private javax.swing.JButton editTableButton;
     private javax.swing.JButton moveTableButton;
     private javax.swing.JButton reserveTableButton;
+    private javax.swing.JButton issueBillButton;
     private javax.swing.JButton viewOrderButton;
     private javax.swing.JLabel homeLabel;
+   
     private Table selectedTable = null;
     // End of variables declaration                   
 }
