@@ -270,7 +270,7 @@ public class Controller {
 			{
 				if (currentTable.doesOverlap(x, y, width, length) && !(currentTable.getNumber() == table.getNumber()))
 				{
-					throw new InvalidInputException("Table overlaps with another table: " + currentTable.getNumber() + table.getNumber() + !(currentTable.getNumber() == table.getNumber()));
+					throw new InvalidInputException("Table overlaps with another table: " + currentTable.getNumber());
 				}
 			}
 			
