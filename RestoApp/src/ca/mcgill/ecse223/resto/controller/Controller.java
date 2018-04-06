@@ -673,6 +673,7 @@ public class Controller {
 			}
 			
 			table.cancelOrder();
+			
 			RestoApplication.save();
 		}
 	}
@@ -722,4 +723,21 @@ public class Controller {
 			RestoApplication.save();
 		}
 	}
+	
+	/**
+	 * Helper method to list all order items
+	 * Author: Thomas Labourdette
+	 * @return A list of all the order items
+	 */
+	
+	public static List<OrderItem> listAllOrderItems(){
+		   RestoApp ra = RestoApplication.getRestoApp();
+		   List<Order> allOrders = ra.getCurrentOrders();
+		   List<OrderItem> listOrderItems =  new ArrayList<OrderItem>();
+		   for (Order order: allOrders)
+		   {
+			   listOrderItems.addAll(order.getOrderItems());
+		   }
+		return listOrderItems;
+	   }
 }

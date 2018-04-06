@@ -32,12 +32,54 @@ class Table {
          } -> Ordered;
          cancelOrderItem(OrderItem i) [iIsLastItem(i)] / {
             // delete order item
+            if (i.numberOfSeats() > 1)
+				{
+					List<Seat> orderSeats = this.getSeats();
+					for (Seat seat: orderSeats)
+					{
+						i.removeSeat(seat);
+					}
+				}
+				else 
+				{
+					i.delete();
+				}
          } -> NothingOrdered;
          cancelOrderItem(OrderItem i) [!iIsLastItem(i)] / {
             // delete order item
+            if (i.numberOfSeats() > 1)
+				{
+					List<Seat> orderSeats = this.getSeats();
+					for (Seat seat: orderSeats)
+					{
+						i.removeSeat(seat);
+					}
+				}
+				else 
+				{
+					i.delete();
+				}
          } -> Ordered;
          cancelOrder() / {
             // delete all order items of the table
+            Order order = this.getOrder(0);
+			List<OrderItem> orderItems = order.getOrderItems();
+			
+			for (OrderItem orderItem : orderItems)
+			{
+				if (orderItem.numberOfSeats() > 1)
+				{
+					List<Seat> orderSeats = this.getSeats();
+					for (Seat seat: orderSeats)
+					{
+						orderItem.removeSeat(seat);
+					}
+				}
+				else 
+				{
+					orderItem.delete();
+				}
+			} 
          } -> NothingOrdered;
          billForSeat(Order o, Seat s) / {
             // create a new bill with the provided order and seat; if the provided seat is already assigned to

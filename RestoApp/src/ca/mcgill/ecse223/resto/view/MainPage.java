@@ -30,6 +30,7 @@ public class MainPage extends javax.swing.JPanel {
         reserveTableButton = new javax.swing.JButton();
         issueBillButton = new javax.swing.JButton();
         viewOrderButton = new javax.swing.JButton();
+        cancelOrderButton = new javax.swing.JButton();
 
         homeLabel.setText("Home");
 
@@ -81,11 +82,18 @@ public class MainPage extends javax.swing.JPanel {
                issueBillButtonActionPerformed(evt);
             }
         });
-
+        
         viewOrderButton.setText("View Order");
         viewOrderButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                viewOrderButtonActionPerformed(evt);
+            }
+        });
+        
+        cancelOrderButton.setText("Cancel Order");
+        cancelOrderButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+               cancelOrderButtonActionPerformed(evt);
             }
         });
         
@@ -102,7 +110,6 @@ public class MainPage extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(viewOrderButton)
-                        .addComponent(issueBillButton)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -113,11 +120,13 @@ public class MainPage extends javax.swing.JPanel {
                             .addComponent(MenuButton, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(editTableButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(deleteTableButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(addTableButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(addTableButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(issueBillButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        	.addComponent(cancelOrderButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(25, 25, 25))))
         );
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {MenuButton, addTableButton, deleteTableButton, editTableButton, moveTableButton, reserveTableButton, viewOrderButton});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {MenuButton, addTableButton, deleteTableButton, editTableButton, moveTableButton, reserveTableButton, viewOrderButton, cancelOrderButton});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -137,9 +146,11 @@ public class MainPage extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(reserveTableButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(issueBillButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(viewOrderButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(issueBillButton)
+                .addComponent(cancelOrderButton)
                 .addContainerGap(100, Short.MAX_VALUE))
         );
     }// </editor-fold>                        
@@ -182,6 +193,10 @@ public class MainPage extends javax.swing.JPanel {
     private void viewOrderButtonActionPerformed(java.awt.event.ActionEvent evt){
     	SelectTableFrame selecTavle = new SelectTableFrame("viewOrder");
     }
+    
+    private void cancelOrderButtonActionPerformed(java.awt.event.ActionEvent evt){
+    	CancelOrderPage cancelOrder = new CancelOrderPage();
+    }
 
 
     // Variables declaration - do not modify                     
@@ -193,8 +208,8 @@ public class MainPage extends javax.swing.JPanel {
     private javax.swing.JButton reserveTableButton;
     private javax.swing.JButton issueBillButton;
     private javax.swing.JButton viewOrderButton;
+    private javax.swing.JButton cancelOrderButton;
     private javax.swing.JLabel homeLabel;
-   
     private Table selectedTable = null;
     // End of variables declaration                   
 }
