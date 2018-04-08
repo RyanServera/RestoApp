@@ -1,12 +1,12 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.27.0.3728.d139ed893 modeling language!*/
+/*This code was generated using the UMPLE 1.26.0-b05b57321 modeling language!*/
 
 package ca.mcgill.ecse223.resto.model;
 import java.io.Serializable;
 import java.util.*;
 
 // line 16 "../../../../../RestoAppPersistence.ump"
-// line 96 "../../../../../RestoApp v3.ump"
+// line 97 "../../../../../RestoApp V4.ump"
 public class MenuItem implements Serializable
 {
 
@@ -277,10 +277,7 @@ public class MenuItem implements Serializable
     currentPricedMenuItem = null;
     Menu placeholderMenu = menu;
     this.menu = null;
-    if(placeholderMenu != null)
-    {
-      placeholderMenu.removeMenuItem(this);
-    }
+    placeholderMenu.removeMenuItem(this);
   }
 
 
@@ -296,7 +293,7 @@ public class MenuItem implements Serializable
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
-  // line 19 "../../../../../RestoAppPersistence.ump"
+  // line 19 ../../../../../RestoAppPersistence.ump
   private static final long serialVersionUID = -1776230320092632776L ;
 
   

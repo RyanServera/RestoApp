@@ -1,5 +1,5 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.27.0.3728.d139ed893 modeling language!*/
+/*This code was generated using the UMPLE 1.26.0-b05b57321 modeling language!*/
 
 package ca.mcgill.ecse223.resto.model;
 import java.io.Serializable;
@@ -8,7 +8,7 @@ import java.sql.Date;
 import java.sql.Time;
 
 // line 3 "../../../../../RestoAppPersistence.ump"
-// line 6 "../../../../../RestoApp v3.ump"
+// line 6 "../../../../../RestoApp V4.ump"
 public class RestoApp implements Serializable
 {
 
@@ -25,6 +25,7 @@ public class RestoApp implements Serializable
   private Menu menu;
   private List<PricedMenuItem> pricedMenuItems;
   private List<Bill> bills;
+  private List<Coupon> coupons;
 
   //------------------------
   // CONSTRUCTOR
@@ -44,6 +45,7 @@ public class RestoApp implements Serializable
     menu = aMenu;
     pricedMenuItems = new ArrayList<PricedMenuItem>();
     bills = new ArrayList<Bill>();
+    coupons = new ArrayList<Coupon>();
   }
 
   public RestoApp()
@@ -56,6 +58,7 @@ public class RestoApp implements Serializable
     menu = new Menu(this);
     pricedMenuItems = new ArrayList<PricedMenuItem>();
     bills = new ArrayList<Bill>();
+    coupons = new ArrayList<Coupon>();
   }
 
   //------------------------
@@ -286,11 +289,41 @@ public class RestoApp implements Serializable
     return index;
   }
 
+  public Coupon getCoupon(int index)
+  {
+    Coupon aCoupon = coupons.get(index);
+    return aCoupon;
+  }
+
+  public List<Coupon> getCoupons()
+  {
+    List<Coupon> newCoupons = Collections.unmodifiableList(coupons);
+    return newCoupons;
+  }
+
+  public int numberOfCoupons()
+  {
+    int number = coupons.size();
+    return number;
+  }
+
+  public boolean hasCoupons()
+  {
+    boolean has = coupons.size() > 0;
+    return has;
+  }
+
+  public int indexOfCoupon(Coupon aCoupon)
+  {
+    int index = coupons.indexOf(aCoupon);
+    return index;
+  }
+
   public static int minimumNumberOfReservations()
   {
     return 0;
   }
-  /* Code from template association_AddManyToOne */
+
   public Reservation addReservation(Date aDate, Time aTime, int aNumberInParty, String aContactName, String aContactEmailAddress, String aContactPhoneNumber, Table... allTables)
   {
     return new Reservation(aDate, aTime, aNumberInParty, aContactName, aContactEmailAddress, aContactPhoneNumber, this, allTables);
@@ -362,7 +395,7 @@ public class RestoApp implements Serializable
   {
     return 0;
   }
-  /* Code from template association_AddManyToOne */
+
   public Table addTable(int aNumber, int aX, int aY, int aWidth, int aLength)
   {
     return new Table(aNumber, aX, aY, aWidth, aLength, this);
@@ -491,7 +524,7 @@ public class RestoApp implements Serializable
   {
     return 0;
   }
-  /* Code from template association_AddManyToOne */
+
   public Order addOrder(Date aDate, Time aTime, Table... allTables)
   {
     return new Order(aDate, aTime, this, allTables);
@@ -620,7 +653,7 @@ public class RestoApp implements Serializable
   {
     return 0;
   }
-  /* Code from template association_AddManyToOne */
+
   public PricedMenuItem addPricedMenuItem(double aPrice, MenuItem aMenuItem)
   {
     return new PricedMenuItem(aPrice, this, aMenuItem);
@@ -692,7 +725,7 @@ public class RestoApp implements Serializable
   {
     return 0;
   }
-  /* Code from template association_AddManyToOne */
+
   public Bill addBill(Order aOrder, Seat... allIssuedForSeats)
   {
     return new Bill(aOrder, this, allIssuedForSeats);
@@ -760,6 +793,78 @@ public class RestoApp implements Serializable
     return wasAdded;
   }
 
+  public static int minimumNumberOfCoupons()
+  {
+    return 0;
+  }
+
+  public Coupon addCoupon(Long aId, boolean aIsValid, double aDiscountPercentage)
+  {
+    return new Coupon(aId, aIsValid, aDiscountPercentage, this);
+  }
+
+  public boolean addCoupon(Coupon aCoupon)
+  {
+    boolean wasAdded = false;
+    if (coupons.contains(aCoupon)) { return false; }
+    RestoApp existingRestoApp = aCoupon.getRestoApp();
+    boolean isNewRestoApp = existingRestoApp != null && !this.equals(existingRestoApp);
+    if (isNewRestoApp)
+    {
+      aCoupon.setRestoApp(this);
+    }
+    else
+    {
+      coupons.add(aCoupon);
+    }
+    wasAdded = true;
+    return wasAdded;
+  }
+
+  public boolean removeCoupon(Coupon aCoupon)
+  {
+    boolean wasRemoved = false;
+    //Unable to remove aCoupon, as it must always have a restoApp
+    if (!this.equals(aCoupon.getRestoApp()))
+    {
+      coupons.remove(aCoupon);
+      wasRemoved = true;
+    }
+    return wasRemoved;
+  }
+
+  public boolean addCouponAt(Coupon aCoupon, int index)
+  {  
+    boolean wasAdded = false;
+    if(addCoupon(aCoupon))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfCoupons()) { index = numberOfCoupons() - 1; }
+      coupons.remove(aCoupon);
+      coupons.add(index, aCoupon);
+      wasAdded = true;
+    }
+    return wasAdded;
+  }
+
+  public boolean addOrMoveCouponAt(Coupon aCoupon, int index)
+  {
+    boolean wasAdded = false;
+    if(coupons.contains(aCoupon))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfCoupons()) { index = numberOfCoupons() - 1; }
+      coupons.remove(aCoupon);
+      coupons.add(index, aCoupon);
+      wasAdded = true;
+    } 
+    else 
+    {
+      wasAdded = addCouponAt(aCoupon, index);
+    }
+    return wasAdded;
+  }
+
   public void delete()
   {
     while (reservations.size() > 0)
@@ -805,13 +910,20 @@ public class RestoApp implements Serializable
       bills.remove(aBill);
     }
     
+    while (coupons.size() > 0)
+    {
+      Coupon aCoupon = coupons.get(coupons.size() - 1);
+      aCoupon.delete();
+      coupons.remove(aCoupon);
+    }
+    
   }
   
   //------------------------
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
-  // line 6 "../../../../../RestoAppPersistence.ump"
+  // line 6 ../../../../../RestoAppPersistence.ump
   private static final long serialVersionUID = -2683593616927798071L ;
 
   
