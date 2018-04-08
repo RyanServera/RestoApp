@@ -755,6 +755,7 @@ public class Controller {
 			//generate a random ID
 			Random rand = new Random();
 			id = rand.nextLong() + 100000;
+			System.out.println(id);
 			//create a coupon
 			Coupon coupon = new Coupon(id, true, discountPercentage, rm);
 			rm.addCoupon(coupon);
@@ -767,7 +768,7 @@ public class Controller {
 	 * @author Bill Zhang
 	 */
 	public static Coupon getCoupon(long couponID) throws InvalidInputException {
-		if (couponID < 0) {
+		if (couponID == 0) {
 			throw new InvalidInputException("Enter a Valid Coupon ID");
 		} else {
 			RestoApp rm = RestoApplication.getRestoApp();
@@ -791,7 +792,7 @@ public class Controller {
 	/**
 	 * @author Bill Zhang
 	 */
-	public static boolean setCoupon(boolean used, Coupon c) throws InvalidInputException{
+	public boolean setCoupon(boolean used, Coupon c) throws InvalidInputException{
 		if(used == false){
 			throw new InvalidInputException("Please use the coupon");
 		}else if (c == null){
