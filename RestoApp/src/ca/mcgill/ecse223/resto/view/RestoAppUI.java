@@ -1,9 +1,7 @@
 package ca.mcgill.ecse223.resto.view;
 import java.awt.Dimension;
-import java.awt.Toolkit;
 
 import ca.mcgill.ecse223.resto.controller.Controller;
-import ca.mcgill.ecse223.resto.model.Table;
 
 public class RestoAppUI extends javax.swing.JFrame {
 
@@ -61,7 +59,7 @@ public class RestoAppUI extends javax.swing.JFrame {
    
     // End of variables declaration
     
-    /*public DragCanvas getDragCanvas () {
+    /*public SelectingCanvas getDragCanvas () {
     	return jScrollPane1;
     }*/
 }

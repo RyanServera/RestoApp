@@ -3,22 +3,12 @@ package ca.mcgill.ecse223.resto.view;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.util.List;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
 
-import acm.graphics.GCompound;
-import acm.graphics.GLabel;
-import acm.graphics.GRect;
 import ca.mcgill.ecse223.resto.controller.Controller;
-import ca.mcgill.ecse223.resto.controller.InvalidInputException;
-import ca.mcgill.ecse223.resto.model.Seat;
 import ca.mcgill.ecse223.resto.model.Table;
-import ca.mcgill.ecse223.resto.view.GLabeledRect;
-
 
 
 public class TableAddingMenu extends javax.swing.JFrame{
