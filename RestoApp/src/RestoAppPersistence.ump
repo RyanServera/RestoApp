@@ -61,7 +61,11 @@ class Bill{
 	isA Serializable;
 	private static final long serialVersionUID = 1301576255893682821L;
 }
-
+class Coupon{
+	depend java.io.Serializable;
+	isA Serializable;
+	private static final long serialVersionUID = 2212686255893382526L;
+}
 
 
 
