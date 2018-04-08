@@ -15,6 +15,7 @@ import ca.mcgill.ecse223.resto.model.Reservation;
 import ca.mcgill.ecse223.resto.model.RestoApp;
 import ca.mcgill.ecse223.resto.model.Seat;
 import ca.mcgill.ecse223.resto.model.Table;
+import ca.mcgill.ecse223.resto.model.Coupon;
 import ca.mcgill.ecse223.resto.controller.*;
 
 public class testController {
@@ -59,6 +60,8 @@ public class testController {
 		}else { 
 			System.out.println("No Tables");
 		}
+
+		con.addCoupon(0.2);
 	}
 
 	@After
@@ -74,6 +77,30 @@ public class testController {
 		Reservation r = rm.getReservation(index); 
 		assertEquals("Bill", r.getContactName()); 
 		assertEquals("123@abc.com", r.getContactEmailAddress()); 
+
+	}
+	@Test
+	public void testCoupon(){
+		//test addCoupon
+		Coupon c = rm.getCoupon(0);
+		assertEquals(0.2, c.getDiscountPercentage(), 0.01);
+		long id = c.getId();
+		//test getCoupon
+		try {
+			Coupon c1 = con.getCoupon(id);
+			assertEquals(0.2, 0.2, 0.01);
+		} catch (InvalidInputException e) {
+			System.out.println(e);
+		}
+		//test setCoupon
+		assertEquals(true, c.getIsValid());
+		try {
+			con.setCoupon(false, c);
+			assertEquals(false, c.getIsValid());
+		} catch (InvalidInputException e){
+			System.out.println(e);
+		}
+
 
 	}
 
