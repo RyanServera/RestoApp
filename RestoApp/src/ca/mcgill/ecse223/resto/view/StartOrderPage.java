@@ -10,19 +10,24 @@ import java.util.List;
 
 public class StartOrderPage extends JFrame{
 
-    private SelectingCanvas jScrollPane1;
-    private JPanel tableSelection = new JPanel();
-    private JButton startOrderButton = new JButton("Start Order");
+
 
     public StartOrderPage(){
         initComponents();
     }
 
     private void initComponents(){
-        tableSelection.setLayout(new GridLayout(2,1));
+        SelectingCanvas jScrollPane1;
+        JPanel tableSelection = new JPanel();
+        JButton startOrderButton = new JButton("Start Order");
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
+        tableSelection.setLayout(new BoxLayout(tableSelection, BoxLayout.PAGE_AXIS));
         jScrollPane1 = new SelectingCanvas(Controller.listAllTables());
         tableSelection.add(jScrollPane1);
-        tableSelection.add(startOrderButton);
+        buttonPanel.add(Box.createHorizontalGlue());
+        buttonPanel.add(startOrderButton);
+        tableSelection.add(buttonPanel);
         startOrderButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 startOrderActionPerformed(evt);
@@ -32,7 +37,7 @@ public class StartOrderPage extends JFrame{
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Adding Order");
-        setSize(300, 300);
+        setSize(350, 350);
         setVisible(true);
     }
 
