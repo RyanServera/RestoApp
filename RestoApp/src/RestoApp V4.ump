@@ -112,7 +112,7 @@ class Bill {
 }
 
 class Coupon{
-  unique long id; 
+  unique Long id; 
   boolean isValid; 
   double discountPercentage; 
   
