@@ -30,6 +30,8 @@ public class MainPage extends javax.swing.JPanel {
         reserveTableButton = new javax.swing.JButton();
         issueBillButton = new javax.swing.JButton();
         viewOrderButton = new javax.swing.JButton();
+        addTableButton = new javax.swing.JButton();
+        startOrderButton = new javax.swing.JButton();
         cancelOrderButton = new javax.swing.JButton();
         cancelOrderItemButton = new javax.swing.JButton();
         couponButton = new javax.swing.JButton(); 
@@ -98,7 +100,14 @@ public class MainPage extends javax.swing.JPanel {
                viewOrderButtonActionPerformed(evt);
             }
         });
-        
+
+        startOrderButton.setText("Start Order");
+        startOrderButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                startOrderButtonActionPerformed(evt);
+            }
+        });
+
         cancelOrderButton.setText("Cancel Order");
         cancelOrderButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -138,6 +147,7 @@ public class MainPage extends javax.swing.JPanel {
                             .addComponent(deleteTableButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(addTableButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(issueBillButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(startOrderButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                         	.addComponent(cancelOrderButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                         	.addComponent(cancelOrderItemButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                         	.addComponent(couponButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -167,6 +177,8 @@ public class MainPage extends javax.swing.JPanel {
                 .addComponent(issueBillButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(viewOrderButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(startOrderButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cancelOrderButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -219,7 +231,11 @@ public class MainPage extends javax.swing.JPanel {
     private void viewOrderButtonActionPerformed(java.awt.event.ActionEvent evt){
     	SelectTableFrame selecTavle = new SelectTableFrame("viewOrder");
     }
-    
+
+    private void startOrderButtonActionPerformed(java.awt.event.ActionEvent evt){
+        StartOrderPage startOrder = new StartOrderPage();
+    }
+
     private void cancelOrderButtonActionPerformed(java.awt.event.ActionEvent evt){
     	CancelOrderPage cancelOrder = new CancelOrderPage();
     }
@@ -238,6 +254,7 @@ public class MainPage extends javax.swing.JPanel {
     private javax.swing.JButton reserveTableButton;
     private javax.swing.JButton issueBillButton;
     private javax.swing.JButton viewOrderButton;
+    private javax.swing.JButton startOrderButton;
     private javax.swing.JButton cancelOrderButton;
     private javax.swing.JButton cancelOrderItemButton;
     private javax.swing.JButton couponButton; 

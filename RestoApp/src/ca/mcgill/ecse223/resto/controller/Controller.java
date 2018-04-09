@@ -269,9 +269,9 @@ public class Controller {
 			
 			for (Table currentTable : currentTables) 
 			{
-				if (currentTable.doesOverlap(x, y, width, length) && !(currentTable.getNumber() == table.getNumber()))
+				if (currentTable.doesOverlap(x, y, width, length))
 				{
-					throw new InvalidInputException("Table overlaps with another table: " + currentTable.getNumber());
+					throw new InvalidInputException("Table overlaps with another table.");
 				}
 			}
 			
@@ -741,7 +741,103 @@ public class Controller {
 		   }
 		return listOrderItems;
 	   }
-	
+
+	/**
+	 * Feature: Ordering a menu item
+	 * Author: Ryan Servera
+	 *
+ 	 * @param menuItem
+	 * @param seats
+	 * @param quantity
+	 * @throws InvalidInputException
+	 */
+	public static void orderMenuItem (MenuItem menuItem, List<Seat> seats, int quantity) throws InvalidInputException {
+		if (menuItem == null || seats == null || quantity < 0) {
+			throw new InvalidInputException("Please check if all inputs are valid");
+		}
+		RestoApp r = RestoApplication.getRestoApp();
+
+		boolean current;
+
+		current = menuItem.hasCurrentPricedMenuItem();
+
+		if (!current) {
+			throw new InvalidInputException("Please make sure that the menu item has a current priced item");
+		}
+
+		List<Table> currentTables = r.getCurrentTables();
+
+		Order lastOrder = null;
+
+		for (Seat seat : seats) {
+			Table table = seat.getTable();
+			current = currentTables.contains(table);
+
+			if (!current) {
+				throw new InvalidInputException("The table that contains one of the input seats is not in current tables");
+			}
+
+			List<Seat> currentSeats = table.getCurrentSeats();
+
+			current = currentSeats.contains(seat);
+
+			if (!current) {
+				throw new InvalidInputException("An input seat in not in the current seats of a table");
+			}
+
+			if (lastOrder == null) {
+				if (table.numberOfOrders() > 0) {
+					lastOrder = table.getOrder((table.numberOfOrders() - 1));
+				} else {
+					throw new InvalidInputException("This table does not contain any orders");
+				}
+			} else {
+				Order comparedOrder = null;
+				if (table.numberOfOrders() > 0) {
+					comparedOrder = table.getOrder(table.numberOfOrders() - 1);
+				} else {
+					throw new InvalidInputException("This table does not contain any orders");
+				}
+
+				if (!comparedOrder.equals(lastOrder)) {
+					throw new InvalidInputException("The compared error is not the last one");
+				}
+			}
+		}
+
+		if (lastOrder == null) {
+			throw new InvalidInputException("There is no last order");
+		}
+
+		PricedMenuItem pmi = menuItem.getCurrentPricedMenuItem();
+
+		boolean itemCreated = false;
+		OrderItem newItem = null;
+
+		for (Seat seat : seats) {
+			Table table = seat.getTable();
+			if (itemCreated) {
+				table.addToOrderItem(newItem, seat);
+			} else {
+				OrderItem lastItem = null;
+
+				if (lastOrder.numberOfOrderItems() > 0) {
+					lastItem = lastOrder.getOrderItem(lastOrder.numberOfOrderItems() - 1);
+				}
+				table.orderItem(quantity, lastOrder, seat, pmi);
+
+				if (lastOrder.numberOfOrderItems() > 0 && !lastOrder.getOrderItem(lastOrder.numberOfOrderItems() - 1).equals(lastItem)) {
+					itemCreated = true;
+					newItem = lastOrder.getOrderItem(lastOrder.numberOfOrderItems() - 1);
+				}
+			}
+		}
+		if (!itemCreated) {
+			throw new InvalidInputException("There was no order item created");
+		}
+		RestoApplication.save();
+	}
+
 	/**
 	 * Helper method to list all order items
 	 * Author: Thomas Labourdette
@@ -823,3 +919,4 @@ public class Controller {
 		return false;
 	}
 }
+

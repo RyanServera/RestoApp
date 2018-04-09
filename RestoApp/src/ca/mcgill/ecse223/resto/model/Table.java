@@ -215,6 +215,7 @@ public class Table implements Serializable
         {
         // line 12 "../../../../../RestoAppTableStateMachine.ump"
           // create a new order item with the provided quantity, order, seat, and priced menu item
+          new OrderItem(quantity, i, o, s);
           setStatus(Status.Ordered);
           wasEventProcessed = true;
           break;
@@ -225,6 +226,7 @@ public class Table implements Serializable
         {
         // line 27 "../../../../../RestoAppTableStateMachine.ump"
           // create a new order item with the provided quantity, order, seat, and priced menu item
+          new OrderItem(quantity, i, o, s);
           setStatus(Status.Ordered);
           wasEventProcessed = true;
           break;
@@ -247,12 +249,18 @@ public class Table implements Serializable
       case NothingOrdered:
         // line 15 "../../../../../RestoAppTableStateMachine.ump"
         // add provided seat to provided order item unless seat has already been added, in which case nothing needs to be done
+        if(!(i.getSeats().contains(s))){
+          i.addSeat(s);
+        }
         setStatus(Status.Ordered);
         wasEventProcessed = true;
         break;
       case Ordered:
         // line 30 "../../../../../RestoAppTableStateMachine.ump"
         // add provided seat to provided order item unless seat has already been added, in which case nothing needs to be done
+        if(!(i.getSeats().contains(s))){
+          i.addSeat(s);
+        }
         setStatus(Status.Ordered);
         wasEventProcessed = true;
         break;

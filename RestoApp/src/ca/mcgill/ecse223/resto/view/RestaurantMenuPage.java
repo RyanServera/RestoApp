@@ -3,10 +3,12 @@ package ca.mcgill.ecse223.resto.view;
 import ca.mcgill.ecse223.resto.controller.Controller;
 import ca.mcgill.ecse223.resto.controller.InvalidInputException;
 import ca.mcgill.ecse223.resto.model.MenuItem;
+import ca.mcgill.ecse223.resto.model.PricedMenuItem;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Formatter;
 import java.util.List;
 import javax.swing.*;
 
@@ -16,69 +18,80 @@ public class RestaurantMenuPage extends JFrame {
 
     private JPanel itemInfo = new JPanel();
     private JLabel foodLabel = new JLabel("Please Select an Item From The Menu Bar");
+    private static int quantity = 0;
+    private JLabel quantityLabel;
+    private JLabel priceLabel;
+    private MenuItem selectedMenuItem = null;
 
     public RestaurantMenuPage() {
         initComponents();
 
     }
 
-
     private void initComponents() {
         createMenuBar();
-        itemInfo.setLayout(new GridLayout(5, 1));
+        itemInfo.setLayout(new BoxLayout(itemInfo, BoxLayout.PAGE_AXIS));
 
         foodLabel.setHorizontalAlignment(JLabel.CENTER);
         itemInfo.add(foodLabel);
 
-
-        JLabel descriptionLabel = new JLabel("Placeholder: Image");
-        descriptionLabel.setHorizontalAlignment(JLabel.CENTER);
-        itemInfo.add(descriptionLabel);
-
-
-        JLabel imageLabel = new JLabel("Placeholder: Description");
-        imageLabel.setHorizontalAlignment(JLabel.CENTER);
-        itemInfo.add(imageLabel);
+        SelectingCanvas selectingCanvas = new SelectingCanvas(Controller.listAllTables());
+        itemInfo.add(selectingCanvas);
 
 
         JPanel pricePanel = new JPanel();
-        pricePanel.setLayout(new GridLayout(1, 3));
+        pricePanel.setLayout(new BoxLayout(pricePanel, BoxLayout.LINE_AXIS));
+
         JButton addingButton = new JButton("+");
+        addingButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addingButtonActionPerformed(evt);
+            }
+        });
+
         JButton removingButton = new JButton("-");
-        JLabel priceLabel = new JLabel("Placeholder: Price");
-        JPanel addingPanel = new JPanel();
-        JPanel removingPanel = new JPanel();
+        removingButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removingButtonActionPerformed(evt);
+            }
+        });
 
-        priceLabel.setHorizontalAlignment(JLabel.CENTER);
-        priceLabel.setVerticalAlignment(JLabel.TOP);
-        addingButton.setVerticalAlignment(JButton.CENTER);
-        addingButton.setHorizontalAlignment(JButton.CENTER);
-        removingButton.setVerticalAlignment(JButton.CENTER);
-        removingButton.setHorizontalAlignment(JButton.CENTER);
-        priceLabel.setHorizontalAlignment(JLabel.CENTER);
+        quantityLabel = new JLabel("Quantity: 0");
+        priceLabel = new JLabel("Price: 0.00 $");
+        JPanel quantityButtons = new JPanel();
+        quantityButtons.setLayout(new BoxLayout(quantityButtons, BoxLayout.PAGE_AXIS));
+        JPanel quantityLabels = new JPanel();
+        quantityLabels.setLayout(new BoxLayout(quantityLabels, BoxLayout.PAGE_AXIS));
+
+        quantityLabels.add(quantityLabel);
+        quantityLabels.add(priceLabel);
 
 
-        pricePanel.add(priceLabel);
-        removingPanel.add(removingButton);
-        addingPanel.add(addingButton);
-        pricePanel.add(removingPanel);
-        pricePanel.add(addingPanel);
+        pricePanel.add(quantityLabels);
+        quantityButtons.add(addingButton);
+        quantityButtons.add(removingButton);
+        pricePanel.add(quantityButtons);
         itemInfo.add(pricePanel);
 
         JPanel innerPanel = new JPanel();
+        innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.LINE_AXIS));
+        innerPanel.add(Box.createHorizontalGlue());
 
         JButton orderButton = new JButton("Order");
         orderButton.setVerticalAlignment(JButton.CENTER);
         orderButton.setHorizontalAlignment(JButton.CENTER);
         orderButton.setPreferredSize(new Dimension(100, 30));
+        orderButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                orderButtonActionPerformed(evt);
+            }
+        });
+
         innerPanel.add(orderButton);
         itemInfo.add(innerPanel);
 
 
         this.add(itemInfo);
-
-
-
 
         //setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -129,13 +142,53 @@ public class RestaurantMenuPage extends JFrame {
 		errorFrame.setLayout(layout);
 		errorFrame.add(succesLabel);
 		errorFrame.add(newInfo);
-
 		errorFrame.setVisible(true);
 		
 	}
 
     private void createItemInfo(MenuItem menuItem){
+        selectedMenuItem = menuItem;
         foodLabel.setText(menuItem.getName());
+        quantity = 1;
+        quantityLabel.setText("Quantity: " + Integer.toString(quantity));
+        priceLabel.setText("Price: " + Double.toString(menuItem.getCurrentPricedMenuItem().getPrice()) + " $");
         //TODO: Implement functionality that will change the description,
+    }
+
+    private void addingButtonActionPerformed(java.awt.event.ActionEvent evt){
+        quantity++;
+        quantityLabel.setText("Quantity: " + String.valueOf(quantity));
+        insertPrice();
+    }
+
+    private void removingButtonActionPerformed(java.awt.event.ActionEvent evt){
+        if(quantity > 0) {
+            quantity--;
+            quantityLabel.setText("Quantity: " + String.valueOf(quantity));
+            insertPrice();
+        }
+    }
+
+    private void insertPrice(){
+        double newPrice;
+        Formatter formatter = new Formatter();
+        if(!(selectedMenuItem == null)) {
+            newPrice = selectedMenuItem.getCurrentPricedMenuItem().getPrice() * quantity;
+            String formatedPrice = formatter.format("%.2f", newPrice).toString();
+            if (quantity > 0){
+                priceLabel.setText("Price: " + formatedPrice + " $");
+            }
+            else{
+                priceLabel.setText("Price: 0.00 $" );
+            }
+        }
+    }
+
+    private void orderButtonActionPerformed(java.awt.event.ActionEvent evt){
+        try {
+            Controller.orderMenuItem(selectedMenuItem, SelectingCanvas.selectedSeats,quantity);
+        }catch (InvalidInputException e){
+            System.out.print("Please make sure that all of your inputs are present");
+        }
     }
 }
