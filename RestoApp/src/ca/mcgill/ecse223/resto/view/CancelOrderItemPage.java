@@ -132,7 +132,6 @@ public class CancelOrderItemPage extends JFrame {
 			// call the controller
 			try {
 				// change to cancel order item function
-				System.out.println(orderItems.get(tableToBeCancelled));
 				Controller.cancelOrderItem(orderItems.get(tableToBeCancelled));;
 				
 				//Controller.cancelOrder(tables.get(tableToBeCancelled));

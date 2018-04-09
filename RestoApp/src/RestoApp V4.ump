@@ -58,7 +58,7 @@ class Table {
     {
 
 	  	int currentX = this.x;
-	  	int currentY = this.x;
+	  	int currentY = this.y;
 	  	int currentWidth = this.width;
 	  	int currentLength = this.length;
 	  	
