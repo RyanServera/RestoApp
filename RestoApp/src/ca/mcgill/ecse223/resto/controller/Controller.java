@@ -269,11 +269,11 @@ public class Controller {
 			
 			for (Table currentTable : currentTables) 
 			{
-				if (currentTable.doesOverlap(x, y, width, length))
-				{
-					throw new InvalidInputException("Table overlaps with another table.");
-				}
-			}
+  				if (currentTable.doesOverlap(x, y, width, length) && !(currentTable.getNumber() == table.getNumber()))
+  				{
+ 					throw new InvalidInputException("Table overlaps with another table: " + currentTable.getNumber());
+  				}
+  			}
 			
 			table.setX(x);
 			table.setY(y);
@@ -657,7 +657,6 @@ public class Controller {
 	
 	public static void cancelOrder(Table table) throws InvalidInputException 
 	{
-		
 		if(table == null) 
 		{
 			throw new InvalidInputException("Please enter a table"); 
@@ -845,8 +844,7 @@ public class Controller {
 	 */
 	
 	public static List<OrderItem> listTableOrderItems(int tableNum){
-		   RestoApp ra = RestoApplication.getRestoApp();
-		   Table table = ra.getTable(tableNum);
+		   Table table = getTable(tableNum);
 		   List<Order> allOrders = table.getOrders();
 		   List<OrderItem> listOrderItems =  new ArrayList<OrderItem>();
 		   for (Order order: allOrders)
