@@ -740,4 +740,22 @@ public class Controller {
 		   }
 		return listOrderItems;
 	   }
+	
+	/**
+	 * Helper method to list all order items
+	 * Author: Thomas Labourdette
+	 * @return A list of all the order items
+	 */
+	
+	public static List<OrderItem> listTableOrderItems(int tableNum){
+		   RestoApp ra = RestoApplication.getRestoApp();
+		   Table table = ra.getTable(tableNum);
+		   List<Order> allOrders = table.getOrders();
+		   List<OrderItem> listOrderItems =  new ArrayList<OrderItem>();
+		   for (Order order: allOrders)
+		   {
+			   listOrderItems.addAll(order.getOrderItems());
+		   }
+		return listOrderItems;
+	   }
 }
