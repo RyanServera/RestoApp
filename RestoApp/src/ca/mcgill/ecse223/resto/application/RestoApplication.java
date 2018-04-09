@@ -25,6 +25,7 @@ public class RestoApplication {
 		}*/
 		RestoApp menu = load();
 		//For testing purposes only
+		
 		//delete everything before this
 		
 		for(MenuItem mi : menu.getMenu().getMenuItems()) {
