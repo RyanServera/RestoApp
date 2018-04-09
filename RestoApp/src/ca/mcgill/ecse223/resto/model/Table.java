@@ -1,5 +1,5 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.27.0.3728.d139ed893 modeling language!*/
+/*This code was generated using the UMPLE 1.26.0-b05b57321 modeling language!*/
 
 package ca.mcgill.ecse223.resto.model;
 import java.io.Serializable;
@@ -7,7 +7,7 @@ import java.util.*;
 
 // line 29 "../../../../../RestoAppPersistence.ump"
 // line 1 "../../../../../RestoAppTableStateMachine.ump"
-// line 48 "../../../../../RestoApp v3.ump"
+// line 49 "../../../../../RestoApp V4.ump"
 public class Table implements Serializable
 {
 
@@ -921,10 +921,7 @@ public class Table implements Serializable
     currentSeats.clear();
     RestoApp placeholderRestoApp = restoApp;
     this.restoApp = null;
-    if(placeholderRestoApp != null)
-    {
-      placeholderRestoApp.removeTable(this);
-    }
+    placeholderRestoApp.removeTable(this);
     ArrayList<Reservation> copyOfReservations = new ArrayList<Reservation>(reservations);
     reservations.clear();
     for(Reservation aReservation : copyOfReservations)
@@ -987,10 +984,10 @@ public class Table implements Serializable
       return true;
   }
 
-  // line 59 "../../../../../RestoApp v3.ump"
+  // line 60 "../../../../../RestoApp V4.ump"
    public boolean doesOverlap(int x, int y, int width, int length){
     int currentX = this.x;
-	  	int currentY = this.y;
+	  	int currentY = this.x;
 	  	int currentWidth = this.width;
 	  	int currentLength = this.length;
 	  	
@@ -1019,7 +1016,7 @@ public class Table implements Serializable
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
-  // line 32 "../../../../../RestoAppPersistence.ump"
+  // line 32 ../../../../../RestoAppPersistence.ump
   private static final long serialVersionUID = 8896099581655989380L ;
 
   

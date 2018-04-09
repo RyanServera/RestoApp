@@ -9,6 +9,7 @@ import ca.mcgill.ecse223.resto.controller.Controller;
 import ca.mcgill.ecse223.resto.controller.InvalidInputException;
 import ca.mcgill.ecse223.resto.model.*;
 import ca.mcgill.ecse223.resto.persistence.PersistenceObjectStream;
+import ca.mcgill.ecse223.resto.view.GenerateCouponPage;
 import ca.mcgill.ecse223.resto.view.RestaurantMenuPage;
 import ca.mcgill.ecse223.resto.view.RestoAppUI;
 
@@ -25,6 +26,7 @@ public class RestoApplication {
 		}*/
 		RestoApp menu = load();
 		//For testing purposes only
+		
 		//delete everything before this
 		
 		for(MenuItem mi : menu.getMenu().getMenuItems()) {
@@ -51,6 +53,7 @@ public class RestoApplication {
 		//RestaurantMenuPage restaurantMenuPage = new RestaurantMenuPage();
 		//TableAddingMenu addMenu = new TableAddingMenu();
 		//restoAppPage appPage = new restoAppPage();
+		GenerateCouponPage couponPage = new GenerateCouponPage(); 
 		ui = new RestoAppUI();
 		
 	}
@@ -80,9 +83,9 @@ public class RestoApplication {
 		PersistenceObjectStream.setFilename(filename);
 		restoApp = (RestoApp) PersistenceObjectStream.deserialize();
 		// model cannot be loaded - create empty restoApp
-		/*if (restoApp == null) {
+		if (restoApp == null) {
 			restoApp = new RestoApp();
-		}*/
+		}
 
 		return restoApp;
 	}

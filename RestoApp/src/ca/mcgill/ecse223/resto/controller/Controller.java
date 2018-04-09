@@ -6,13 +6,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Random;
 
 
 import ca.mcgill.ecse223.resto.application.RestoApplication;
 import ca.mcgill.ecse223.resto.model.*;
 import ca.mcgill.ecse223.resto.model.MenuItem.ItemCategory;
 import ca.mcgill.ecse223.resto.view.RestoAppUI;
-
+import org.omg.CORBA.INITIALIZE;
 
 
 public class Controller {
@@ -813,7 +814,7 @@ public class Controller {
 		boolean itemCreated = false;
 		OrderItem newItem = null;
 
-		for(Seat seat: seats) {
+		for (Seat seat : seats) {
 			Table table = seat.getTable();
 			if (itemCreated) {
 				table.addToOrderItem(newItem, seat);
@@ -831,10 +832,91 @@ public class Controller {
 				}
 			}
 		}
-		if (!itemCreated){
+		if (!itemCreated) {
 			throw new InvalidInputException("There was no order item created");
 		}
 		RestoApplication.save();
+	}
+
+	/**
+	 * Helper method to list all order items
+	 * Author: Thomas Labourdette
+	 * @return A list of all the order items
+	 */
+	
+	public static List<OrderItem> listTableOrderItems(int tableNum){
+		   RestoApp ra = RestoApplication.getRestoApp();
+		   Table table = ra.getTable(tableNum);
+		   List<Order> allOrders = table.getOrders();
+		   List<OrderItem> listOrderItems =  new ArrayList<OrderItem>();
+		   for (Order order: allOrders)
+		   {
+			   listOrderItems.addAll(order.getOrderItems());
+		   }
+		return listOrderItems;
+	   }
+
+	/**
+	 * @author Bill Zhang
+	 *
+	 */
+	public static long addCoupon(double discountPercentage) throws InvalidInputException{
+		long id;
+		if(discountPercentage > 100 | discountPercentage < 0){
+			throw new InvalidInputException("Enter A Valid Discount Percentage");
+		}else {
+			RestoApp rm = RestoApplication.getRestoApp();
+			//generate a random ID
+			Random rand = new Random();
+			id = rand.nextLong() + 100000;
+			System.out.println(id);
+			//create a coupon
+			Coupon coupon = new Coupon(id, true, discountPercentage, rm);
+			rm.addCoupon(coupon);
+			RestoApplication.save();
+
+		}
+		return id ;
+	}
+	/**
+	 * @author Bill Zhang
+	 */
+	public static Coupon getCoupon(long couponID) throws InvalidInputException {
+		if (couponID == 0) {
+			throw new InvalidInputException("Enter a Valid Coupon ID");
+		} else {
+			RestoApp rm = RestoApplication.getRestoApp();
+			List<Coupon> coupons = rm.getCoupons();
+			if (coupons.isEmpty()) {
+				throw new InvalidInputException("No Coupon in the System");
+			} else {
+				for (Coupon c : coupons) {
+					if (c.getId() == couponID && c.getIsValid() == true) {
+						return c;
+					} else {
+						return null;
+					}
+				}
+			}
+
+
+			return null;
+		}
+	}
+	/**
+	 * @author Bill Zhang
+	 */
+	public boolean setCoupon(boolean used, Coupon c) throws InvalidInputException{
+		if(used == false){
+			throw new InvalidInputException("Please use the coupon");
+		}else if (c == null){
+			throw new InvalidInputException("Please enter a coupon");
+		}else {
+			c.setIsValid(false);
+			RestoApplication.save();
+		}
+
+		return false;
 	}
 }
 
