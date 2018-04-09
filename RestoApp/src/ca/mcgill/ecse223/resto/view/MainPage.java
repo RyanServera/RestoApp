@@ -225,7 +225,7 @@ public class MainPage extends javax.swing.JPanel {
     }
     
     private void cancelOrderItemButtonActionPerformed(java.awt.event.ActionEvent evt){
-    	CancelOrderItemPage cancelOrderItem = new CancelOrderItemPage();
+    	CancelOrderItemPage cancelOrderItem = new CancelOrderItemPage(0);
     }
 
 

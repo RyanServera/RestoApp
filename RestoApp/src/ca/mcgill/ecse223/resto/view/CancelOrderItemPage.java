@@ -15,6 +15,7 @@ import javax.swing.WindowConstants;
 
 import ca.mcgill.ecse223.resto.controller.Controller;
 import ca.mcgill.ecse223.resto.controller.InvalidInputException;
+import ca.mcgill.ecse223.resto.model.OrderItem;
 import ca.mcgill.ecse223.resto.model.Table;
 
 public class CancelOrderItemPage extends JFrame {
@@ -32,13 +33,18 @@ public class CancelOrderItemPage extends JFrame {
 
 	//data for selecting a table from our list of tables
 	private Integer tableToBeCancelled = -1;
-	private HashMap<Integer, Table> tables;
+	private HashMap<Integer, OrderItem> orderItems;
 
 	private String error = null;
 
-	public CancelOrderItemPage() {
+	private Integer workingTable;
+
+	public CancelOrderItemPage(Integer tableToBeCancelled2) {
+		System.out.println(tableToBeCancelled2);
+		workingTable = tableToBeCancelled2;
 		initComponents();
-		refreshData();
+		refreshData(workingTable);
+		
 	}
 
 	private void initComponents() {
@@ -60,7 +66,7 @@ public class CancelOrderItemPage extends JFrame {
 		cancelOrderItem = new JButton("Cancel order item");
 		cancelOrderItem.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				cancelOrderButtonActionPerformed(evt);
+				cancelOrderItemButtonActionPerformed(evt);
 			}
 		});
 
@@ -88,18 +94,25 @@ public class CancelOrderItemPage extends JFrame {
 		setVisible(true);
 	}
 
-	private void refreshData() {
+	private void refreshData(Integer workingTable) {
 		errorMessage.setText(error);
 		if(error == null || error.length() == 0) {
-			tables = new HashMap<Integer, Table>();
+			orderItems = new HashMap<Integer, OrderItem>();
 			selectedTableComboBox.removeAllItems();
 			Integer index = 0;
 			//change to fill with all order items not tables
-			for(Table t : Controller.listAllTables()) {
+			for(OrderItem oI : Controller.listTableOrderItems(workingTable)) {
+				orderItems.put(index, oI);
+				System.out.println(oI.getPricedMenuItem().getMenuItem().getName());
+				selectedTableComboBox.addItem(oI.getPricedMenuItem().getMenuItem().getName());
+				index++;
+			};
+			
+			/*for(Table t : Controller.listAllTables()) {
 				tables.put(index, t);
 				selectedTableComboBox.addItem("Table # " + t.getNumber());
 				index++;
-			};
+			};*/
 			tableToBeCancelled = -1;
 			selectedTableComboBox.setSelectedIndex(tableToBeCancelled);
 
@@ -108,7 +121,7 @@ public class CancelOrderItemPage extends JFrame {
 		pack();
 	}
 
-	private void cancelOrderButtonActionPerformed(java.awt.event.ActionEvent evt) {
+	private void cancelOrderItemButtonActionPerformed(java.awt.event.ActionEvent evt) {
 		// clear error message and basic input validation
 		error = "";
 		if (tableToBeCancelled < 0) {
@@ -119,7 +132,10 @@ public class CancelOrderItemPage extends JFrame {
 			// call the controller
 			try {
 				// change to cancel order item function
-				Controller.cancelOrder(tables.get(tableToBeCancelled));
+				System.out.println(orderItems.get(tableToBeCancelled));
+				Controller.cancelOrderItem(orderItems.get(tableToBeCancelled));;
+				
+				//Controller.cancelOrder(tables.get(tableToBeCancelled));
 			} catch (InvalidInputException e) {
 				createErrorFrame(e.getMessage());
 			}
@@ -130,7 +146,7 @@ public class CancelOrderItemPage extends JFrame {
 		}
 
 		// update visuals
-		refreshData();
+		refreshData(workingTable);
 	}
 
 	private void createErrorFrame(String error){

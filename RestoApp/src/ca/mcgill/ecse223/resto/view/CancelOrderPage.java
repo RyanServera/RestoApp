@@ -26,6 +26,8 @@ public class CancelOrderPage extends JFrame {
 
 	//button for canceling order
 	private JButton cancelOrder;
+	
+	private JButton cancelOrderItem;
 
 	//combo box for selecting table to be removed
 	private JComboBox<String> selectedTableComboBox;
@@ -63,6 +65,13 @@ public class CancelOrderPage extends JFrame {
 				cancelOrderButtonActionPerformed(evt);
 			}
 		});
+		
+		cancelOrderItem = new JButton("Cancel order item");
+		cancelOrderItem.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				cancelOrderItemButtonActionPerformed(evt);
+			}
+		});
 
 		GroupLayout layout = new GroupLayout(getContentPane());
 		getContentPane().setLayout(layout);
@@ -72,16 +81,18 @@ public class CancelOrderPage extends JFrame {
 				layout.createSequentialGroup()
 				.addGroup(layout.createParallelGroup()
 						.addComponent(selectedTableComboBox)
-						.addComponent(cancelOrder))
+						.addComponent(cancelOrder)
+						.addComponent(cancelOrderItem))
 				);
-		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {selectedTableComboBox, cancelOrder});
-		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] { selectedTableComboBox, cancelOrder});
+		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {selectedTableComboBox, cancelOrder, cancelOrderItem });
+		layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] { selectedTableComboBox, cancelOrder, cancelOrderItem});
 
 		layout.setVerticalGroup(
 				layout.createParallelGroup()
 				.addGroup(layout.createSequentialGroup()
 						.addComponent(selectedTableComboBox)
-						.addComponent(cancelOrder))
+						.addComponent(cancelOrder)
+						.addComponent(cancelOrderItem))
 				);
 
 		pack();
@@ -121,6 +132,26 @@ public class CancelOrderPage extends JFrame {
 			} catch (InvalidInputException e) {
 				createErrorFrame(e.getMessage());
 			}
+		}
+		else
+		{
+			createErrorFrame(error);
+		}
+
+		// update visuals
+		refreshData();
+	}
+	
+	private void cancelOrderItemButtonActionPerformed(java.awt.event.ActionEvent evt) {
+		// clear error message and basic input validation
+		error = "";
+		if (tableToBeCancelled < 0) {
+			error = "Table needs to be selected to cancel an order item.";
+		}
+
+		if (error.length() == 0) {
+			// call the controller
+			CancelOrderItemPage cancelOrderItem = new CancelOrderItemPage(tables.get(tableToBeCancelled).getNumber());
 		}
 		else
 		{
