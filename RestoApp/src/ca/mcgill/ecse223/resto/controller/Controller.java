@@ -13,7 +13,7 @@ import ca.mcgill.ecse223.resto.application.RestoApplication;
 import ca.mcgill.ecse223.resto.model.*;
 import ca.mcgill.ecse223.resto.model.MenuItem.ItemCategory;
 import ca.mcgill.ecse223.resto.view.RestoAppUI;
-import org.omg.CORBA.INITIALIZE;
+//import org.omg.CORBA.INITIALIZE;
 
 
 public class Controller {
@@ -834,6 +834,7 @@ public class Controller {
 		if (!itemCreated) {
 			throw new InvalidInputException("There was no order item created");
 		}
+		System.out.println(lastOrder.getOrderItem(lastOrder.numberOfOrderItems() - 1).getPricedMenuItem().getMenuItem().getName() + " added");
 		RestoApplication.save();
 	}
 
