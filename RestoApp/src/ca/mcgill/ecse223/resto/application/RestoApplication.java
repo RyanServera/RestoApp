@@ -15,7 +15,7 @@ import ca.mcgill.ecse223.resto.view.RestoAppUI;
 
 public class RestoApplication {
 	private static RestoApp restoApp;
-	private static String filename = "./menu v2.resto";
+	private static String filename = "./menu v3.resto";
 	private static RestoAppUI ui;
 
 	public static void main(String[] args) throws InvalidInputException {
