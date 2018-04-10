@@ -37,7 +37,7 @@ public class GLabeledRect extends GCompound {
 	
 	private void recenterLabel(){
 		double x = (frame.getWidth()- label.getWidth()) / 2;
-		double y = (frame.getHeight()- label.getAscent()) / 2;
+		double y = (frame.getHeight()+ label.getHeight()) / 2;
 		label.setLocation(x, y);
 	}
 	

@@ -1,6 +1,7 @@
 package ca.mcgill.ecse223.resto.view;
 
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 
@@ -256,7 +257,10 @@ public class TableAddingMenu extends javax.swing.JFrame{
 
 		//createSuccesFrame(tnumber);
 		GLabeledRect newTable = new GLabeledRect((double)x, (double)y, (double)width, (double)length, tnumber);
+		newTable.setColor(Color.GREEN);
 		DragCanvas.labeledRects.add(newTable);
+		RestoAppUI.jScrollPane1.add(newTable);
+		this.dispose();
 	}
 
 	private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {

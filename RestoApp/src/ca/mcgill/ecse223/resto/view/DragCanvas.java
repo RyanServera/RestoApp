@@ -46,6 +46,13 @@ public class DragCanvas extends GCanvas implements MouseListener, MouseMotionLis
 			add(rect);
 		}
 	}
+	public DragCanvas(ArrayList<GLabeledRect> labRects){
+		for(GLabeledRect rects: labRects){
+			System.out.println("In DragCanvas, table values, table num = "+ rects.getLabel()+" x = "+rects.getX()+", y = "+rects.getY()+" ");
+			rect = new GLabeledRect(rects.getX(), rects.getY(), rects.getWidth(), rects.getHeight(),Integer.parseInt(rects.getLabel()));
+			add(rect);
+		}
+	}
 	
 	public void addTableToCanvas (double xTable, double yTable, double widthTable, double lengthTable, int tableNum) {
 		x = xTable;
@@ -81,9 +88,7 @@ public class DragCanvas extends GCanvas implements MouseListener, MouseMotionLis
 			
 			x = xDrag - offX;
 			y = yDrag - offY;
-			
-			labeledRects.remove(rect);
-			DragCanvas dc = new DragCanvas(x, y, width, height, tabNum);
+			refreshData();
 		}
 		
 	}
