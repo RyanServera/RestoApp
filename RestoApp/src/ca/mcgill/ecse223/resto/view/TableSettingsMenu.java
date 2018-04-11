@@ -2,6 +2,7 @@ package ca.mcgill.ecse223.resto.view;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -19,6 +20,7 @@ public class TableSettingsMenu extends javax.swing.JFrame {
      */
     public TableSettingsMenu(Table aTable) {
     	table = aTable;
+    	oldTableNum = aTable.getNumber();
         initComponents();
     }
 
@@ -180,6 +182,90 @@ public class TableSettingsMenu extends javax.swing.JFrame {
         
         try {
 			 tableUpdated = Controller.updateTable(this.table, newTableNumber, newSeatNumbers);
+			 ArrayList<GLabeledCircle> circles = RestoAppUI.jScrollPane1.getTableSeatMap().get(tableUpdated);
+			 
+			 //update label of table
+			 //if(table.getNumber() != newTableNumber){
+				 for(GLabeledRect r: RestoAppUI.jScrollPane1.labeledRects){
+					 System.out.println("Rect r num = "+r.getTableNum());
+					 System.out.println("table number = "+oldTableNum);
+					 if(r.getTableNum() == oldTableNum){
+						 //System.out.println("table number = "+table.getNumber());
+						 RestoAppUI.jScrollPane1.labeledRects.remove(r);
+						 GLabeledRect newR = r;
+						 newR.setLabel(newTableNumber);
+						 RestoAppUI.jScrollPane1.remove(r);
+						 RestoAppUI.jScrollPane1.add(newR);
+						 RestoAppUI.jScrollPane1.labeledRects.add(newR);
+					 }
+				 }
+			 
+			 //remove old seats
+			 for(GLabeledCircle c: circles){
+				 RestoAppUI.jScrollPane1.remove(c);
+			 }
+			 //add correct number of seats
+			 int numOfSeats = tableUpdated.getCurrentSeats().size();
+				if(numOfSeats == 2){
+						double radius = tableUpdated.getWidth() / 4;
+						double x1 = tableUpdated.getX() + (tableUpdated.getLength()/2) - (radius/2) ;
+						double y1 = tableUpdated.getY() - radius - 5;
+						double x2 = tableUpdated.getX() + (tableUpdated.getLength()/2) - (radius/2);
+						double y2 = tableUpdated.getY() + tableUpdated.getWidth() + radius - 5;
+						GLabeledCircle circle1 = new GLabeledCircle(x1, y1, radius, radius);
+						GLabeledCircle circle2 = new GLabeledCircle(x2, y2, radius, radius);
+						RestoAppUI.jScrollPane1.add(circle1);
+						RestoAppUI.jScrollPane1.add(circle2);
+					
+				}
+				else if(numOfSeats == 4){
+					double radius = tableUpdated.getWidth() / 4;
+					double x1 = tableUpdated.getX() + (tableUpdated.getLength()/4) - (radius/2) ;
+					double y1 = tableUpdated.getY() - radius - 5;
+					double x2 = tableUpdated.getX() + (tableUpdated.getLength()/4) - (radius/2);
+					double y2 = tableUpdated.getY() + tableUpdated.getWidth() + radius - 5;
+					double x3 = tableUpdated.getX() + ((3*tableUpdated.getLength())/4) - (radius/2) ;;
+					double y3 = tableUpdated.getY() - radius - 5;
+					double x4 = tableUpdated.getX() + ((3*tableUpdated.getLength())/4) - (radius/2) ;;
+					double y4 = tableUpdated.getY() + table.getWidth() + radius - 5;
+					GLabeledCircle circle1 = new GLabeledCircle(x1, y1, radius, radius);
+					GLabeledCircle circle2 = new GLabeledCircle(x2, y2, radius, radius);
+					GLabeledCircle circle3 = new GLabeledCircle(x3, y3, radius, radius);
+					GLabeledCircle circle4 = new GLabeledCircle(x4, y4, radius, radius);
+					RestoAppUI.jScrollPane1.add(circle1);
+					RestoAppUI.jScrollPane1.add(circle2);
+					RestoAppUI.jScrollPane1.add(circle3);
+					RestoAppUI.jScrollPane1.add(circle4);
+	
+				}
+				else if(numOfSeats == 6){
+					double radius = tableUpdated.getWidth() / 6;
+					double x1 = tableUpdated.getX() + (tableUpdated.getLength()/6) - (radius/2) ;
+					double y1 = tableUpdated.getY() - radius - 5;
+					double x2 = tableUpdated.getX() + (tableUpdated.getLength()/6) - (radius/2);
+					double y2 = tableUpdated.getY() + tableUpdated.getWidth() + radius - 5;
+					double x3 = tableUpdated.getX() + ((3*tableUpdated.getLength())/6) - (radius/2) ;
+					double y3 = tableUpdated.getY() - radius - 5;
+					double x4 = tableUpdated.getX() + ((3*tableUpdated.getLength())/6) - (radius/2) ;
+					double y4 = tableUpdated.getY() + tableUpdated.getWidth() + radius - 5;
+					double x5 = tableUpdated.getX() + ((5*tableUpdated.getLength())/6) - (radius/2) ;
+					double y5 = tableUpdated.getY() - radius - 5;
+					double x6 = tableUpdated.getX() + ((5*tableUpdated.getLength())/6) - (radius/2) ;
+					double y6 = tableUpdated.getY() + tableUpdated.getWidth() + radius - 5;
+					GLabeledCircle circle1 = new GLabeledCircle(x1, y1, radius, radius);
+					GLabeledCircle circle2 = new GLabeledCircle(x2, y2, radius, radius);
+					GLabeledCircle circle3 = new GLabeledCircle(x3, y3, radius, radius);
+					GLabeledCircle circle4 = new GLabeledCircle(x4, y4, radius, radius);
+					GLabeledCircle circle5 = new GLabeledCircle(x5, y5, radius, radius);
+					GLabeledCircle circle6 = new GLabeledCircle(x6, y6, radius, radius);
+					RestoAppUI.jScrollPane1.add(circle1);
+					RestoAppUI.jScrollPane1.add(circle2);
+					RestoAppUI.jScrollPane1.add(circle3);
+					RestoAppUI.jScrollPane1.add(circle4);
+					RestoAppUI.jScrollPane1.add(circle5);
+					RestoAppUI.jScrollPane1.add(circle6);
+				}
+			
 		} catch (InvalidInputException e) {
 			createErrorFrame(e.getMessage());
 		}
@@ -240,6 +326,7 @@ public class TableSettingsMenu extends javax.swing.JFrame {
     private javax.swing.JLabel tableNum;
     private javax.swing.JLabel tableNumLabel;
     private static Table table;
+    private int oldTableNum;
     
     // End of variables declaration                   
 }

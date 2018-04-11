@@ -255,6 +255,67 @@ public class TableAddingMenu extends javax.swing.JFrame{
 			newTable.setColor(Color.GREEN);
 			DragCanvas.labeledRects.add(newTable);
 			RestoAppUI.jScrollPane1.add(newTable);
+			if(snumber == 2){
+					double radius = width / 4;
+					double x1 = x + (length/2) - (radius/2) ;
+					double y1 = y - radius - 5;
+					double x2 = x + (length/2) - (radius/2);
+					double y2 = y + width + radius - 5;
+					GLabeledCircle circle1 = new GLabeledCircle(x1, y1, radius, radius);
+					GLabeledCircle circle2 = new GLabeledCircle(x2, y2, radius, radius);
+					RestoAppUI.jScrollPane1.add(circle1);
+					RestoAppUI.jScrollPane1.add(circle2);
+				
+			}
+			else if(snumber == 4){
+				double radius = width / 4;
+				double x1 = x + (length/4) - (radius/2) ;
+				double y1 = y - radius - 5;
+				double x2 = x + (length/4) - (radius/2);
+				double y2 = y + width + radius - 5;
+				double x3 = x + ((3*length)/4) - (radius/2) ;;
+				double y3 = y - radius - 5;
+				double x4 = x + ((3*length)/4) - (radius/2) ;;
+				double y4 = y + width + radius - 5;
+				GLabeledCircle circle1 = new GLabeledCircle(x1, y1, radius, radius);
+				GLabeledCircle circle2 = new GLabeledCircle(x2, y2, radius, radius);
+				GLabeledCircle circle3 = new GLabeledCircle(x3, y3, radius, radius);
+				GLabeledCircle circle4 = new GLabeledCircle(x4, y4, radius, radius);
+				RestoAppUI.jScrollPane1.add(circle1);
+				RestoAppUI.jScrollPane1.add(circle2);
+				RestoAppUI.jScrollPane1.add(circle3);
+				RestoAppUI.jScrollPane1.add(circle4);
+				
+				
+			}
+			else if(snumber == 6){
+				double radius = width / 6;
+				double x1 = x + (length/6) - (radius/2) ;
+				double y1 = y - radius - 5;
+				double x2 = x + (length/6) - (radius/2);
+				double y2 = y + width + radius - 5;
+				double x3 = x + ((3*length)/6) - (radius/2) ;
+				double y3 = y - radius - 5;
+				double x4 = x + ((3*length)/6) - (radius/2) ;
+				double y4 = y + width + radius - 5;
+				double x5 =  x + ((5*length)/6) - (radius/2) ;;
+				double y5 = y - radius - 5;;
+				double x6 = x + ((5*length)/6) - (radius/2) ;
+				double y6 = y + width + radius - 5;;
+				GLabeledCircle circle1 = new GLabeledCircle(x1, y1, radius, radius);
+				GLabeledCircle circle2 = new GLabeledCircle(x2, y2, radius, radius);
+				GLabeledCircle circle3 = new GLabeledCircle(x3, y3, radius, radius);
+				GLabeledCircle circle4 = new GLabeledCircle(x4, y4, radius, radius);
+				GLabeledCircle circle5 = new GLabeledCircle(x5, y5, radius, radius);
+				GLabeledCircle circle6 = new GLabeledCircle(x6, y6, radius, radius);
+				RestoAppUI.jScrollPane1.add(circle1);
+				RestoAppUI.jScrollPane1.add(circle2);
+				RestoAppUI.jScrollPane1.add(circle3);
+				RestoAppUI.jScrollPane1.add(circle4);
+				RestoAppUI.jScrollPane1.add(circle5);
+				RestoAppUI.jScrollPane1.add(circle6);
+				
+			}
 		} catch (Exception e) {
 			createErrorFrame(e.getMessage());
 		}
