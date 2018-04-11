@@ -346,6 +346,27 @@ public class Controller {
 	}
 	
 	/**
+	 * Feature: Add a Menu Item
+	 * Author: Jonathan Belanger
+	 * @param item : new item to be added to menu
+	 * @throws InvalidInputException
+	 */
+	public static void addMenuItems(List<MenuItem> list, MenuItem item) throws InvalidInputException{
+		list.add(item);
+		RestoApplication.save();
+	}
+	
+	/**
+	 * Feature: Remove a Menu Item
+	 * Author: Jonathan Belanger
+	 * @param item : item to be removed from the menu
+	 * @throws InvalidInputException
+	 */
+	public static void removeMenuItems(List<MenuItem> list, MenuItem item) throws InvalidInputException{
+		list.remove(item);
+		RestoApplication.save();
+	}
+	/**
 	 * Feature: Reserve a table
 	 * Author: Thomas Labourdette & Bill Zhang 
 	 * @throws Exception:
