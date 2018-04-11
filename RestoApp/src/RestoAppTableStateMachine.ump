@@ -93,14 +93,20 @@ class Table {
 			}
          } -> NothingOrdered;
          billForSeat(Order o, Seat s) / {
-            // create a new bill with the provided order and seat; if the provided seat is already assigned to
-            // another bill for the current order, then the seat is first removed from the other bill and if no seats
-            // are left for the bill, the bill is deleted
+            RestoApp ra = this.getRestoApp();
+            checkSeatForBill(s);
+            Bill b = new Bill(o, ra, s);
+			ra.addBill(b);
+			s.addBill(b);
          } -> Ordered;
          addToBill(Bill b, Seat s) / {
             // add provided seat to provided bill unless seat has already been added, in which case nothing needs
             // to be done; if the provided seat is already assigned to another bill for the current order, then the
             // seat is first removed from the other bill and if no seats are left for the bill, the bill is deleted
+            RestoApp ra = this.getRestoApp();
+            checkSeatForBill(s);
+            b.addIssuedForSeat(s);
+			s.addBill(b);
          } -> Ordered;
          endOrder(Order o) [allSeatsBilled()] / {
          } -> Available;
@@ -128,5 +134,14 @@ class Table {
       }
       return true;
    }
+   
+   private void checkSeatForBill(Seat s) {
+		Bill b = s.getBill(s.numberOfBills()-1);
+		if(!b.removeIssuedForSeat(s)) {
+			if(b.numberOfIssuedForSeats() == 1) {
+				b.delete();
+			}
+		}
+	}
 
 }
