@@ -39,7 +39,7 @@ public class CancelOrderItemPage extends JFrame {
 
 	private Integer workingTable;
 
-	public CancelOrderItemPage(Integer tableToBeCancelled2) {
+	public CancelOrderItemPage(Integer tableToBeCancelled2) throws InvalidInputException {
 		workingTable = tableToBeCancelled2;
 		initComponents();
 		refreshData(workingTable);
@@ -65,7 +65,12 @@ public class CancelOrderItemPage extends JFrame {
 		cancelOrderItem = new JButton("Cancel order item");
 		cancelOrderItem.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				cancelOrderItemButtonActionPerformed(evt);
+				try {
+					cancelOrderItemButtonActionPerformed(evt);
+				} catch (InvalidInputException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 
@@ -93,14 +98,14 @@ public class CancelOrderItemPage extends JFrame {
 		setVisible(true);
 	}
 
-	private void refreshData(Integer workingTable) {
+	private void refreshData(Integer workingTable) throws InvalidInputException {
 		errorMessage.setText(error);
 		if(error == null || error.length() == 0) {
 			orderItems = new HashMap<Integer, OrderItem>();
 			selectedTableComboBox.removeAllItems();
 			Integer index = 0;
 			//change to fill with all order items not tables
-			for(OrderItem oI : Controller.listTableOrderItems(workingTable)) {
+			for(OrderItem oI : Controller.getOrderItems(Controller.getTable(workingTable))) {
 				orderItems.put(index, oI);
 				selectedTableComboBox.addItem(oI.getPricedMenuItem().getMenuItem().getName());
 				index++;
@@ -119,7 +124,7 @@ public class CancelOrderItemPage extends JFrame {
 		pack();
 	}
 
-	private void cancelOrderItemButtonActionPerformed(java.awt.event.ActionEvent evt) {
+	private void cancelOrderItemButtonActionPerformed(java.awt.event.ActionEvent evt) throws InvalidInputException {
 		// clear error message and basic input validation
 		error = "";
 		if (tableToBeCancelled < 0) {
