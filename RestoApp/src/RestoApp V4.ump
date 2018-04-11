@@ -47,6 +47,8 @@ class Reservation {
 }
 
 class Table {
+
+   depend ca.mcgill.ecse223.resto.controller.Controller;
    unique Integer number;
    Integer x;
    Integer y;
