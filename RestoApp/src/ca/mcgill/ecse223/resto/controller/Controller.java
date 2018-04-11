@@ -383,11 +383,11 @@ public class Controller {
 			throw new InvalidInputException("Date Required"); 
 		}else if(time == null) {
 			throw new InvalidInputException("Time Requried"); 
-		}else if(contactName == null) {
+		}else if(contactName == null || contactName.length() == 0) {
 			throw new InvalidInputException("Name Required"); 
-		}else if(contactEmailAddress == null) {
+		}else if(contactEmailAddress == null || contactEmailAddress.length() == 0) {
 			throw new InvalidInputException("Email Required"); 
-		}else if(contactPhoneNumber == null) {
+		}else if(contactPhoneNumber == null || contactPhoneNumber.length() == 0) {
 			throw new InvalidInputException("Phone Number Required"); 
 		}else if(numberInParty <= 0) {
 			throw new InvalidInputException("Number must be greater than 0"); 
@@ -396,7 +396,7 @@ public class Controller {
 		}else if((date.equals(today)) && ((time.getHours() < now.getHours()) || (time.getHours() == now.getHours() && time.getMinutes() < now.getMinutes()) || (time.getHours() == now.getHours() && time.getMinutes() == now.getMinutes() && time.getSeconds() < now.getSeconds()))) {
 			throw new InvalidInputException("Time is in the past, it is " + now); 
 		}
-	else { 
+		else {
 			RestoApp rm = RestoApplication.load(); 
 			int seatCapacity = 0; 
 			int counter = 0; 
@@ -430,8 +430,8 @@ public class Controller {
 				RestoApplication.save();
 			}
 		}
-		
 	}
+
 
 	/**
 	 *

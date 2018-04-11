@@ -42,8 +42,42 @@ public class DragCanvas extends GCanvas implements MouseListener, MouseMotionLis
 			}else{
 				rect.setColor(Color.RED);
 			}
+			
 			labeledRects.add(rect);
 			add(rect);
+			int numOfSeats = table.getSeats().size();
+			if(numOfSeats == 2){
+					double radius = table.getWidth() / 4;
+					double x1 = table.getX() + (table.getLength()/2) - (radius/2) ;
+					double y1 = table.getY() - radius - 5;
+					double x2 = table.getX() + (table.getLength()/2) - (radius/2);
+					double y2 = table.getY() + table.getWidth() + radius - 5;
+					GLabeledCircle circle1 = new GLabeledCircle(x1, y1, radius, radius);
+					GLabeledCircle circle2 = new GLabeledCircle(x2, y2, radius, radius);
+					add(circle1);
+					add(circle2);
+				
+			}
+			else if(numOfSeats == 4){
+				double radius = table.getWidth() / 4;
+				double x1 = table.getX() + (table.getLength()/4) - (radius/2) ;
+				double y1 = table.getY() - radius - 5;
+				double x2 = table.getX() + (table.getLength()/4) - (radius/2);
+				double y2 = table.getY() + table.getWidth() + radius - 5;
+				double x3 = table.getX() + ((3*table.getLength())/4) - (radius/2) ;;
+				double y3 = table.getY() - radius - 5;
+				double x4 = table.getX() + ((3*table.getLength())/4) - (radius/2) ;;
+				double y4 = table.getY() + table.getWidth() + radius - 5;
+				GLabeledCircle circle1 = new GLabeledCircle(x1, y1, radius, radius);
+				GLabeledCircle circle2 = new GLabeledCircle(x2, y2, radius, radius);
+				GLabeledCircle circle3 = new GLabeledCircle(x3, y3, radius, radius);
+				GLabeledCircle circle4 = new GLabeledCircle(x4, y4, radius, radius);
+				add(circle1);
+				add(circle2);
+				add(circle3);
+				add(circle4);
+				
+			}
 		}
 	}
 	public DragCanvas(ArrayList<GLabeledRect> labRects){

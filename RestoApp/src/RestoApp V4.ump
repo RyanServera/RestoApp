@@ -49,6 +49,8 @@ class Reservation {
 class Table {
 
    depend ca.mcgill.ecse223.resto.controller.Controller;
+   depend ca.mcgill.ecse223.resto.controller.InvalidInputException;
+   
    unique Integer number;
    Integer x;
    Integer y;

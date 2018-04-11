@@ -69,7 +69,12 @@ public class CancelOrderPage extends JFrame {
 		cancelOrderItem = new JButton("Cancel order item");
 		cancelOrderItem.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				cancelOrderItemButtonActionPerformed(evt);
+				try {
+					cancelOrderItemButtonActionPerformed(evt);
+				} catch (InvalidInputException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 
@@ -142,7 +147,7 @@ public class CancelOrderPage extends JFrame {
 		refreshData();
 	}
 	
-	private void cancelOrderItemButtonActionPerformed(java.awt.event.ActionEvent evt) {
+	private void cancelOrderItemButtonActionPerformed(java.awt.event.ActionEvent evt) throws InvalidInputException {
 		// clear error message and basic input validation
 		error = "";
 		if (tableToBeCancelled < 0) {
