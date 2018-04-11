@@ -40,7 +40,6 @@ public class CancelOrderItemPage extends JFrame {
 	private Integer workingTable;
 
 	public CancelOrderItemPage(Integer tableToBeCancelled2) {
-		System.out.println(tableToBeCancelled2);
 		workingTable = tableToBeCancelled2;
 		initComponents();
 		refreshData(workingTable);
@@ -103,7 +102,6 @@ public class CancelOrderItemPage extends JFrame {
 			//change to fill with all order items not tables
 			for(OrderItem oI : Controller.listTableOrderItems(workingTable)) {
 				orderItems.put(index, oI);
-				System.out.println(oI.getPricedMenuItem().getMenuItem().getName());
 				selectedTableComboBox.addItem(oI.getPricedMenuItem().getMenuItem().getName());
 				index++;
 			};

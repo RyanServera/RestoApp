@@ -367,7 +367,7 @@ public class Table implements Serializable
       case Ordered:
         // line 67 "../../../../../RestoAppTableStateMachine.ump"
         // delete all order items of the table
-            Order order = this.getOrder(0);
+            Order order = this.getOrder(this.numberOfOrders() - 1);
 			List<OrderItem> orderItems = order.getOrderItems();
 			
 			for (OrderItem orderItem : orderItems)
