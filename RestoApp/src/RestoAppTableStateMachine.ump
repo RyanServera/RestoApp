@@ -10,10 +10,12 @@ class Table {
       }
       NothingOrdered {
          orderItem(int quantity, Order o, Seat s, PricedMenuItem i) [quantityNotNegative(quantity)] / {
-            // create a new order item with the provided quantity, order, seat, and priced menu item
+            new OrderItem(quantity,i,o,s);
          } -> Ordered; 
          addToOrderItem(OrderItem i, Seat s) / {
-            // add provided seat to provided order item unless seat has already been added, in which case nothing needs to be done
+            if(!i.getSeats().contains(s)){
+             i.getSeats().add(s);
+           }
          } -> Ordered;
          endOrder(Order o) / {
             if (!o.removeTable(this)) {
@@ -25,46 +27,53 @@ class Table {
       }
       Ordered {
          orderItem(int quantity, Order o, Seat s, PricedMenuItem i) [quantityNotNegative(quantity)] / {
-            // create a new order item with the provided quantity, order, seat, and priced menu item
+            new OrderItem(quantity,i,o,s);
          } -> Ordered; 
          addToOrderItem(OrderItem i, Seat s) / {
-            // add provided seat to provided order item unless seat has already been added, in which case nothing needs to be done
+            if(!i.getSeats().contains(s)){
+               i.addSeat(s);
+           }
          } -> Ordered;
          cancelOrderItem(OrderItem i) [iIsLastItem(i)] / {
             // delete order item
+            System.out.println("This is the last item.");
             if (i.numberOfSeats() > 1)
 				{
 					List<Seat> orderSeats = this.getSeats();
 					for (Seat seat: orderSeats)
 					{
 						i.removeSeat(seat);
+						System.out.println("Removed a seat");
 					}
 				}
 				else 
 				{
+					System.out.println("Deleted Item: " + i.getPricedMenuItem().getMenuItem().getName());
 					i.delete();
 				}
          } -> NothingOrdered;
          cancelOrderItem(OrderItem i) [!iIsLastItem(i)] / {
             // delete order item
+            System.out.println("This is not the last item.");
             if (i.numberOfSeats() > 1)
 				{
 					List<Seat> orderSeats = this.getSeats();
 					for (Seat seat: orderSeats)
 					{
 						i.removeSeat(seat);
+						System.out.println("Removed a seat");
 					}
 				}
 				else 
 				{
+					System.out.println("Deleted Item " + i.getPricedMenuItem().getMenuItem().getName());
 					i.delete();
 				}
          } -> Ordered;
          cancelOrder() / {
             // delete all order items of the table
-            Order order = this.getOrder(0);
-			List<OrderItem> orderItems = order.getOrderItems();
-			
+            System.out.println("Cancelling order for table: " + this.getNumber());
+    	    List<OrderItem> orderItems = Controller.listTableOrderItems(this.getNumber());
 			for (OrderItem orderItem : orderItems)
 			{
 				if (orderItem.numberOfSeats() > 1)
@@ -73,23 +82,31 @@ class Table {
 					for (Seat seat: orderSeats)
 					{
 						orderItem.removeSeat(seat);
+						System.out.println("Removed a seat");
 					}
 				}
 				else 
 				{
+					System.out.println("Deleted order item " + orderItem.getPricedMenuItem().getMenuItem().getName());
 					orderItem.delete();
 				}
-			} 
+			}
          } -> NothingOrdered;
          billForSeat(Order o, Seat s) / {
-            // create a new bill with the provided order and seat; if the provided seat is already assigned to
-            // another bill for the current order, then the seat is first removed from the other bill and if no seats
-            // are left for the bill, the bill is deleted
+            RestoApp ra = this.getRestoApp();
+            checkSeatForBill(s);
+            Bill b = new Bill(o, ra, s);
+			ra.addBill(b);
+			s.addBill(b);
          } -> Ordered;
          addToBill(Bill b, Seat s) / {
             // add provided seat to provided bill unless seat has already been added, in which case nothing needs
             // to be done; if the provided seat is already assigned to another bill for the current order, then the
             // seat is first removed from the other bill and if no seats are left for the bill, the bill is deleted
+            RestoApp ra = this.getRestoApp();
+            checkSeatForBill(s);
+            b.addIssuedForSeat(s);
+			s.addBill(b);
          } -> Ordered;
          endOrder(Order o) [allSeatsBilled()] / {
          } -> Available;
@@ -117,5 +134,14 @@ class Table {
       }
       return true;
    }
+   
+   private void checkSeatForBill(Seat s) {
+		Bill b = s.getBill(s.numberOfBills()-1);
+		if(!b.removeIssuedForSeat(s)) {
+			if(b.numberOfIssuedForSeats() == 1) {
+				b.delete();
+			}
+		}
+	}
 
 }
