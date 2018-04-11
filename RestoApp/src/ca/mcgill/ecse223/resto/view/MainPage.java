@@ -33,7 +33,6 @@ public class MainPage extends javax.swing.JPanel {
         addTableButton = new javax.swing.JButton();
         startOrderButton = new javax.swing.JButton();
         cancelOrderButton = new javax.swing.JButton();
-        cancelOrderItemButton = new javax.swing.JButton();
         couponButton = new javax.swing.JButton(); 
 
         homeLabel.setText("Home");
@@ -108,19 +107,13 @@ public class MainPage extends javax.swing.JPanel {
             }
         });
 
-        cancelOrderButton.setText("Cancel Order");
+        cancelOrderButton.setText("Cancel Order / Item");
         cancelOrderButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                cancelOrderButtonActionPerformed(evt);
             }
         });
         
-        cancelOrderItemButton.setText("Cancel Order Item");
-        cancelOrderItemButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-               cancelOrderItemButtonActionPerformed(evt);
-            }
-        });
         
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -149,7 +142,6 @@ public class MainPage extends javax.swing.JPanel {
                             .addComponent(issueBillButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(startOrderButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                         	.addComponent(cancelOrderButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        	.addComponent(cancelOrderItemButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                         	.addComponent(couponButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(25, 25, 25))))
         );
@@ -181,8 +173,6 @@ public class MainPage extends javax.swing.JPanel {
                 .addComponent(startOrderButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cancelOrderButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(cancelOrderItemButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(couponButton)
                 .addContainerGap(100, Short.MAX_VALUE))
@@ -240,9 +230,6 @@ public class MainPage extends javax.swing.JPanel {
     	CancelOrderPage cancelOrder = new CancelOrderPage();
     }
     
-    private void cancelOrderItemButtonActionPerformed(java.awt.event.ActionEvent evt){
-    	CancelOrderItemPage cancelOrderItem = new CancelOrderItemPage(0);
-    }
 
 
     // Variables declaration - do not modify                     
@@ -256,7 +243,6 @@ public class MainPage extends javax.swing.JPanel {
     private javax.swing.JButton viewOrderButton;
     private javax.swing.JButton startOrderButton;
     private javax.swing.JButton cancelOrderButton;
-    private javax.swing.JButton cancelOrderItemButton;
     private javax.swing.JButton couponButton; 
     private javax.swing.JLabel homeLabel;
     private Table selectedTable = null;

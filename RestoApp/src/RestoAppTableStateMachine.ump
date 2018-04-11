@@ -62,7 +62,7 @@ class Table {
          } -> Ordered;
          cancelOrder() / {
             // delete all order items of the table
-            Order order = this.getOrder(0);
+            Order order = this.getOrder(this.numberOfOrders() - 1);
 			List<OrderItem> orderItems = order.getOrderItems();
 			
 			for (OrderItem orderItem : orderItems)
