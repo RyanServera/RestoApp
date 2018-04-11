@@ -20,6 +20,7 @@ import ca.mcgill.ecse223.resto.application.RestoApplication;
 import ca.mcgill.ecse223.resto.controller.Controller;
 import ca.mcgill.ecse223.resto.controller.InvalidInputException;
 import ca.mcgill.ecse223.resto.model.Bill;
+import ca.mcgill.ecse223.resto.model.Coupon;
 import ca.mcgill.ecse223.resto.model.Order;
 import ca.mcgill.ecse223.resto.model.RestoApp;
 import ca.mcgill.ecse223.resto.model.Seat;
@@ -35,26 +36,34 @@ public class IssueBillPage extends JFrame{
 	
 	private JLabel tablesLabel;
 	private JLabel seatsLabel;
-	private JLabel percentageLabel; 
+	private JLabel percentageLabel;
+	private JLabel applyCouponLabel;
 	
 	private JButton addSeatToListButton;
 	private JButton issueBillButton;
-	private JButton generateCouponButton; 
+	private JButton generateCouponButton;
+	private JButton applyCouponButton;
 	
 	private JComboBox<String> tablesComboBox;
 	private JComboBox<String> seatsComboBox;
 	private JTextField percentageInput;
+	private JComboBox<String> couponsComboBox;
 	
 	//data for selecting an order from our list of current orders
 	private Integer selectedTable = -1;
 	private HashMap<Integer, Table> tables;
 	private Integer selectedSeat = -1;
 	private HashMap<Integer, Seat> seats;
+	private Integer selectedCoupon = -1;
+	private HashMap<Integer, Coupon> coupons;
 	
 	private List<Seat> currentSeats;
 
 	private String error = null;
 	private String message = null;
+	
+	private double priceMult = 1.0;
+	private boolean couponApplied = false;
 	
 	//obsolete elements
 	//private JLabel currentOrdersLabel;
@@ -86,6 +95,7 @@ public class IssueBillPage extends JFrame{
 		tablesLabel = new JLabel("Table: ");
 		seatsLabel = new JLabel("Seat: ");
 		percentageLabel = new JLabel("Discount Percentage");
+		applyCouponLabel = new JLabel("Apply Coupon: ");
 		
 		percentageInput = new JTextField(); 
 		percentageInput.setText("%");
@@ -114,6 +124,13 @@ public class IssueBillPage extends JFrame{
 			}
 		});
 		
+		applyCouponButton = new JButton("Apply Coupon");
+		applyCouponButton.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				applyCouponButtonActionPerformed(evt);
+			}
+		});
+		
 		tablesComboBox = new JComboBox<String>(new String[0]);
 		tablesComboBox.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -130,6 +147,14 @@ public class IssueBillPage extends JFrame{
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				JComboBox<String> cb = (JComboBox<String>) evt.getSource();
 				selectedSeat = cb.getSelectedIndex();
+			}
+		});
+		
+		couponsComboBox = new JComboBox<String>(new String[0]);
+		couponsComboBox.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				JComboBox<String> cb = (JComboBox<String>) evt.getSource();
+				selectedCoupon = cb.getSelectedIndex();
 			}
 		});
 		
@@ -155,7 +180,11 @@ public class IssueBillPage extends JFrame{
 						.addComponent(percentageInput))
 					.addGroup(layout.createSequentialGroup()
 						.addComponent(generateCouponButton))
-					
+					.addGroup(layout.createSequentialGroup()
+						.addComponent(applyCouponLabel)
+						.addComponent(couponsComboBox))
+					.addGroup(layout.createSequentialGroup()
+						.addComponent(applyCouponButton))
 				);
 		
 		layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {tablesLabel, tablesComboBox, seatsLabel, seatsComboBox, percentageLabel, percentageInput, generateCouponButton});
@@ -179,6 +208,11 @@ public class IssueBillPage extends JFrame{
 						.addComponent(percentageInput))
 					.addGroup(layout.createParallelGroup()
 						.addComponent(generateCouponButton))
+					.addGroup(layout.createParallelGroup()
+						.addComponent(applyCouponLabel)
+						.addComponent(couponsComboBox))
+					.addGroup(layout.createParallelGroup()
+						.addComponent(applyCouponButton))
 				);
 		
 		pack();
@@ -224,8 +258,17 @@ public class IssueBillPage extends JFrame{
 				tablesComboBox.addItem("Table #" + t.getNumber());
 				index++;
 			}
+			coupons = new HashMap<Integer, Coupon>();
+			couponsComboBox.removeAllItems();
+			index =  0;
+			for (Coupon c : Controller.listAllCoupons()) {
+				coupons.put(index, c);
+				couponsComboBox.addItem((c.getDiscountPercentage()*100) + "% off");
+				index++;
+			}
 			selectedTable = -1;
 			selectedSeat = -1;
+			selectedCoupon = -1;
 			currentSeats.clear();
 			seats.clear();
 			seatsComboBox.removeAllItems();
@@ -316,7 +359,7 @@ public class IssueBillPage extends JFrame{
 		if (error.length() == 0) {
 			// call the controller
 			try {
-				if(Controller.issueBill(currentSeats)) {
+				if(Controller.issueBill(currentSeats, priceMult)) {
 					message = "Bill successfully issued";
 				}
 			} catch (InvalidInputException e) {
@@ -340,7 +383,28 @@ public class IssueBillPage extends JFrame{
 			this.dispose();
 		} 
 		System.out.println(retID);
+		try {
+			Coupon c = Controller.getCoupon(retID);
+		}catch(InvalidInputException e) {
+			createErrorFrame(e.getMessage());
+			this.dispose();
+		}
+		
 		successMessage.setText("Coupon id:" + retID);
+	}
+	
+	private void applyCouponButtonActionPerformed(java.awt.event.ActionEvent evt) {
+		if(!couponApplied) {
+			double discount = coupons.get(selectedCoupon).getDiscountPercentage();
+			priceMult = (1.0 - discount);
+			couponApplied = true;
+			successMessage.setForeground(Color.GREEN);
+			successMessage.setText("Coupon Applied");
+		}else {
+			successMessage.setForeground(Color.RED);
+			successMessage.setText("Only one coupon permitted per bill");
+		}
+		
 	}
 	
 	/*private void addToBillButtonActionPerformed(java.awt.event.ActionEvent evt) {

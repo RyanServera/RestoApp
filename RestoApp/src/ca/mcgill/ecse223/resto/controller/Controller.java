@@ -537,7 +537,7 @@ public class Controller {
 	 * 
 	 */
 	
-	public static boolean issueBill(List<Seat> seats) throws InvalidInputException {
+	public static boolean issueBill(List<Seat> seats, double d) throws InvalidInputException {
 		boolean billIssued = false;
 		if(seats == null || seats.isEmpty()) {
 			throw new InvalidInputException("Please choose seats to bill.");
@@ -606,7 +606,7 @@ public class Controller {
 		if(!billCreated) {
 			throw new InvalidInputException("There was an error creating a bill.");
 		}
-		
+		calculatePrice(newBill, d);
 		RestoApplication.save();
 		return billIssued;
 	}
@@ -972,6 +972,23 @@ public class Controller {
 		}
 
 		return false;
+	}
+	
+	public static double calculatePrice(Bill b, double d) {
+		double sum = 0.0;
+		List<Seat> billedSeats = b.getIssuedForSeats();
+		for(Seat s : billedSeats) {
+			for(OrderItem oi : s.getOrderItems()) {
+				sum += oi.getPricedMenuItem().getPrice();
+			}
+		}
+		System.out.println("Price: $" + (sum*d));
+		return sum*d;
+	}
+	
+	public static List<Coupon> listAllCoupons() {
+		RestoApp ra = RestoApplication.getRestoApp();
+		return ra.getCoupons();
 	}
 }
 
