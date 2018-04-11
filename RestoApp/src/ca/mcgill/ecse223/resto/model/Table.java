@@ -288,7 +288,8 @@ public class Table implements Serializable
       case Ordered:
         if (allSeatsBilled())
         {
-        // line 104 "../../../../../RestoAppTableStateMachine.ump"
+        // line 108 "../../../../../RestoAppTableStateMachine.ump"
+          
           setStatus(Status.Available);
           wasEventProcessed = true;
           break;
@@ -410,7 +411,7 @@ public class Table implements Serializable
     switch (aStatus)
     {
       case Ordered:
-        // line 88 "../../../../../RestoAppTableStateMachine.ump"
+        // line 95 "../../../../../RestoAppTableStateMachine.ump"
         RestoApp ra = this.getRestoApp();
             checkSeatForBill(s);
             Bill b = new Bill(o, ra, s);
@@ -434,11 +435,8 @@ public class Table implements Serializable
     switch (aStatus)
     {
       case Ordered:
-        // line 95 "../../../../../RestoAppTableStateMachine.ump"
-        // add provided seat to provided bill unless seat has already been added, in which case nothing needs
-            // to be done; if the provided seat is already assigned to another bill for the current order, then the
-            // seat is first removed from the other bill and if no seats are left for the bill, the bill is deleted
-            RestoApp ra = this.getRestoApp();
+        // line 102 "../../../../../RestoAppTableStateMachine.ump"
+        RestoApp ra = this.getRestoApp();
             checkSeatForBill(s);
             b.addIssuedForSeat(s);
 			s.addBill(b);
@@ -966,8 +964,7 @@ public class Table implements Serializable
   /**
    * check that the provided quantity is an integer greater than 0
    */
-  // line 111 "../../../../../RestoAppTableStateMachine.ump"
-
+  // line 115 "../../../../../RestoAppTableStateMachine.ump"
    private boolean quantityNotNegative(int quantity){
     return (quantity > 0);
   }
@@ -976,7 +973,7 @@ public class Table implements Serializable
   /**
    * check that the provided order item is the last item of the current order of the table
    */
-  // line 116 "../../../../../RestoAppTableStateMachine.ump"
+  // line 120 "../../../../../RestoAppTableStateMachine.ump"
    private boolean iIsLastItem(OrderItem i){
     return (i.getOrder().numberOfOrderItems() == 1);
   }
@@ -985,7 +982,7 @@ public class Table implements Serializable
   /**
    * check that all seats of the table have a bill that belongs to the current order of the table
    */
-  // line 121 "../../../../../RestoAppTableStateMachine.ump"
+  // line 125 "../../../../../RestoAppTableStateMachine.ump"
    private boolean allSeatsBilled(){
     List<Seat> seats = getCurrentSeats();
       Order o = getOrder(numberOfOrders()-1);
@@ -997,17 +994,19 @@ public class Table implements Serializable
       return true;
   }
 
-  // line 132 "../../../../../RestoAppTableStateMachine.ump"
+  // line 136 "../../../../../RestoAppTableStateMachine.ump"
    private void checkSeatForBill(Seat s){
-    Bill b = s.getBill(s.numberOfBills()-1);
-		if(!b.removeIssuedForSeat(s)) {
-			if(b.numberOfIssuedForSeats() == 1) {
-				b.delete();
+    if(s.hasBills()){
+   			Bill b = s.getBill(s.numberOfBills()-1);
+			if(!b.removeIssuedForSeat(s)) {
+				if(b.numberOfIssuedForSeats() == 1) {
+					b.delete();
+				}
 			}
-		}
+   		}
   }
 
-  // line 60 "../../../../../RestoApp V4.ump"
+  // line 62 "../../../../../RestoApp V4.ump"
    public boolean doesOverlap(int x, int y, int width, int length){
     int currentX = this.x;
 	  	int currentY = this.y;

@@ -31,6 +31,7 @@ public class IssueBillPage extends JFrame{
 	
 	//UI elements
 	private JLabel errorMessage;
+	private JLabel successMessage;
 	
 	private JLabel tablesLabel;
 	private JLabel seatsLabel;
@@ -53,6 +54,7 @@ public class IssueBillPage extends JFrame{
 	private List<Seat> currentSeats;
 
 	private String error = null;
+	private String message = null;
 	
 	//obsolete elements
 	//private JLabel currentOrdersLabel;
@@ -77,6 +79,9 @@ public class IssueBillPage extends JFrame{
 		
 		errorMessage = new JLabel();
 		errorMessage.setForeground(Color.RED);
+		
+		successMessage = new JLabel();
+		successMessage.setForeground(Color.GREEN);
 		
 		tablesLabel = new JLabel("Table: ");
 		seatsLabel = new JLabel("Seat: ");
@@ -114,7 +119,9 @@ public class IssueBillPage extends JFrame{
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				JComboBox<String> cb = (JComboBox<String>) evt.getSource();
 				selectedTable = cb.getSelectedIndex();
-				updateLists();
+				if(selectedTable != -1) {
+					updateLists();
+				}
 			}
 		});
 		
@@ -142,6 +149,8 @@ public class IssueBillPage extends JFrame{
 						.addComponent(addSeatToListButton)
 						.addComponent(issueBillButton))
 					.addGroup(layout.createSequentialGroup()
+						.addComponent(successMessage))
+					.addGroup(layout.createSequentialGroup()
 						.addComponent(percentageLabel)
 						.addComponent(percentageInput))
 					.addGroup(layout.createSequentialGroup()
@@ -163,6 +172,8 @@ public class IssueBillPage extends JFrame{
 					.addGroup(layout.createParallelGroup()
 						.addComponent(addSeatToListButton)
 						.addComponent(issueBillButton))
+					.addGroup(layout.createParallelGroup()
+						.addComponent(successMessage))
 					.addGroup(layout.createParallelGroup()
 						.addComponent(percentageLabel)
 						.addComponent(percentageInput))
@@ -202,6 +213,8 @@ public class IssueBillPage extends JFrame{
 	
 	private void refreshData() {
 		errorMessage.setText(error);
+		successMessage.setForeground(Color.GREEN);
+		successMessage.setText(message);
 		if(error == null || error.length() == 0) {
 			tables = new HashMap<Integer, Table>();
 			tablesComboBox.removeAllItems();
@@ -212,10 +225,13 @@ public class IssueBillPage extends JFrame{
 				index++;
 			}
 			selectedTable = -1;
+			selectedSeat = -1;
 			currentSeats.clear();
 			seats.clear();
 			seatsComboBox.removeAllItems();
-			selectedSeat = -1;
+			message = "";
+			percentageInput.setText("%");
+			
 		}
 		pack();
 		
@@ -233,14 +249,19 @@ public class IssueBillPage extends JFrame{
 	
 	private void updateLists() {
 		errorMessage.setText(error);
+		successMessage.setForeground(Color.GREEN);
+		successMessage.setText(message);
 		if(error == null || error.length() == 0) {
 			Table t = tables.get(selectedTable);
 			seats = new HashMap<Integer,Seat>();
-			seatsComboBox.removeAllItems();
+			//seatsComboBox.removeAllItems();
+			System.out.println("Table #" + t.getNumber());
 			Integer index = 0;
 			for(Seat s : t.getSeats()) {
 				seats.put(index, s);
 				seatsComboBox.addItem("Seat # " + (t.indexOfCurrentSeat(s)+1));
+				System.out.println("Seat #" + (t.indexOfCurrentSeat(seats.get(index))+1));
+				System.out.println("Has Order Item(s): " + s.hasOrderItems());
 				index++;
 			}
 			//RestoApp ra = RestoApplication.getRestoApp();
@@ -275,7 +296,14 @@ public class IssueBillPage extends JFrame{
 	private void addSeatToListButtonActionPerformed(java.awt.event.ActionEvent evt) {
 		if(!currentSeats.contains(seats.get(selectedSeat))){
 			currentSeats.add(seats.get(selectedSeat));
+			successMessage.setForeground(Color.GREEN);
+			message = "Seat added";
 		}
+		else {
+			successMessage.setForeground(Color.RED);
+			message = "Seat already added";
+		}
+		successMessage.setText(message);
 	}
 	
 	private void issueBillButtonActionPerformed(java.awt.event.ActionEvent evt) {
@@ -288,12 +316,15 @@ public class IssueBillPage extends JFrame{
 		if (error.length() == 0) {
 			// call the controller
 			try {
-				Controller.issueBill(currentSeats);
+				if(Controller.issueBill(currentSeats)) {
+					message = "Bill successfully issued";
+				}
 			} catch (InvalidInputException e) {
 				createErrorFrame(e.getMessage());
 				this.dispose();
 			}
 		}
+		
 		refreshData();
 	}
 	
@@ -309,7 +340,7 @@ public class IssueBillPage extends JFrame{
 			this.dispose();
 		} 
 		System.out.println(retID);
-		
+		successMessage.setText("Coupon id:" + retID);
 	}
 	
 	/*private void addToBillButtonActionPerformed(java.awt.event.ActionEvent evt) {

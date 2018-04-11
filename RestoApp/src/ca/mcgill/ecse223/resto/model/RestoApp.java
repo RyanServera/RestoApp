@@ -64,7 +64,6 @@ public class RestoApp implements Serializable
   //------------------------
   // INTERFACE
   //------------------------
-
   public Reservation getReservation(int index)
   {
     Reservation aReservation = reservations.get(index);
