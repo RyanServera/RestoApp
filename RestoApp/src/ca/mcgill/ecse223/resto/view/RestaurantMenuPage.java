@@ -114,6 +114,14 @@ public class RestaurantMenuPage extends JFrame {
         menubar.add(add);
         menubar.add(remove);
         menubar.add(edit);
+        
+        add.addActionListener(new ActionListener() {
+        	@Override
+        	public void actionPerformed(ActionEvent e) {
+        		AddMenuPage add = new AddMenuPage();
+        		RestaurantMenuPage.this.dispose();
+        	}
+        });
 
         for (MenuItem.ItemCategory itemCategory : itemCategoryList) {
             JMenu menuOption = new JMenu(itemCategory.name());
@@ -149,7 +157,7 @@ public class RestaurantMenuPage extends JFrame {
                 itemEdit.addActionListener(new ActionListener() {
                 	@Override
                 	public void actionPerformed(ActionEvent e) {
-                		EditMenuPage emp = new EditMenuPage(restaurantItem);
+                		AddMenuPage edit = new AddMenuPage(restaurantItem);
                 		RestaurantMenuPage.this.dispose();
                 	}
                 });
