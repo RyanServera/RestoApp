@@ -1,5 +1,5 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.27.0.3728.d139ed893 modeling language!*/
+/*This code was generated using the UMPLE 1.26.0-b05b57321 modeling language!*/
 
 package ca.mcgill.ecse223.resto.model;
 import java.io.Serializable;
@@ -330,7 +330,7 @@ public class Order implements Serializable
   {
     return 0;
   }
-  /* Code from template association_AddManyToOne */
+
   public OrderItem addOrderItem(int aQuantity, PricedMenuItem aPricedMenuItem, Seat... allSeats)
   {
     return new OrderItem(aQuantity, aPricedMenuItem, this, allSeats);
@@ -421,7 +421,7 @@ public class Order implements Serializable
   {
     return 0;
   }
-  /* Code from template association_AddManyToOne */
+
   public Bill addBill(RestoApp aRestoApp, Seat... allIssuedForSeats)
   {
     return new Bill(this, aRestoApp, allIssuedForSeats);
@@ -506,10 +506,7 @@ public class Order implements Serializable
     
     RestoApp placeholderRestoApp = restoApp;
     this.restoApp = null;
-    if(placeholderRestoApp != null)
-    {
-      placeholderRestoApp.removeOrder(this);
-    }
+    placeholderRestoApp.removeOrder(this);
     for(int i=bills.size(); i > 0; i--)
     {
       Bill aBill = bills.get(i - 1);
@@ -530,7 +527,7 @@ public class Order implements Serializable
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
-  // line 44 "../../../../../RestoAppPersistence.ump"
+  // line 44 ../../../../../RestoAppPersistence.ump
   private static final long serialVersionUID = -3900912597282882073L ;
 
   

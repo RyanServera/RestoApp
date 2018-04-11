@@ -1,5 +1,5 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.27.0.3728.d139ed893 modeling language!*/
+/*This code was generated using the UMPLE 1.26.0-b05b57321 modeling language!*/
 
 package ca.mcgill.ecse223.resto.model;
 import java.io.Serializable;
@@ -351,10 +351,7 @@ public class Reservation implements Serializable
     }
     RestoApp placeholderRestoApp = restoApp;
     this.restoApp = null;
-    if(placeholderRestoApp != null)
-    {
-      placeholderRestoApp.removeReservation(this);
-    }
+    placeholderRestoApp.removeReservation(this);
   }
 
   // line 28 "../../../../../RestoApp V4.ump"
@@ -396,7 +393,7 @@ public class Reservation implements Serializable
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
-  // line 38 "../../../../../RestoAppPersistence.ump"
+  // line 38 ../../../../../RestoAppPersistence.ump
   private static final long serialVersionUID = 2315072607928790501L ;
 
   
