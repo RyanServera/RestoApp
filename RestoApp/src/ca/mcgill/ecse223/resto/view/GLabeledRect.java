@@ -13,6 +13,7 @@ public class GLabeledRect extends GCompound {
 		add(frame);
 	    label = new GLabel(Integer.toString(tableNum));
 		add(label);
+		this.tableNum = tableNum;
 		recenterLabel();
 	}
 	
@@ -48,8 +49,12 @@ public class GLabeledRect extends GCompound {
 	public void setColor(String aColor){
 		this.color = Color.getColor(aColor);
 	}
+	public int getTableNum(){
+		return this.tableNum;
+	}
 	private Color color;
 	private GRect frame;
 	private GLabel label;
+	private int tableNum;
 
 }

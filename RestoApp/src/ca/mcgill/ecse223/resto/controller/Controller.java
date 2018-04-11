@@ -558,7 +558,8 @@ public class Controller {
 	 * 
 	 */
 	
-	public static void issueBill(List<Seat> seats) throws InvalidInputException {
+	public static boolean issueBill(List<Seat> seats, double d) throws InvalidInputException {
+		boolean billIssued = false;
 		if(seats == null || seats.isEmpty()) {
 			throw new InvalidInputException("Please choose seats to bill.");
 		}
@@ -608,14 +609,14 @@ public class Controller {
 		for(Seat s : seats) {
 			Table t = s.getTable();
 			if(billCreated) {
-				t.addToBill(newBill, s);
+				billIssued = t.addToBill(newBill, s);
 			}
 			else {
 				Bill lastBill = null;
 				if(lastOrder.numberOfBills() > 0) {
 					lastBill = lastOrder.getBill(lastOrder.numberOfBills()-1);
 				}
-				t.billForSeat(lastOrder, s);
+				billIssued = t.billForSeat(lastOrder, s);
 				if(lastOrder.numberOfBills()>0 && !lastOrder.getBill(lastOrder.numberOfBills()-1).equals(lastBill)) {
 					billCreated = true;
 					newBill = lastOrder.getBill(lastOrder.numberOfBills()-1);
@@ -626,8 +627,9 @@ public class Controller {
 		if(!billCreated) {
 			throw new InvalidInputException("There was an error creating a bill.");
 		}
-		
+		calculatePrice(newBill, d);
 		RestoApplication.save();
+		return billIssued;
 	}
 	
 	/*public static void issueNewBill(Order o, Seat s) throws InvalidInputException {
@@ -944,7 +946,6 @@ public class Controller {
 			//generate a random ID
 			Random rand = new Random();
 			id = rand.nextLong() + 100000;
-			System.out.println(id);
 			//create a coupon
 			Coupon coupon = new Coupon(id, true, discountPercentage, rm);
 			rm.addCoupon(coupon);
@@ -992,6 +993,23 @@ public class Controller {
 		}
 
 		return false;
+	}
+	
+	public static double calculatePrice(Bill b, double d) {
+		double sum = 0.0;
+		List<Seat> billedSeats = b.getIssuedForSeats();
+		for(Seat s : billedSeats) {
+			for(OrderItem oi : s.getOrderItems()) {
+				sum += oi.getPricedMenuItem().getPrice();
+			}
+		}
+		System.out.println("Price: $" + (sum*d));
+		return sum*d;
+	}
+	
+	public static List<Coupon> listAllCoupons() {
+		RestoApp ra = RestoApplication.getRestoApp();
+		return ra.getCoupons();
 	}
 }
 
