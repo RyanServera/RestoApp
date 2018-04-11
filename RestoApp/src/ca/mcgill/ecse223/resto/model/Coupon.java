@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.*;
 
 // line 64 "../../../../../RestoAppPersistence.ump"
-// line 114 "../../../../../RestoApp V4.ump"
+// line 116 "../../../../../RestoApp V4.ump"
 public class Coupon implements Serializable
 {
 
