@@ -38,51 +38,87 @@ class Table {
             // delete order item
             System.out.println("This is the last item.");
             if (i.numberOfSeats() > 1)
+			{
+				System.out.println("Shared order item to delete: " + i.getPricedMenuItem().getMenuItem().getName());
+				List<Seat> orderSeats = this.getSeats();
+				int countCheck = i.numberOfSeats();
+				int count = 0;
+				for (Seat seat: orderSeats)
 				{
-					List<Seat> orderSeats = this.getSeats();
-					for (Seat seat: orderSeats)
+					if (i.getSeats().contains(seat))
 					{
-						i.removeSeat(seat);
-						System.out.println("Removed a seat");
+						count++;
+					}
+					i.removeSeat(seat);
+					if (count == countCheck)
+					{
+						i.delete();
 					}
 				}
-				else 
-				{
-					System.out.println("Deleted Item: " + i.getPricedMenuItem().getMenuItem().getName());
-					i.delete();
-				}
+			}
+			else 
+			{
+				System.out.println("Deleted order item " + i.getPricedMenuItem().getMenuItem().getName());
+				i.delete();
+			}
          } -> NothingOrdered;
          cancelOrderItem(OrderItem i) [!iIsLastItem(i)] / {
             // delete order item
             System.out.println("This is not the last item.");
             if (i.numberOfSeats() > 1)
+			{
+				System.out.println("Shared order item to delete: " + i.getPricedMenuItem().getMenuItem().getName());
+				List<Seat> orderSeats = this.getSeats();
+				int countCheck = i.numberOfSeats();
+				int count = 0;
+				for (Seat seat: orderSeats)
 				{
-					List<Seat> orderSeats = this.getSeats();
-					for (Seat seat: orderSeats)
+					if (i.getSeats().contains(seat))
 					{
-						i.removeSeat(seat);
-						System.out.println("Removed a seat");
+						count++;
+					}
+					i.removeSeat(seat);
+					if (count == countCheck)
+					{
+						i.delete();
 					}
 				}
-				else 
-				{
-					System.out.println("Deleted Item " + i.getPricedMenuItem().getMenuItem().getName());
-					i.delete();
-				}
+			}
+			else 
+			{
+				System.out.println("Deleted order item " + i.getPricedMenuItem().getMenuItem().getName());
+				i.delete();
+			}
          } -> Ordered;
          cancelOrder() / {
             // delete all order items of the table
             System.out.println("Cancelling order for table: " + this.getNumber());
-    	    List<OrderItem> orderItems = Controller.listTableOrderItems(this.getNumber());
+		List<OrderItem> orderItems = null;
+		try {
+			orderItems = Controller.getOrderItems(this);
+		} catch (InvalidInputException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 			for (OrderItem orderItem : orderItems)
 			{
 				if (orderItem.numberOfSeats() > 1)
 				{
+					System.out.println("Shared order item to delete: " + orderItem.getPricedMenuItem().getMenuItem().getName());
 					List<Seat> orderSeats = this.getSeats();
+					int countCheck = orderItem.numberOfSeats();
+					int count = 0;
 					for (Seat seat: orderSeats)
 					{
+						if (orderItem.getSeats().contains(seat))
+						{
+							count++;
+						}
 						orderItem.removeSeat(seat);
-						System.out.println("Removed a seat");
+						if (count == countCheck)
+						{
+							orderItem.delete();
+						}
 					}
 				}
 				else 
