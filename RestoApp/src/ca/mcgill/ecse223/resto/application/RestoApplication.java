@@ -53,7 +53,7 @@ public class RestoApplication {
 		//RestaurantMenuPage restaurantMenuPage = new RestaurantMenuPage();
 		//TableAddingMenu addMenu = new TableAddingMenu();
 		//restoAppPage appPage = new restoAppPage();
-		GenerateCouponPage couponPage = new GenerateCouponPage(); 
+		//GenerateCouponPage couponPage = new GenerateCouponPage(); 
 		ui = new RestoAppUI();
 		
 	}
