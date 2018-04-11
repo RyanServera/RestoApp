@@ -538,7 +538,78 @@ public class Controller {
 	 * 
 	 */
 	
-	public static void issueNewBill(Order o, Seat s) throws InvalidInputException {
+	public static void issueBill(List<Seat> seats) throws InvalidInputException {
+		if(seats == null || seats.isEmpty()) {
+			throw new InvalidInputException("Please choose seats to bill.");
+		}
+		RestoApp ra = RestoApplication.getRestoApp();
+		List<Table> currentTables = ra.getCurrentTables();
+		Order lastOrder = null;
+		for(Seat s : seats) {
+			Table t = s.getTable();
+			if(!currentTables.contains(t)) {
+				throw new InvalidInputException("One or more selected tables does not exist.");
+			}
+			List<Seat> currentSeats = t.getSeats();
+			if(!currentSeats.contains(s)) {
+				throw new InvalidInputException("One or more selected seats does not exist.");
+			}
+			
+			if(lastOrder == null) {
+				if(t.numberOfOrders() > 0) {
+					lastOrder = t.getOrder(t.numberOfOrders()-1);
+				}
+				else {
+					throw new InvalidInputException("There must be an active Order at the selected table in order to issue a bill.");
+				}
+			}
+			else {
+				Order comparedOrder = null;
+				if(t.numberOfOrders() > 0) {
+					comparedOrder = t.getOrder(t.numberOfOrders()-1);
+				}
+				else {
+					throw new InvalidInputException("There must be an active Order at the selected table in order to issue a bill.");
+				}
+				
+				if(!comparedOrder.equals(lastOrder)) {
+					throw new InvalidInputException("Bills may only be issued to one order.");
+				}
+			}
+		}
+		
+		if(lastOrder == null) {
+			throw new InvalidInputException("There is no active order to be billed.");
+		}
+		
+		boolean billCreated = false;
+		Bill newBill = null;
+		
+		for(Seat s : seats) {
+			Table t = s.getTable();
+			if(billCreated) {
+				t.addToBill(newBill, s);
+			}
+			else {
+				Bill lastBill = null;
+				if(lastOrder.numberOfBills() > 0) {
+					lastBill = lastOrder.getBill(lastOrder.numberOfBills()-1);
+				}
+				t.billForSeat(lastOrder, s);
+				if(lastOrder.numberOfBills()>0 && !lastOrder.getBill(lastOrder.numberOfBills()-1).equals(lastBill)) {
+					billCreated = true;
+					newBill = lastOrder.getBill(lastOrder.numberOfBills()-1);
+				}
+			}
+		}
+		
+		if(!billCreated) {
+			throw new InvalidInputException("There was an error creating a bill.");
+		}
+		
+		RestoApplication.save();
+	}
+	/*public static void issueNewBill(Order o, Seat s) throws InvalidInputException {
 		if(o == null || s == null) {
 			throw new InvalidInputException("Please select an order and a seat.");
 		}
@@ -556,7 +627,7 @@ public class Controller {
 		}
 		
 		RestoApplication.save();
-	}
+	}*/
 	
 	/**
 	 * @author Jacob Hochstrasser
@@ -564,6 +635,7 @@ public class Controller {
 	 * @param s: the seat we are adding to the bill
 	 */
 	
+	/*
 	public static void addSeatToBill(Bill b, Seat s) throws InvalidInputException{
 		if(b == null || s == null) {
 			throw new InvalidInputException("Please select a bill and a seat.");
@@ -581,7 +653,7 @@ public class Controller {
 		RestoApplication.save();
 	}
 	
-	/*public static void billTable(Table t) {
+	public static void billTable(Table t) {
 		
 	}*/
 
