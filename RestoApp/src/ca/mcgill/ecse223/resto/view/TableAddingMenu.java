@@ -251,15 +251,16 @@ public class TableAddingMenu extends javax.swing.JFrame{
 
 		try {
 			Controller.addTable(x, y, width, length, tnumber, snumber);
+			GLabeledRect newTable = new GLabeledRect((double)x, (double)y, (double)width, (double)length, tnumber);
+			newTable.setColor(Color.GREEN);
+			DragCanvas.labeledRects.add(newTable);
+			RestoAppUI.jScrollPane1.add(newTable);
 		} catch (Exception e) {
 			createErrorFrame(e.getMessage());
 		}
 
 		//createSuccesFrame(tnumber);
-		GLabeledRect newTable = new GLabeledRect((double)x, (double)y, (double)width, (double)length, tnumber);
-		newTable.setColor(Color.GREEN);
-		DragCanvas.labeledRects.add(newTable);
-		RestoAppUI.jScrollPane1.add(newTable);
+		
 		this.dispose();
 	}
 
