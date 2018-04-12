@@ -1,11 +1,13 @@
 package ca.mcgill.ecse223.resto.view;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import acm.graphics.GObject;
 import ca.mcgill.ecse223.resto.controller.Controller;
 import ca.mcgill.ecse223.resto.controller.InvalidInputException;
 import ca.mcgill.ecse223.resto.model.Table;
@@ -159,6 +161,17 @@ public class MoveTableUI extends javax.swing.JFrame {
     	// call the controller
     	try {
     		Controller.moveTable(selectedTable, Integer.parseInt(xTextField.getText()), Integer.parseInt(Ytextfield.getText()));
+			GLabeledRect newTable = new GLabeledRect(Integer.parseInt(xTextField.getText()), Integer.parseInt(Ytextfield.getText()), selectedTable.getWidth(), selectedTable.getLength(), selectedTable.getNumber());
+			newTable.setColor(Color.GREEN);
+			RestoAppUI.jScrollPane1.add(newTable);
+			for(GLabeledRect r: RestoAppUI.jScrollPane1.labeledRects){
+				 if(r.getTableNum() == selectedTable.getNumber()){
+					 //System.out.println("table number = "+table.getNumber());
+					 RestoAppUI.jScrollPane1.labeledRects.remove(r);
+					 RestoAppUI.jScrollPane1.remove(r);
+				 }
+			 }
+			
     	} catch (InvalidInputException e) {
     		createErrorFrame(e.getMessage());
     	}
