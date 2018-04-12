@@ -8,6 +8,8 @@ import ca.mcgill.ecse223.resto.model.PricedMenuItem;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Formatter;
 import java.util.List;
 import javax.swing.*;
@@ -115,12 +117,35 @@ public class RestaurantMenuPage extends JFrame {
         menubar.add(remove);
         menubar.add(edit);
         
-        add.addActionListener(new ActionListener() {
-        	@Override
-        	public void actionPerformed(ActionEvent e) {
+        add.addMouseListener(new MouseListener() {
+        	public void mouseClicked(MouseEvent e) {
         		AddMenuPage add = new AddMenuPage();
         		RestaurantMenuPage.this.dispose();
         	}
+
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
         });
 
         for (MenuItem.ItemCategory itemCategory : itemCategoryList) {
@@ -143,9 +168,9 @@ public class RestaurantMenuPage extends JFrame {
                 edit.add(itemEdit);
                 remove.add(itemRList);
                 itemRList.add(removeItem);
-                removeItem.addActionListener(new ActionListener() {
+                removeItem.addMouseListener(new MouseListener() {
                 	@Override
-                	public void actionPerformed(ActionEvent e) {
+                	public void mouseClicked(MouseEvent e) {
                 		try {
 							Controller.removeMenuItems(removedItemList, restaurantItem);
 						} catch (InvalidInputException e1) {
@@ -153,13 +178,61 @@ public class RestaurantMenuPage extends JFrame {
 						}
                 		RestaurantMenuPage.this.dispose();
                 	}
+
+					@Override
+					public void mouseEntered(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void mouseExited(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void mousePressed(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void mouseReleased(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
                 });
-                itemEdit.addActionListener(new ActionListener() {
+                itemEdit.addMouseListener(new MouseListener() {
                 	@Override
-                	public void actionPerformed(ActionEvent e) {
+                	public void mouseClicked(MouseEvent e) {
                 		AddMenuPage edit = new AddMenuPage(restaurantItem);
                 		RestaurantMenuPage.this.dispose();
                 	}
+
+					@Override
+					public void mouseEntered(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void mouseExited(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void mousePressed(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void mouseReleased(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
                 });
                 item.addActionListener(new ActionListener() {
                     @Override
