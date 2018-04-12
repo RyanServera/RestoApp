@@ -20,20 +20,20 @@ import ca.mcgill.ecse223.resto.model.Order;
 import ca.mcgill.ecse223.resto.controller.*;
 
 public class testController {
-	private RestoApp rm = RestoApplication.getRestoApp();
+	private RestoApp rm;
 	private Controller con = new Controller();
 	
 
 	@Before
 	public void setUp() throws Exception {
-		//rm = RestoApplication.getRestoApp();
-		/*Date date = new Date(System.currentTimeMillis() + 86400000);
+		rm = RestoApplication.getRestoApp();
+		Date date = new Date(System.currentTimeMillis() + 86400000);
 		System.out.println(date);
 		Time time = new Time(System.currentTimeMillis() + 8000000);
 		Time time1 = new Time(System.currentTimeMillis() + 7800000); 
 		System.out.println(time);
 		int numberInParty = 2;
-		String contactName = "Bill";
+		String contactName = "Jill";
 		String contactEmailAddress = "123@abc.com";
 		String contactPhoneNumber = "1234567";
 		Table t = new Table(1,1,1, 4, 4,rm); 
@@ -45,14 +45,30 @@ public class testController {
 		t.addCurrentSeat(s1); 
 		t.addCurrentSeat(s3); 
 		rm.addCurrentTable(t); 
-		
-		
 		List<Table> tables = rm.getTables();
+		Table ts[] = {t}; 
+		
+		//Reservation r = new Reservation(date, time, numberInParty, 
+				//contactPhoneNumber, contactPhoneNumber, contactPhoneNumber, rm, ts); 
+		//t.addReservation(r); 
+		//rm.addReservation(r); 
+		/*try {
+			Controller.reserveTable(date, time, numberInParty, contactName,
+					contactEmailAddress, contactPhoneNumber, tables);
+			
+		} catch (InvalidInputException e) {
+			System.out.println(e);
+		}
+		Reservation r = con.getReservation(contactName); 
+		con.removeReservation(r);*/
+		
+		
 		//Order o = new Order(date, time, rm, tables); 
 		
-		if (tables != null) {
+		/*if (tables != null) {
 			try {
-				con.issueNewBill(o, s);
+				con.reserveTable(date, time, numberInParty, contactName,
+						contactEmailAddress, contactPhoneNumber, tables);
 				
 			} catch (InvalidInputException e) {
 				System.out.println(e);
@@ -62,7 +78,7 @@ public class testController {
 		}*/
 		
 		//con.issueNewBill(o, s);
-		con.addCoupon(0.2);
+		//con.addCoupon(0.2);
 	}
 
 	@After
@@ -80,7 +96,28 @@ public class testController {
 		assertEquals("123@abc.com", r.getContactEmailAddress()); 
 
 	}*/
-	@Test
+	@Test 
+	public void testCancelReserve() throws InvalidInputException {
+		int number = rm.getReservations().size();
+		String name = "Jill"; 
+		assertEquals(false, rm.getReservations().isEmpty()); 
+		List<Reservation> res = rm.getReservations(); 
+		
+		for(Reservation r: res) {
+			System.out.println(r.getContactName());
+		}
+		
+		Reservation r = con.getReservation(name);
+		
+		assertEquals(name, r.getContactName()); 
+		
+		con.removeReservation(r);
+		
+		assertEquals((number), rm.getReservations().size()); 
+		
+		
+	}
+	/*@Test
 	public void testCoupon(){
 		//test addCoupon
 		Coupon c = rm.getCoupon(0);
@@ -104,6 +141,6 @@ public class testController {
 		}
 
 
-	}
+	}*/
 
 }

@@ -18,6 +18,8 @@ import ca.mcgill.ecse223.resto.view.RestoAppUI;
 
 public class Controller {
 	
+	private RestoApplication RestoApplcation;
+
 	/**
 	 * Controller constructor 
 	 */
@@ -411,6 +413,43 @@ public class Controller {
 		}
 	}
 
+	/**
+	 * @author Bill Zhang
+	 * @param r
+	 * @throws InvalidInputException
+	 */
+	public void removeReservation(Reservation r) throws InvalidInputException{
+		if(r == null) {
+			throw new InvalidInputException("Reservation required"); 
+		}else { 
+			RestoApp rm = RestoApplication.load(); 
+			rm.removeReservation(r); 
+			
+			RestoApplication.save(); 
+			
+		}
+	}
+	
+	/**
+	 * @author Bill Zhang
+	 * @param name
+	 * @return
+	 * @throws InvalidInputException
+	 */
+	public Reservation getReservation(String name) throws InvalidInputException{
+		if(name == null | name.length() == 0) {
+			throw new InvalidInputException("Guest Name Required"); 
+		}else { 
+			RestoApp rm = RestoApplication.load(); 
+			List<Reservation> res = rm.getReservations(); 
+			for(Reservation r: res) {
+				if(r.getContactName().equals(name)) {
+					return r; 
+				}
+			}
+		}
+		return null; 
+	}
 
 	/**
 	 *
