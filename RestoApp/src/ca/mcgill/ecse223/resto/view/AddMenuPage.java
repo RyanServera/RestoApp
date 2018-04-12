@@ -9,6 +9,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import ca.mcgill.ecse223.resto.controller.Controller;
+import ca.mcgill.ecse223.resto.controller.InvalidInputException;
 import ca.mcgill.ecse223.resto.model.MenuItem;
 import ca.mcgill.ecse223.resto.model.MenuItem.ItemCategory;
 
@@ -70,6 +72,16 @@ public class AddMenuPage extends JFrame{
 			newMenuItem.setName(newItemName);
 			newMenuItem.getCurrentPricedMenuItem().setPrice(price);
 			restaurantItem.delete();
+			try {
+				Controller.removeMenuItems(Controller.getMenuItems(restaurantItem.getItemCategory()), restaurantItem);
+			} catch (InvalidInputException e) {
+				System.out.println("Error");
+			}
+			try {
+				Controller.addMenuItems(Controller.getMenuItems(newMenuItem.getItemCategory()), newMenuItem);
+			} catch (InvalidInputException e) {
+				System.out.println("Error");
+			}
 			AddMenuPage.this.dispose();
 			}
 		});
@@ -115,6 +127,11 @@ public class AddMenuPage extends JFrame{
 				}
 				newMenuItem.setName(newItemName);
 				newMenuItem.getCurrentPricedMenuItem().setPrice(price);
+				try {
+					Controller.addMenuItems(Controller.getMenuItems(newMenuItem.getItemCategory()), newMenuItem);
+				} catch (InvalidInputException e) {
+					System.out.println("Error");
+				}
 				AddMenuPage.this.dispose();
 			}
 
