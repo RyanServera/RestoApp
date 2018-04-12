@@ -6,6 +6,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+import javax.swing.WindowConstants;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -36,6 +37,9 @@ public class CancelReservationPage extends JFrame {
 	}
 	
 	private void initComponents() {
+		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		setTitle("Cancel Reservation");
+		
 		errorMessage = new JLabel();
 		errorMessage.setForeground(Color.RED);
 		

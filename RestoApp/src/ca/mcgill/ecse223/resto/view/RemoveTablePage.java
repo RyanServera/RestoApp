@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
@@ -20,6 +21,7 @@ import ca.mcgill.ecse223.resto.model.Table;
 public class RemoveTablePage extends JFrame {
 
 	private static final long serialVersionUID = 2L;
+	private RestoAppUI raui;
 
 	//UI elements
 	private JLabel errorMessage;
@@ -36,13 +38,13 @@ public class RemoveTablePage extends JFrame {
 
 	private String error = null;
 
-	public RemoveTablePage() {
+	public RemoveTablePage(RestoAppUI raui) {
+		this.raui = raui;
 		initComponents();
 		refreshData();
 	}
 
 	private void initComponents() {
-
 		// Global Settings and Listeners
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		setTitle("Remove Table");
@@ -124,6 +126,8 @@ public class RemoveTablePage extends JFrame {
 		}
 
 		// update visuals
+		DragCanvas dc = RestoAppUI.jScrollPane1;
+		dc.removeTableFromCanvas(tables.get(tableToBeRemoved));
 		refreshData();
 	}
 
