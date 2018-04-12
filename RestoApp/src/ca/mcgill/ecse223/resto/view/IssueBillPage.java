@@ -27,7 +27,6 @@ import ca.mcgill.ecse223.resto.model.Seat;
 import ca.mcgill.ecse223.resto.model.Table;
 
 public class IssueBillPage extends JFrame{
-	//TODO refactor ui to match new controller implementation
 	//private static final long serialVersionUID = 2L;
 	
 	//UI elements
@@ -269,6 +268,9 @@ public class IssueBillPage extends JFrame{
 			selectedTable = -1;
 			selectedSeat = -1;
 			selectedCoupon = -1;
+			tablesComboBox.setSelectedIndex(selectedTable);
+			seatsComboBox.setSelectedIndex(selectedSeat);
+			couponsComboBox.setSelectedIndex(selectedCoupon);
 			currentSeats.clear();
 			seats.clear();
 			seatsComboBox.removeAllItems();
