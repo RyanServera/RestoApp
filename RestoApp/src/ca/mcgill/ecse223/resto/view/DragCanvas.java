@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import acm.graphics.GCanvas;
+import ca.mcgill.ecse223.resto.controller.Controller;
 import ca.mcgill.ecse223.resto.model.Seat;
 import ca.mcgill.ecse223.resto.model.Table;
 
@@ -124,12 +125,11 @@ public class DragCanvas extends GCanvas implements MouseListener, MouseMotionLis
 				circles.add(circle4);
 				circles.add(circle5);
 				circles.add(circle6);
-				tableSeatMap.put(table, circles);
-				
+				tableSeatMap.put(table, circles);	
 			}
-			
 		}
 	}
+	
 	public DragCanvas(ArrayList<GLabeledRect> labRects){
 		for(GLabeledRect rects: labRects){
 			System.out.println("In DragCanvas, table values, table num = "+ rects.getLabel()+" x = "+rects.getX()+", y = "+rects.getY()+" ");
@@ -154,6 +154,17 @@ public class DragCanvas extends GCanvas implements MouseListener, MouseMotionLis
 				
 	}
 	
+	public void removeTableFromCanvas(Table t) {
+		for(GLabeledRect g : labeledRects) {
+			if(g.getTableNum() == t.getNumber()) {
+				int rem = labeledRects.indexOf(g);
+				labeledRects.remove(rem);
+				break;
+			}
+		}
+		refreshData();
+	}
+	
 	public void addGRectToCanvas (GLabeledRect rect){
 		labeledRects.add(rect);
 		add(rect);
@@ -161,7 +172,15 @@ public class DragCanvas extends GCanvas implements MouseListener, MouseMotionLis
 	
 	public void refreshData(){
 		this.removeAll();
-		for(GLabeledRect table: labeledRects) this.add(table);
+		for(GLabeledRect table: labeledRects) {
+			this.add(table);
+			/*Integer index = 0;
+			for(index = 0; index < tableSeatMap.size(); index++) {
+				for(GLabeledCircle c : tableSeatMap.get(Controller.listAllTables().get(index))) {
+					this.add(c);
+				}
+			}*/
+		}
 	}
 
 	@Override
@@ -225,6 +244,10 @@ public class DragCanvas extends GCanvas implements MouseListener, MouseMotionLis
 	
 	public HashMap<Table, ArrayList<GLabeledCircle>> getTableSeatMap(){
 		return this.tableSeatMap;
+	}
+	
+	public ArrayList<GLabeledRect> getGLabeledRects(){
+		return labeledRects;
 	}
 	
 
