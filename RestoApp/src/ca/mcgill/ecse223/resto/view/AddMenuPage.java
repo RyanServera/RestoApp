@@ -1,5 +1,6 @@
 package ca.mcgill.ecse223.resto.view;
 
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -16,7 +17,8 @@ public class AddMenuPage extends JFrame{
 	private JLabel ItemName;
 	private JLabel Price;
 	private JLabel ItemCat;
-	
+	private JButton finish;
+	private JButton cancel;
 	
 
 	public AddMenuPage(MenuItem restaurantItem) {
