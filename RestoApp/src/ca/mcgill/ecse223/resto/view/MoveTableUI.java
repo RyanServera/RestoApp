@@ -163,6 +163,7 @@ public class MoveTableUI extends javax.swing.JFrame {
     		Controller.moveTable(selectedTable, Integer.parseInt(xTextField.getText()), Integer.parseInt(Ytextfield.getText()));
 			GLabeledRect newTable = new GLabeledRect(Integer.parseInt(xTextField.getText()), Integer.parseInt(Ytextfield.getText()), selectedTable.getWidth(), selectedTable.getLength(), selectedTable.getNumber());
 			newTable.setColor(Color.GREEN);
+			DragCanvas.labeledRects.add(newTable);
 			RestoAppUI.jScrollPane1.add(newTable);
 			for(GLabeledRect r: RestoAppUI.jScrollPane1.labeledRects){
 				 if(r.getTableNum() == selectedTable.getNumber()){
