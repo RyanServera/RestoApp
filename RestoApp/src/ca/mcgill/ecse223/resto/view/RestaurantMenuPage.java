@@ -8,6 +8,8 @@ import ca.mcgill.ecse223.resto.model.PricedMenuItem;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Formatter;
 import java.util.List;
 import javax.swing.*;
@@ -107,6 +109,44 @@ public class RestaurantMenuPage extends JFrame {
         this.setJMenuBar(menubar);
 
         List<MenuItem.ItemCategory> itemCategoryList = Controller.getItemCategories();
+        
+        JMenu add = new JMenu("Add");
+        JMenu remove = new JMenu("Remove");
+        JMenu edit = new JMenu("Edit");
+        menubar.add(add);
+        menubar.add(remove);
+        menubar.add(edit);
+        
+        add.addMouseListener(new MouseListener() {
+        	public void mouseClicked(MouseEvent e) {
+        		AddMenuPage add = new AddMenuPage();
+        		RestaurantMenuPage.this.dispose();
+        	}
+
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+        });
 
         for (MenuItem.ItemCategory itemCategory : itemCategoryList) {
             JMenu menuOption = new JMenu(itemCategory.name());
@@ -118,9 +158,82 @@ public class RestaurantMenuPage extends JFrame {
             } catch (InvalidInputException e) {
                 createErrorFrame(e.getMessage());
             }
+            final List<MenuItem> removedItemList = null;
             for (final MenuItem restaurantItem : menuItemsInCategory) {
                 JMenuItem item = new JMenuItem(restaurantItem.getName());
+                JMenuItem itemEdit = new JMenuItem(restaurantItem.getName());
+                JMenu itemRList = new JMenu(restaurantItem.getName());
+                JMenuItem removeItem = new JMenuItem("Remove Item");
                 menuOption.add(item);
+                edit.add(itemEdit);
+                remove.add(itemRList);
+                itemRList.add(removeItem);
+                removeItem.addMouseListener(new MouseListener() {
+                	@Override
+                	public void mouseClicked(MouseEvent e) {
+                		try {
+							Controller.removeMenuItems(removedItemList, restaurantItem);
+						} catch (InvalidInputException e1) {
+							createErrorFrame(e1.getMessage());
+						}
+                		RestaurantMenuPage.this.dispose();
+                	}
+
+					@Override
+					public void mouseEntered(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void mouseExited(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void mousePressed(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void mouseReleased(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+                });
+                itemEdit.addMouseListener(new MouseListener() {
+                	@Override
+                	public void mouseClicked(MouseEvent e) {
+                		AddMenuPage edit = new AddMenuPage(restaurantItem);
+                		RestaurantMenuPage.this.dispose();
+                	}
+
+					@Override
+					public void mouseEntered(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void mouseExited(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void mousePressed(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void mouseReleased(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+                });
                 item.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
