@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import ca.mcgill.ecse223.resto.model.MenuItem;
+import ca.mcgill.ecse223.resto.model.MenuItem.ItemCategory;
 
 public class AddMenuPage extends JFrame{
 	
@@ -29,18 +30,48 @@ public class AddMenuPage extends JFrame{
 	private JPanel mainPanel;
 	private JLabel header;
 
-	public AddMenuPage(MenuItem restaurantItem) {
+	public AddMenuPage(final MenuItem restaurantItem) {
 		initComponents();
+		itemCat.setSelectedItem(restaurantItem.getItemCategory().toString());
+		itemName.setText(restaurantItem.getName());
+		price.setText(Double.toString(restaurantItem.getCurrentPricedMenuItem().getPrice()));
 		finish.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				finishButtonActivated(evt);
 			}
 
 			private void finishButtonActivated(ActionEvent evt) {
-				// TODO Auto-generated method stub
-				
+			String newItemName = itemName.getText();
+			String newPrice = price.getText();
+			String newItemCat = itemCat.getSelectedItem().toString();
+			Double price = 0.0;
+			try{
+				price = Double.valueOf(newPrice);
+			} catch (NumberFormatException e) {
+				System.out.println("Price not a number");
 			}
-
+			
+			MenuItem newMenuItem = new MenuItem(newItemName, null);
+			if(newItemCat == "Main"){
+				newMenuItem.setItemCategory(ItemCategory.Main);
+			}
+			else if(newItemCat == "Appetizer"){
+				newMenuItem.setItemCategory(ItemCategory.Appetizer);
+			}
+			else if(newItemCat == "Dessert"){
+				newMenuItem.setItemCategory(ItemCategory.Dessert);
+			}
+			else if(newItemCat =="Alcoholic Beverage"){
+				newMenuItem.setItemCategory(ItemCategory.AlcoholicBeverage);
+			}
+			else if(newItemCat =="Nonalcoholic Beverage"){
+				newMenuItem.setItemCategory(ItemCategory.NonAlcoholicBeverage);
+			}
+			newMenuItem.setName(newItemName);
+			newMenuItem.getCurrentPricedMenuItem().setPrice(price);
+			restaurantItem.delete();
+			AddMenuPage.this.dispose();
+			}
 		});
 	}
 
@@ -56,8 +87,35 @@ public class AddMenuPage extends JFrame{
 			}
 
 			private void finishButtonActivated(ActionEvent evt) {
-				// TODO Auto-generated method stub
+				String newItemName = itemName.getText();
+				String newPrice = price.getText();
+				String newItemCat = itemCat.getSelectedItem().toString();
+				Double price = 0.0;
+				try{
+					price = Double.valueOf(newPrice);
+				} catch (NumberFormatException e) {
+					System.out.println("Price not a number");
+				}
 				
+				MenuItem newMenuItem = new MenuItem(newItemName, null);
+				if(newItemCat == "Main"){
+					newMenuItem.setItemCategory(ItemCategory.Main);
+				}
+				else if(newItemCat == "Appetizer"){
+					newMenuItem.setItemCategory(ItemCategory.Appetizer);
+				}
+				else if(newItemCat == "Dessert"){
+					newMenuItem.setItemCategory(ItemCategory.Dessert);
+				}
+				else if(newItemCat =="Alcoholic Beverage"){
+					newMenuItem.setItemCategory(ItemCategory.AlcoholicBeverage);
+				}
+				else if(newItemCat =="Nonalcoholic Beverage"){
+					newMenuItem.setItemCategory(ItemCategory.NonAlcoholicBeverage);
+				}
+				newMenuItem.setName(newItemName);
+				newMenuItem.getCurrentPricedMenuItem().setPrice(price);
+				AddMenuPage.this.dispose();
 			}
 
 		});
@@ -145,6 +203,25 @@ public class AddMenuPage extends JFrame{
 								.addComponent(cancel)
 								.addContainerGap())
 		);
+		
+		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+		getContentPane().setLayout(layout);
+		layout.setHorizontalGroup(
+				layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+						.addGroup(layout.createSequentialGroup()
+								.addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+		);
+		layout.setVerticalGroup(
+				layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+						.addGroup(layout.createSequentialGroup()
+								.addContainerGap()
+								.addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+								.addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+		);
+		
+		
+		pack();
 		setVisible(true);
 	}
 	private void cancelButtonActivated(ActionEvent evt) {
