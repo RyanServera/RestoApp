@@ -60,7 +60,94 @@ public class SelectingCanvas extends GCanvas implements MouseListener, MouseMoti
             rect.addMouseMotionListener(this);
             labeledRects.add(rect);
             add(rect);
-            renderSeats(table);
+
+            int numOfSeats = table.getCurrentSeats().size();
+            if(numOfSeats == 2){
+
+                double radius = table.getWidth() / 4;
+                double x1 = table.getX() + (table.getLength()/2) - (radius/2) ;
+                double y1 = table.getY() - radius - 5;
+                double x2 = table.getX() + (table.getLength()/2) - (radius/2);
+                double y2 = table.getY() + table.getWidth() + radius - 5;
+                GLabeledCircle circle1 = new GLabeledCircle(x1, y1, radius, radius);
+                GLabeledCircle circle2 = new GLabeledCircle(x2, y2, radius, radius);
+                circle1.addMouseListener(this);
+                circle2.addMouseListener(this);
+                this.add(circle1);
+                this.add(circle2);
+                seatMap.put(circle1.hashCode(), table.getCurrentSeat(0));
+                seatMap.put(circle2.hashCode(),table.getCurrentSeat(1));
+
+
+            }
+            else if(numOfSeats == 4){
+                double radius = table.getWidth() / 4;
+                double x1 = table.getX() + (table.getLength()/4) - (radius/2) ;
+                double y1 = table.getY() - radius - 5;
+                double x2 = table.getX() + (table.getLength()/4) - (radius/2);
+                double y2 = table.getY() + table.getWidth() + radius - 5;
+                double x3 = table.getX() + ((3*table.getLength())/4) - (radius/2) ;;
+                double y3 = table.getY() - radius - 5;
+                double x4 = table.getX() + ((3*table.getLength())/4) - (radius/2) ;;
+                double y4 = table.getY() + table.getWidth() + radius - 5;
+                GLabeledCircle circle1 = new GLabeledCircle(x1, y1, radius, radius);
+                GLabeledCircle circle2 = new GLabeledCircle(x2, y2, radius, radius);
+                GLabeledCircle circle3 = new GLabeledCircle(x3, y3, radius, radius);
+                GLabeledCircle circle4 = new GLabeledCircle(x4, y4, radius, radius);
+                circle1.addMouseListener(this);
+                circle2.addMouseListener(this);
+                circle3.addMouseListener(this);
+                circle4.addMouseListener(this);
+                this.add(circle1);
+                this.add(circle2);
+                this.add(circle3);
+                this.add(circle4);
+                seatMap.put(circle1.hashCode(), table.getCurrentSeat(0));
+                seatMap.put(circle2.hashCode(), table.getCurrentSeat(1));
+                seatMap.put(circle3.hashCode(), table.getCurrentSeat(2));
+                seatMap.put(circle4.hashCode(), table.getCurrentSeat(3));
+
+            }
+            else if(numOfSeats == 6){
+                double radius = table.getWidth() / 6;
+                double x1 = table.getX() + (table.getLength()/6) - (radius/2) ;
+                double y1 = table.getY() - radius - 5;
+                double x2 = table.getX() + (table.getLength()/6) - (radius/2);
+                double y2 = table.getY() + table.getWidth() + radius - 5;
+                double x3 = table.getX() + ((3*table.getLength())/6) - (radius/2) ;
+                double y3 = table.getY() - radius - 5;
+                double x4 = table.getX() + ((3*table.getLength())/6) - (radius/2) ;
+                double y4 = table.getY() + table.getWidth() + radius - 5;
+                double x5 = table.getX() + ((5*table.getLength())/6) - (radius/2) ;
+                double y5 = table.getY() - radius - 5;
+                double x6 = table.getX() + ((5*table.getLength())/6) - (radius/2) ;
+                double y6 = table.getY() + table.getWidth() + radius - 5;
+                GLabeledCircle circle1 = new GLabeledCircle(x1, y1, radius, radius);
+                GLabeledCircle circle2 = new GLabeledCircle(x2, y2, radius, radius);
+                GLabeledCircle circle3 = new GLabeledCircle(x3, y3, radius, radius);
+                GLabeledCircle circle4 = new GLabeledCircle(x4, y4, radius, radius);
+                GLabeledCircle circle5 = new GLabeledCircle(x5, y5, radius, radius);
+                GLabeledCircle circle6 = new GLabeledCircle(x6, y6, radius, radius);
+                this.add(circle1);
+                this.add(circle2);
+                this.add(circle3);
+                this.add(circle4);
+                this.add(circle5);
+                this.add(circle6);
+                circle1.addMouseListener(this);
+                circle2.addMouseListener(this);
+                circle3.addMouseListener(this);
+                circle4.addMouseListener(this);
+                circle5.addMouseListener(this);
+                circle6.addMouseListener(this);
+                seatMap.put(circle1.hashCode(), table.getCurrentSeat(0));
+                seatMap.put(circle2.hashCode(), table.getCurrentSeat(1));
+                seatMap.put(circle3.hashCode(), table.getCurrentSeat(2));
+                seatMap.put(circle4.hashCode(), table.getCurrentSeat(3));
+                seatMap.put(circle5.hashCode(), table.getCurrentSeat(4));
+                seatMap.put(circle6.hashCode(), table.getCurrentSeat(5));
+
+            }
 
         }
     }
@@ -168,43 +255,5 @@ public class SelectingCanvas extends GCanvas implements MouseListener, MouseMoti
     public void mouseExited(MouseEvent e) {
         // TODO Auto-generated method stub
 
-    }
-
-    // TODO figure out a better way to render the tables
-    private void renderSeats (Table table){
-        int numSeats = table.getSeats().size();
-        int index = 0;
-        switch(numSeats)
-        {
-            case 3:
-                for(Seat seat: table.getSeats()){
-                    if(index == 0){
-                        circle = new GLabeledCircle(table.getX() - 5 - seatWidth, table.getY() + seatHeight/2, seatWidth, seatHeight);
-                        circle.addMouseListener(this);
-                        seatMap.put(circle.hashCode(), seat);
-                        add(circle);
-                    }
-
-                    if(index == 1){
-                        circle = new GLabeledCircle(table.getX() + table.getWidth() + 5, table.getY() + seatHeight/2 , seatWidth, seatHeight);
-                        circle.addMouseListener(this);
-                        seatMap.put(circle.hashCode(), seat);
-                        add(circle);
-                    }
-
-                    if(index == 2){
-                        circle = new GLabeledCircle(table.getX() + (table.getWidth())/2, table.getY() - 5, seatWidth, seatHeight);
-                        circle.addMouseListener(this);
-                        seatMap.put(circle.hashCode(), seat);
-                        add(circle);
-                    }
-
-                    index++;
-                }
-
-                break;
-            default:
-
-        }
     }
 }
