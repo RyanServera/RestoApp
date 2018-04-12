@@ -33,6 +33,7 @@ public class MainPage extends javax.swing.JPanel {
         addTableButton = new javax.swing.JButton();
         startOrderButton = new javax.swing.JButton();
         cancelOrderButton = new javax.swing.JButton();
+        cancelReservationButton = new javax.swing.JButton();
         //couponButton = new javax.swing.JButton(); 
 
         homeLabel.setText("Home");
@@ -114,6 +115,13 @@ public class MainPage extends javax.swing.JPanel {
             }
         });
         
+        cancelReservationButton.setText("Cancel Reservation");
+        cancelReservationButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+               cancelReservationButtonActionPerformed(evt);
+            }
+        });
+        
         
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -141,11 +149,12 @@ public class MainPage extends javax.swing.JPanel {
                             .addComponent(addTableButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(issueBillButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(startOrderButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        	.addComponent(cancelOrderButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        	.addComponent(cancelOrderButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        	.addComponent(cancelReservationButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(25, 25, 25))))
         );
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {MenuButton, addTableButton, deleteTableButton, editTableButton, moveTableButton, reserveTableButton, viewOrderButton, cancelOrderButton});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {MenuButton, addTableButton, deleteTableButton, editTableButton, moveTableButton, reserveTableButton, viewOrderButton, cancelOrderButton, issueBillButton, cancelReservationButton});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -172,6 +181,8 @@ public class MainPage extends javax.swing.JPanel {
                 .addComponent(startOrderButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cancelOrderButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cancelReservationButton)
                 .addContainerGap(100, Short.MAX_VALUE))
         );
     }// </editor-fold>                        
@@ -227,6 +238,10 @@ public class MainPage extends javax.swing.JPanel {
     	CancelOrderPage cancelOrder = new CancelOrderPage();
     }
     
+    private void cancelReservationButtonActionPerformed(java.awt.event.ActionEvent evt){
+    	CancelReservationPage cancelReservation = new CancelReservationPage();
+    }
+    
 
 
     // Variables declaration - do not modify                     
@@ -240,6 +255,7 @@ public class MainPage extends javax.swing.JPanel {
     private javax.swing.JButton viewOrderButton;
     private javax.swing.JButton startOrderButton;
     private javax.swing.JButton cancelOrderButton;
+    private javax.swing.JButton cancelReservationButton;
     //private javax.swing.JButton couponButton; 
     private javax.swing.JLabel homeLabel;
     private Table selectedTable = null;

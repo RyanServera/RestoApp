@@ -918,7 +918,7 @@ public class Controller {
 	 */
 	public static long addCoupon(double discountPercentage) throws InvalidInputException{
 		long id;
-		if(discountPercentage > 100 | discountPercentage < 0){
+		if(discountPercentage > 1 | discountPercentage < 0){
 			throw new InvalidInputException("Enter A Valid Discount Percentage");
 		}else {
 			RestoApp rm = RestoApplication.getRestoApp();
