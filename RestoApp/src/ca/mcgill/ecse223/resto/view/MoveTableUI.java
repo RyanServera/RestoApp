@@ -171,7 +171,7 @@ public class MoveTableUI extends javax.swing.JFrame {
 			for(GLabeledRect r: RestoAppUI.jScrollPane1.labeledRects){
 				 if(r.getTableNum() == selectedTable.getNumber()){
 					 //System.out.println("table number = "+table.getNumber());
-					 RestoAppUI.jScrollPane1.labeledRects.remove(r);
+					// RestoAppUI.jScrollPane1.labeledRects.remove(r);
 					 RestoAppUI.jScrollPane1.remove(r);
 				 }
 			}

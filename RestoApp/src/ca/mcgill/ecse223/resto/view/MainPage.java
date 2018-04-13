@@ -8,8 +8,7 @@ public class MainPage extends javax.swing.JPanel {
     /**
      * Creates new form MainPage
      */
-    public MainPage(RestoAppUI ui) {
-    	this.ui = ui;
+    public MainPage() {
         initComponents();
     }
 
@@ -193,7 +192,7 @@ public class MainPage extends javax.swing.JPanel {
     	GenerateCouponPage couponUI = new GenerateCouponPage(); 
     }*/
     private void deleteTableButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                  
-    	RemoveTablePage deleteTableUI = new RemoveTablePage(this.ui);
+    	RemoveTablePage deleteTableUI = new RemoveTablePage();
     }                                                 
 
     private void addTableButtonActionPerformed(java.awt.event.ActionEvent evt) {                                               
@@ -243,11 +242,7 @@ public class MainPage extends javax.swing.JPanel {
     	CancelReservationPage cancelReservation = new CancelReservationPage();
     }
     
-   /* public RestoAppUI getRestoAppUI() {
-    	return ui;
-    }*/
     
-    private RestoAppUI ui;
 
     // Variables declaration - do not modify                     
     private javax.swing.JButton MenuButton;
