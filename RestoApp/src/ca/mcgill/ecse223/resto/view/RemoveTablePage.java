@@ -21,7 +21,6 @@ import ca.mcgill.ecse223.resto.model.Table;
 public class RemoveTablePage extends JFrame {
 
 	private static final long serialVersionUID = 2L;
-	private RestoAppUI raui;
 
 	//UI elements
 	private JLabel errorMessage;
@@ -38,8 +37,7 @@ public class RemoveTablePage extends JFrame {
 
 	private String error = null;
 
-	public RemoveTablePage(RestoAppUI raui) {
-		this.raui = raui;
+	public RemoveTablePage() {
 		initComponents();
 		refreshData();
 	}
@@ -127,7 +125,7 @@ public class RemoveTablePage extends JFrame {
 
 		// update visuals
 		DragCanvas dc = RestoAppUI.jScrollPane1;
-		dc.removeTableFromCanvas(tables.get(tableToBeRemoved));
+		dc.refreshData();
 		refreshData();
 	}
 

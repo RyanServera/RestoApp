@@ -36,6 +36,9 @@ public class DragCanvas extends GCanvas implements MouseListener, MouseMotionLis
 		addMouseMotionListener(this);
 	}
 	public DragCanvas(List<Table> list) {
+		drawComponents(list);
+	}
+	private void drawComponents(List<Table> list) {
 		tableSeatMap = new HashMap<Table, ArrayList<GLabeledCircle>>();
 		labeledRects =  new ArrayList<GLabeledRect>();
 		for(Table table: list){
@@ -157,6 +160,7 @@ public class DragCanvas extends GCanvas implements MouseListener, MouseMotionLis
 	public void removeTableFromCanvas(Table t) {
 		for(GLabeledRect g : labeledRects) {
 			if(g.getTableNum() == t.getNumber()) {
+				this.remove(g);
 				int rem = labeledRects.indexOf(g);
 				labeledRects.remove(rem);
 				break;
@@ -172,15 +176,18 @@ public class DragCanvas extends GCanvas implements MouseListener, MouseMotionLis
 	
 	public void refreshData(){
 		this.removeAll();
-		for(GLabeledRect table: labeledRects) {
+		List<Table> tables = Controller.listAllTables();
+		drawComponents(tables);
+		//this.removeAll();
+		/*for(GLabeledRect table: labeledRects) {
 			this.add(table);
-			/*Integer index = 0;
+			Integer index = 0;
 			for(index = 0; index < tableSeatMap.size(); index++) {
 				for(GLabeledCircle c : tableSeatMap.get(Controller.listAllTables().get(index))) {
 					this.add(c);
 				}
-			}*/
-		}
+			}
+		}*/
 	}
 
 	@Override

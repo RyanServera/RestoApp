@@ -23,7 +23,7 @@ public class RestoAppUI extends javax.swing.JFrame {
  
         jScrollPane1 = new DragCanvas(Controller.listAllTables());
         tabbedPane = new javax.swing.JTabbedPane();
-        MainPage mainPage = new MainPage(this);
+        MainPage mainPage = new MainPage();
         tabbedPane.addTab("home", mainPage);
         setPreferredSize(new Dimension(700, 600));
 
