@@ -22,7 +22,7 @@ public class RestoApp implements Serializable
   private List<Table> currentTables;
   private List<Order> orders;
   private List<Order> currentOrders;
-  private Menu menu;
+  public static Menu menu;
   private List<PricedMenuItem> pricedMenuItems;
   private List<Bill> bills;
   private List<Coupon> coupons;
@@ -223,7 +223,7 @@ public class RestoApp implements Serializable
     return index;
   }
 
-  public Menu getMenu()
+  public static Menu getMenu()
   {
     return menu;
   }
