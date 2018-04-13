@@ -29,9 +29,9 @@ public class RestoApplication {
 		
 		//delete everything before this
 		
-		//for(MenuItem mi : RestoApp.getMenu().getMenuItems()) {
-			//System.out.println(mi.getName());
-		//}
+		for(MenuItem mi : menu.getMenu().getMenuItems()) {
+			System.out.println(mi.getName());
+		}
 		for(Table t: menu.getCurrentTables()){
 			System.out.println("Table "+t.getNumber() + " X:" + t.getX() + " Y:" + t.getY()
 			+ " Size:" + t.getLength() + "x" + t.getWidth());

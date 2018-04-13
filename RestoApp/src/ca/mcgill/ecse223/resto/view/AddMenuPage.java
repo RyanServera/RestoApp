@@ -1,7 +1,6 @@
 package ca.mcgill.ecse223.resto.view;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -14,7 +13,6 @@ import ca.mcgill.ecse223.resto.controller.Controller;
 import ca.mcgill.ecse223.resto.controller.InvalidInputException;
 import ca.mcgill.ecse223.resto.model.MenuItem;
 import ca.mcgill.ecse223.resto.model.MenuItem.ItemCategory;
-import ca.mcgill.ecse223.resto.model.RestoApp;
 
 public class AddMenuPage extends JFrame{
 	
@@ -55,7 +53,7 @@ public class AddMenuPage extends JFrame{
 				System.out.println("Price not a number");
 			}
 			
-			MenuItem newMenuItem = new MenuItem(newItemName, RestoApp.getMenu());
+			MenuItem newMenuItem = new MenuItem(newItemName, null);
 			if(newItemCat == "Main"){
 				newMenuItem.setItemCategory(ItemCategory.Main);
 			}
@@ -155,34 +153,9 @@ public class AddMenuPage extends JFrame{
 
 		finish.setText("Finish");
 		cancel.setText("Cancel");
-		cancel.addMouseListener(new java.awt.event.MouseListener() {
-			@Override
-			public void mouseClicked(MouseEvent evt) {
-				cancelButtonActivated(evt);				
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mouseExited(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mousePressed(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mouseReleased(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
+		cancel.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				cancelButtonActivated(evt);
 			}
 
 			});
@@ -268,7 +241,7 @@ public class AddMenuPage extends JFrame{
 		pack();
 		setVisible(true);
 	}
-	private void cancelButtonActivated(MouseEvent evt) {
+	private void cancelButtonActivated(ActionEvent evt) {
 		this.dispose();
 		
 	}

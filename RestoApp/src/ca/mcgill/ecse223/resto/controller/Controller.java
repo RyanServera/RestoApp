@@ -326,9 +326,9 @@ public class Controller {
 
 		RestoApp restoApp = RestoApplication.getRestoApp();
 
-		Menu menu = RestoApp.getMenu();
+		Menu menu = restoApp.getMenu();
 
-		List<MenuItem> menuItems = RestoApp.menu.getMenuItems();
+		List<MenuItem> menuItems = menu.getMenuItems();
 
 		for(MenuItem menuItem : menuItems){
 			boolean currentMenuItem = menuItem.hasCurrentPricedMenuItem();
