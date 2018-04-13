@@ -46,6 +46,9 @@ public class StartOrderPage extends JFrame{
         inputTables = SelectingCanvas.selectedTables;
         try {
             Controller.startOrder(inputTables);
+
+            DragCanvas dc = RestoAppUI.jScrollPane1;
+            dc.refreshData();
         }catch (InvalidInputException e){
             System.out.print("Please Select A Table");
         }
