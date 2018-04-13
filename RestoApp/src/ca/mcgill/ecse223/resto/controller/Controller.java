@@ -362,8 +362,9 @@ public class Controller {
 	 * @param item : item to be removed from the menu
 	 * @throws InvalidInputException
 	 */
-	public static void removeMenuItems(List<MenuItem> list, MenuItem item) throws InvalidInputException{
-		list.remove(item);
+	public static void removeMenuItems(Menu list, MenuItem item) throws InvalidInputException{
+		list.removeMenuItem(item);
+		item.delete();
 		RestoApplication.save();
 	}
 	/**

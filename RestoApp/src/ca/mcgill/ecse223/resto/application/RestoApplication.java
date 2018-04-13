@@ -14,19 +14,22 @@ import ca.mcgill.ecse223.resto.view.RestaurantMenuPage;
 import ca.mcgill.ecse223.resto.view.RestoAppUI;
 
 public class RestoApplication {
-	private static RestoApp restoApp;
+	public static RestoApp restoApp;
 	private static String filename = "./menu v3.resto";
 	private static RestoAppUI ui;
-
+	
+	public static Menu newMen;
 	public static void main(String[] args) throws InvalidInputException {
 		/*restoApp = null;
-		restoApp = load();
+		
 		for(MenuItem mi : restoApp.getMenu().getMenuItems()) {
 			   System.out.println(mi.getName());
 		}*/
 		RestoApp menu = load();
 		//For testing purposes only
-		
+		RestoApplication.getRestoApp();
+		newMen = restoApp.getMenu();
+
 		//delete everything before this
 		
 		for(MenuItem mi : menu.getMenu().getMenuItems()) {

@@ -9,10 +9,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import ca.mcgill.ecse223.resto.application.RestoApplication;
 import ca.mcgill.ecse223.resto.controller.Controller;
 import ca.mcgill.ecse223.resto.controller.InvalidInputException;
+import ca.mcgill.ecse223.resto.model.Menu;
 import ca.mcgill.ecse223.resto.model.MenuItem;
 import ca.mcgill.ecse223.resto.model.MenuItem.ItemCategory;
+import ca.mcgill.ecse223.resto.model.PricedMenuItem;
+import ca.mcgill.ecse223.resto.model.RestoApp;
 
 public class AddMenuPage extends JFrame{
 	
@@ -31,9 +35,12 @@ public class AddMenuPage extends JFrame{
 	private JButton cancel;
 	private JPanel mainPanel;
 	private JLabel header;
+	private Menu menu;
+	private RestoApp resto;
 
 	public AddMenuPage(final MenuItem restaurantItem) {
 		initComponents();
+		
 		itemCat.setSelectedItem(restaurantItem.getItemCategory().toString());
 		itemName.setText(restaurantItem.getName());
 		price.setText(Double.toString(restaurantItem.getCurrentPricedMenuItem().getPrice()));
@@ -53,7 +60,7 @@ public class AddMenuPage extends JFrame{
 				System.out.println("Price not a number");
 			}
 			
-			MenuItem newMenuItem = new MenuItem(newItemName, null);
+			MenuItem newMenuItem = new MenuItem(newItemName, RestoApplication.newMen);
 			if(newItemCat == "Main"){
 				newMenuItem.setItemCategory(ItemCategory.Main);
 			}
@@ -70,10 +77,11 @@ public class AddMenuPage extends JFrame{
 				newMenuItem.setItemCategory(ItemCategory.NonAlcoholicBeverage);
 			}
 			newMenuItem.setName(newItemName);
-			newMenuItem.getCurrentPricedMenuItem().setPrice(price);
+			PricedMenuItem newItem = new PricedMenuItem(price, RestoApplication.restoApp, newMenuItem);
 			restaurantItem.delete();
+			newMenuItem.setCurrentPricedMenuItem(newItem);
 			try {
-				Controller.removeMenuItems(Controller.getMenuItems(restaurantItem.getItemCategory()), restaurantItem);
+				Controller.removeMenuItems(RestoApplication.newMen, restaurantItem);
 			} catch (InvalidInputException e) {
 				System.out.println("Error");
 			}
@@ -109,7 +117,7 @@ public class AddMenuPage extends JFrame{
 					System.out.println("Price not a number");
 				}
 				
-				MenuItem newMenuItem = new MenuItem(newItemName, null);
+				MenuItem newMenuItem = new MenuItem(newItemName, RestoApplication.newMen);
 				if(newItemCat == "Main"){
 					newMenuItem.setItemCategory(ItemCategory.Main);
 				}
@@ -126,7 +134,10 @@ public class AddMenuPage extends JFrame{
 					newMenuItem.setItemCategory(ItemCategory.NonAlcoholicBeverage);
 				}
 				newMenuItem.setName(newItemName);
-				newMenuItem.getCurrentPricedMenuItem().setPrice(price);
+				PricedMenuItem newItem = new PricedMenuItem(price, RestoApplication.restoApp, newMenuItem);
+				newMenuItem.setMenu(RestoApplication.newMen);
+				newMenuItem.setCurrentPricedMenuItem(newItem);
+
 				try {
 					Controller.addMenuItems(Controller.getMenuItems(newMenuItem.getItemCategory()), newMenuItem);
 				} catch (InvalidInputException e) {
